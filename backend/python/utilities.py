@@ -16,13 +16,18 @@ def applyWordEmbedding(words, vocabulary_size=len(vocabulary), output_vector_len
 
     return word_embedding
 
-def applyPositionalEmbedding(max_length=200, output_vector_length=64):
-    char_positions = tf.range(max_length)
-    positional_embedding_layer = keras.layers.Embedding(max_length, output_vector_length)
+def applyPositionalEmbedding(max_sentence_length=200, output_vector_length=64):
+    char_positions = tf.range(max_sentence_length)
+    positional_embedding_layer = keras.layers.Embedding(max_sentence_length, output_vector_length)
     positional_embedding = positional_embedding_layer(char_positions)
 
     return positional_embedding
 
+def addEmbeddings(words, vocabulary_size=len(vocabulary), max_sentence_length=200, output_vector_length=64):
+    word_embedding = applyWordEmbedding(words, vocabulary_size, output_vector_length)
+    positional_embedding = applyPositionalEmbedding(max_sentence_length, output_vector_length)
+
+    return word_embedding + positional_embedding
 
 if __name__ ==  "__main__":
 
