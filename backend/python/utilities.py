@@ -32,6 +32,15 @@ def addEmbeddings(words, vocabulary_size=len(vocabulary), max_sentence_length=MA
 
     return word_embedding + positional_embedding
 
+# extract features to be fed to the encoder
+def applySpeechFeatureEmbedding(kernel_num):
+    conv_layer1 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
+    conv_layer2 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
+    conv_layer3 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
+
+
+
+
 if __name__ ==  "__main__":
 
     # a = tf.constant([
