@@ -11,9 +11,18 @@ for i, char in enumerate(vocabulary):
 
 # words is a 3d having all sentences, their words each represented by array of relevant char id
 def applyWordEmbedding(words, vocabulary_size=len(vocabulary), output_vector_length=64):
-    word_embedding_layer = keras.layers.Embedding(vocabulary_size, output_vector_length)(words)
+    word_embedding_layer = keras.layers.Embedding(vocabulary_size, output_vector_length)
+    word_embedding = word_embedding_layer(words)
 
-    return word_embedding_layer
+    return word_embedding
+
+def applyPositionalEmbedding(max_length=200, output_vector_length=64):
+    char_positions = tf.range(max_length)
+    positional_embedding_layer = keras.layers.Embedding(max_length, output_vector_length)
+    positional_embedding = positional_embedding_layer(char_positions)
+
+    return positional_embedding
+
 
 if __name__ ==  "__main__":
 
@@ -34,4 +43,4 @@ if __name__ ==  "__main__":
     # print('----------------------------')
     # print(np.shape(a)[-1])
 
-    print(char_to_id)
+    print(np.shape(applyPositionalEmbedding()))
