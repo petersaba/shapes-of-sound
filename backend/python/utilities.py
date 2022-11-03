@@ -47,8 +47,13 @@ def applySpeechFeatureEmbedding(input, kernel_num):
 def getTransformerEncoderOutput(input, heads_num, key_dimension, ffn_layer1_unit_num, ffn_layer2_unit_num, normalization_epsilon, dropout):
 
     multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
+    dropout_layer1 = keras.layers.Dropout(dropout)
+    normalization_layer1 = keras.layers.LayerNormalization(normalization_epsilon)
 
     output = multiheaded_attention_layer(input, input)
+    output = dropout_layer1(output)
+    output = normalization_layer1(output)
+
 
 if __name__ ==  "__main__":
 
