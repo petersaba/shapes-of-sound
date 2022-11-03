@@ -49,9 +49,16 @@ def getTransformerEncoderOutput(input, heads_num, key_dimension, ffn_layer1_unit
     multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
     dropout_layer1 = keras.layers.Dropout(dropout)
     normalization_layer1 = keras.layers.LayerNormalization(normalization_epsilon)
+    dropout_layer2 = keras.layers.Dropout(dropout)
+    normalization_layer2 = keras.layers.LayerNormalization(normalization_epsilon)
+
+    ffn = keras.models.Sequential([
+        keras.layers.Dense(ffn_layer1_unit_num, activation='relu'),
+        keras.layers.Dense(ffn_layer2_unit_num)
+    ])
 
     output = multiheaded_attention_layer(input, input)
-    output = dropout_layer1(output)
+    output = dropout_layer1(output, training=True)
     output = normalization_layer1(output)
 
 
