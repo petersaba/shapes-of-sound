@@ -59,8 +59,13 @@ def getTransformerEncoderOutput(input, heads_num, key_dimension, ffn_layer1_unit
 
     output = multiheaded_attention_layer(input, input)
     output = dropout_layer1(output, training=True)
-    output = normalization_layer1(output)
+    output = normalization_layer1(input + output)
 
+    ffn_output = ffn(output)
+    output = dropout_layer2(ffn_output, training=True)
+    output = normalization_layer2(ffn_output + output)
+
+    return output
 
 if __name__ ==  "__main__":
 
