@@ -87,6 +87,15 @@ def createTransformerEncoder(heads_num, key_dimension, ffn_layer1_unit_num, ffn_
 
     return multiheaded_attention_layer, dropout_layer1, dropout_layer2, normalization_layer1, normalization_layer2, ffn
 
+def createTransformerDecoder(
+    heads_num,
+    key_dimension,
+    ffn_unit_num,
+    normalization_epsilon=1e-6,
+    dropout1=0.5,
+    dropout2=0.1
+):
+    pass
 
 if __name__ ==  "__main__":
 
