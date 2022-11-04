@@ -106,6 +106,25 @@ def createTransformerDecoder(
     multiheaded_attention_normalization = keras.layers.LayerNormalization(normalization_epsilon)
     ffn_normalization = keras.layers.LayerNormalization(normalization_epsilon)
 
+    ffn = keras.models.Sequential([
+        keras.layers.Dense(ffn_unit_num, activation='relu'),
+        keras.layers.Dense(key_dimension)
+    ])
+
+    return (
+        multiheaded_attention_layer,
+        masked_multiheaded_attention_layer,
+
+        masked_multiheaded_attention_dropout,
+        multiheaded_attention_dropout,
+        ffn_dropout,
+
+        masked_multiheaded_attention_normalization,
+        multiheaded_attention_normalization,
+        ffn_normalization,
+        
+        ffn
+    )
 
 if __name__ ==  "__main__":
 
