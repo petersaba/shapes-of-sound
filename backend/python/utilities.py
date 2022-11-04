@@ -46,6 +46,26 @@ def applySpeechFeatureEmbedding(input, kernel_num):
 
 def getTransformerEncoderOutput(input, heads_num, key_dimension, ffn_layer1_unit_num, ffn_layer2_unit_num, normalization_epsilon, dropout):
 
+    ( multiheaded_attention_layer,
+        dropout_layer1, 
+        dropout_layer2, 
+        normalization_layer1, 
+        normalization_layer2, 
+        ffn ) = createTransformerEncoder(
+            heads_num, key_dimension, ffn_layer1_unit_num, ffn_layer2_unit_num, normalization_epsilon, dropout
+        )
+
+    output = multiheaded_attention_layer(input, input)
+    output = dropout_layer1(output, training=True)
+    output = normalization_layer1(input + output)
+
+    ffn_output = ffn(output)
+    output = dropout_layer2(ffn_output, training=True)
+    output = normalization_layer2(ffn_output + output)
+
+    return output
+
+def createTransformerEncoder(heads_num, key_dimension, ffn_layer1_unit_num, ffn_layer2_unit_num, normalization_epsilon, dropout):
     multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
     dropout_layer1 = keras.layers.Dropout(dropout)
     normalization_layer1 = keras.layers.LayerNormalization(normalization_epsilon)
@@ -57,15 +77,8 @@ def getTransformerEncoderOutput(input, heads_num, key_dimension, ffn_layer1_unit
         keras.layers.Dense(ffn_layer2_unit_num)
     ])
 
-    output = multiheaded_attention_layer(input, input)
-    output = dropout_layer1(output, training=True)
-    output = normalization_layer1(input + output)
+    return multiheaded_attention_layer, dropout_layer1, dropout_layer2, normalization_layer1, normalization_layer2, ffn
 
-    ffn_output = ffn(output)
-    output = dropout_layer2(ffn_output, training=True)
-    output = normalization_layer2(ffn_output + output)
-
-    return output
 
 if __name__ ==  "__main__":
 
