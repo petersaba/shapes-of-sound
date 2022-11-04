@@ -97,9 +97,14 @@ def createTransformerDecoder(
 ):
     multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
     masked_multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
+
     masked_multiheaded_attention_dropout = keras.layers.Dropout(dropout1)
     multiheaded_attention_dropout = keras.layers.Dropout(dropout2)
     ffn_dropout = keras.layers.Dropout(dropout2)
+
+    masked_multiheaded_attention_normalization = keras.layers.LayerNormalization(normalization_epsilon)
+    multiheaded_attention_normalization = keras.layers.LayerNormalization(normalization_epsilon)
+    ffn_normalization = keras.layers.LayerNormalization(normalization_epsilon)
 
 
 if __name__ ==  "__main__":
