@@ -44,7 +44,15 @@ def applySpeechFeatureEmbedding(input, kernel_num):
     
     return output
 
-def getTransformerEncoderOutput(input, heads_num, key_dimension, ffn_layer1_unit_num, ffn_layer2_unit_num, normalization_epsilon, dropout):
+def getTransformerEncoderOutput(
+        input, 
+        heads_num, 
+        key_dimension, 
+        ffn_layer1_unit_num, 
+        ffn_layer2_unit_num, 
+        normalization_epsilon=1e-6, 
+        dropout=0.1
+        ):
 
     ( multiheaded_attention_layer,
         dropout_layer1, 
@@ -99,4 +107,5 @@ if __name__ ==  "__main__":
     # print('----------------------------')
     # print(np.shape(a)[-1])
 
-    print(np.shape(applyPositionalEmbedding()))
+    print(tf.range(10)[: None])
+    print(tf.range(10))
