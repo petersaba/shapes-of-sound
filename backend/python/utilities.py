@@ -44,6 +44,20 @@ def applySpeechFeatureEmbedding(input, kernel_num):
     
     return output
 
+def createTransformerEncoder(heads_num, key_dimension, ffn_layer1_unit_num, ffn_layer2_unit_num, normalization_epsilon, dropout):
+    multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
+    dropout_layer1 = keras.layers.Dropout(dropout)
+    normalization_layer1 = keras.layers.LayerNormalization(normalization_epsilon)
+    dropout_layer2 = keras.layers.Dropout(dropout)
+    normalization_layer2 = keras.layers.LayerNormalization(normalization_epsilon)
+
+    ffn = keras.models.Sequential([
+        keras.layers.Dense(ffn_layer1_unit_num, activation='relu'),
+        keras.layers.Dense(key_dimension)
+    ])
+
+    return multiheaded_attention_layer, dropout_layer1, dropout_layer2, normalization_layer1, normalization_layer2, ffn
+
 def getTransformerEncoderOutput(
         input, 
         heads_num, 
@@ -72,20 +86,6 @@ def getTransformerEncoderOutput(
     output = normalization_layer2(ffn_output + output)
 
     return output
-
-def createTransformerEncoder(heads_num, key_dimension, ffn_layer1_unit_num, ffn_layer2_unit_num, normalization_epsilon, dropout):
-    multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
-    dropout_layer1 = keras.layers.Dropout(dropout)
-    normalization_layer1 = keras.layers.LayerNormalization(normalization_epsilon)
-    dropout_layer2 = keras.layers.Dropout(dropout)
-    normalization_layer2 = keras.layers.LayerNormalization(normalization_epsilon)
-
-    ffn = keras.models.Sequential([
-        keras.layers.Dense(ffn_layer1_unit_num, activation='relu'),
-        keras.layers.Dense(key_dimension)
-    ])
-
-    return multiheaded_attention_layer, dropout_layer1, dropout_layer2, normalization_layer1, normalization_layer2, ffn
 
 def createTransformerDecoder(
     heads_num,
@@ -122,9 +122,12 @@ def createTransformerDecoder(
         masked_multiheaded_attention_normalization,
         multiheaded_attention_normalization,
         ffn_normalization,
-        
+
         ffn
     )
+
+
+
 
 if __name__ ==  "__main__":
 
