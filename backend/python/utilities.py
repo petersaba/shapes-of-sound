@@ -95,7 +95,10 @@ def createTransformerDecoder(
     dropout1=0.5,
     dropout2=0.1
 ):
-    pass
+    multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
+    masked_multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
+    
+
 
 if __name__ ==  "__main__":
 
