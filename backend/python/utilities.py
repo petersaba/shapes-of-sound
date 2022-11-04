@@ -82,7 +82,7 @@ def createTransformerEncoder(heads_num, key_dimension, ffn_layer1_unit_num, ffn_
 
     ffn = keras.models.Sequential([
         keras.layers.Dense(ffn_layer1_unit_num, activation='relu'),
-        keras.layers.Dense(ffn_layer2_unit_num)
+        keras.layers.Dense(key_dimension)
     ])
 
     return multiheaded_attention_layer, dropout_layer1, dropout_layer2, normalization_layer1, normalization_layer2, ffn
