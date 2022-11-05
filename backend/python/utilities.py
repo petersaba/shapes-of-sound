@@ -126,8 +126,9 @@ def createTransformerDecoder(
         ffn
     )
 
-
-
+def causal_attention_mask(batch_size, length):
+    pass
+    
 
 if __name__ ==  "__main__":
 
@@ -142,11 +143,22 @@ if __name__ ==  "__main__":
     #     ]
     # ])
     # print(applyWordEmbedding(a))
-    # print(tf.shape(a)[0])
-    # print(tf.shape(a))
 
-    # print('----------------------------')
-    # print(np.shape(a)[-1])
+    # tensor1 = tf.range(10)[: ,None]
+    # # tensor2 = tf.range(start=9, limit=-1, delta=-1)
+    # tensor2 = tf.range(10)
 
-    print(tf.range(10)[: None])
-    print(tf.range(10))
+    # # print(tensor1)
+    # # print(tensor1 + 10)
+    # # print(tensor2)
+
+    # result = tensor1 >= tensor2
+    # print(result)
+    # print('-------------------------------------------------')
+    # print(tf.cast(result, tf.float32))
+    # print('-------------------------------------------------')
+    # print(tf.reshape(result, [1, 10, 10]))
+
+    # tensor1 = tf.expand_dims(10, -1)
+    # print(tf.concat([ tensor1, tensor2], 0))
+    pass
