@@ -145,6 +145,7 @@ def getTransformerDecoderOutput(
     ffn_unit_num
 ):
     batch_size = np.shape(targets)[0]
+    length =np.shape(targets)[1]
     
     ( multiheaded_attention_layer,
         masked_multiheaded_attention_layer,
@@ -158,6 +159,11 @@ def getTransformerDecoderOutput(
         ffn_normalization,
 
         ffn ) = createTransformerDecoder(heads_num, key_dimension, ffn_unit_num)
+
+    multiheaded_attention_mask = getMultiHeadedAttentionMask(batch_size, length)
+    masked_multiheaded_attention_output = masked_multiheaded_attention_layer(targets, targets, attention_mask=multiheaded_attention_mask)
+    masked_multiheaded_attention_output = masked_multiheaded_attention_dropout(masked_multiheaded_attention_output)
+    output = masked_multiheaded_attention_normalization(targets + masked_multiheaded_attention_output)
 
     return batch_size
 
