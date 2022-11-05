@@ -126,7 +126,7 @@ def createTransformerDecoder(
         ffn
     )
 
-def causal_attention_mask(batch_size, length):
+def casual_attention_mask(batch_size, length):
     
     x = tf.range(length)
     y = tf.range(length)[:, None] # each value is in its own array
