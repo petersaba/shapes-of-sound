@@ -144,7 +144,22 @@ def getTransformerDecoderOutput(
     key_dimension,
     ffn_unit_num
 ):
-    pass
+    batch_size = np.shape(targets)[0]
+    
+    ( multiheaded_attention_layer,
+        masked_multiheaded_attention_layer,
+
+        masked_multiheaded_attention_dropout,
+        multiheaded_attention_dropout,
+        ffn_dropout,
+
+        masked_multiheaded_attention_normalization,
+        multiheaded_attention_normalization,
+        ffn_normalization,
+
+        ffn ) = createTransformerDecoder(heads_num, key_dimension, ffn_unit_num)
+
+    return batch_size
 
 if __name__ ==  "__main__":
 
