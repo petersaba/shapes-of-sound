@@ -165,6 +165,10 @@ def getTransformerDecoderOutput(
     masked_multiheaded_attention_output = masked_multiheaded_attention_dropout(masked_multiheaded_attention_output)
     output = masked_multiheaded_attention_normalization(targets + masked_multiheaded_attention_output)
 
+    multiheaded_attention_output = multiheaded_attention_layer(output, encoder_output)
+    multiheaded_attention_output = multiheaded_attention_dropout(multiheaded_attention_output)
+    output = multiheaded_attention_normalization(output + multiheaded_attention_output)
+
     return batch_size
 
 if __name__ ==  "__main__":
