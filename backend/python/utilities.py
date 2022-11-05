@@ -132,8 +132,10 @@ def causal_attention_mask(batch_size, length):
     y = tf.range(length)[:, None] # each value is in its own array
 
     mask = y >= x
+    mask = tf.reshape(mask, [1, length, length])
+    mult = tf.constant([batch_size, 1, 1])
 
-    return mask
+    return tf.tile(mask, mult)
 
 
 if __name__ ==  "__main__":
