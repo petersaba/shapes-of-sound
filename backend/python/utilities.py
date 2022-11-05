@@ -126,7 +126,7 @@ def createTransformerDecoder(
         ffn
     )
 
-def casual_attention_mask(batch_size, length):
+def getMultiHeadedAttentionMask(batch_size, length):
     
     x = tf.range(length)
     y = tf.range(length)[:, None] # each value is in its own array
@@ -137,10 +137,17 @@ def casual_attention_mask(batch_size, length):
 
     return tf.tile(mask, mult)
 
+def getTransformerDecoderOutput(
+    encoder_output,
+    targets,
+    heads_num,
+    key_dimension,
+    ffn_unit_num
+):
+    pass
 
 if __name__ ==  "__main__":
 
-    print(causal_attention_mask(0, 5))
 
     # a = tf.constant([
     #     [
