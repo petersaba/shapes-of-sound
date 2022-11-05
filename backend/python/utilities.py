@@ -127,10 +127,18 @@ def createTransformerDecoder(
     )
 
 def causal_attention_mask(batch_size, length):
-    pass
     
+    x = tf.range(length)
+    y = tf.range(length)[:, None] # each value is in its own array
+
+    mask = y >= x
+
+    return mask
+
 
 if __name__ ==  "__main__":
+
+    print(causal_attention_mask(0, 5))
 
     # a = tf.constant([
     #     [
