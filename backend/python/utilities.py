@@ -169,7 +169,11 @@ def getTransformerDecoderOutput(
     multiheaded_attention_output = multiheaded_attention_dropout(multiheaded_attention_output)
     output = multiheaded_attention_normalization(output + multiheaded_attention_output)
 
-    return batch_size
+    ffn_output = ffn(output)
+    ffn_output = ffn_dropout(ffn_output)
+    ffn_output = ffn_normalization(ffn_output + output)
+
+    return ffn_output
 
 if __name__ ==  "__main__":
 
