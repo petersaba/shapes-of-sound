@@ -138,3 +138,6 @@ class Transformer(keras.Model):
         linear_fct_output = self.classifier(decoder_output)
 
         return linear_fct_output
+
+    def train_step(self, batch):
+        pass
