@@ -123,3 +123,7 @@ class Transformer(keras.Model):
             output = getattr(self, f'decoder_layer_{i}')(encoder_output, output)
         
         return output
+
+    @property
+    def metrics(self):
+        return [self.loss_metric]
