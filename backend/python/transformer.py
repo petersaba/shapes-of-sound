@@ -45,93 +45,61 @@ def getTransformerEncoderOutput(
 
     return output
 
-def createTransformerDecoder(
-    heads_num,
-    key_dimension,
-    ffn_unit_num,
-    normalization_epsilon=1e-6,
-    dropout1=0.5,
-    dropout2=0.1
-):
-    multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
-    masked_multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
-
-    masked_multiheaded_attention_dropout = keras.layers.Dropout(dropout1)
-    multiheaded_attention_dropout = keras.layers.Dropout(dropout2)
-    ffn_dropout = keras.layers.Dropout(dropout2)
-
-    masked_multiheaded_attention_normalization = keras.layers.LayerNormalization(normalization_epsilon)
-    multiheaded_attention_normalization = keras.layers.LayerNormalization(normalization_epsilon)
-    ffn_normalization = keras.layers.LayerNormalization(normalization_epsilon)
-
-    ffn = keras.models.Sequential([
-        keras.layers.Dense(ffn_unit_num, activation='relu'),
-        keras.layers.Dense(key_dimension)
-    ])
-
-    return (
-        multiheaded_attention_layer,
-        masked_multiheaded_attention_layer,
-
-        masked_multiheaded_attention_dropout,
-        multiheaded_attention_dropout,
-        ffn_dropout,
-
-        masked_multiheaded_attention_normalization,
-        multiheaded_attention_normalization,
-        ffn_normalization,
-
-        ffn
-    )
-
-def getMultiHeadedAttentionMask(batch_size, length):
+class TransformerDecoder(keras.layers.Layer):
     
-    x = tf.range(length)
-    y = tf.range(length)[:, None] # each value is in its own array
+    def __init__(
+        self,
+        heads_num,
+        key_dimension,
+        ffn_unit_num,
+        normalization_epsilon=1e-6,
+        dropout1=0.5,
+        dropout2=0.1
+    ):
+        self.multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
+        self.masked_multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
 
-    mask = y >= x
-    mask = tf.reshape(mask, [1, length, length])
-    mult = tf.constant([batch_size, 1, 1])
+        self.masked_multiheaded_attention_dropout = keras.layers.Dropout(dropout1)
+        self.multiheaded_attention_dropout = keras.layers.Dropout(dropout2)
+        self.ffn_dropout = keras.layers.Dropout(dropout2)
 
-    return tf.tile(mask, mult)
+        self.masked_multiheaded_attention_normalization = keras.layers.LayerNormalization(normalization_epsilon)
+        self.multiheaded_attention_normalization = keras.layers.LayerNormalization(normalization_epsilon)
+        self.ffn_normalization = keras.layers.LayerNormalization(normalization_epsilon)
 
-def getTransformerDecoderOutput(
-    encoder_output,
-    targets,
-    heads_num,
-    key_dimension,
-    ffn_unit_num
-):
-    batch_size = np.shape(targets)[0]
-    length =np.shape(targets)[1]
-    
-    ( multiheaded_attention_layer,
-        masked_multiheaded_attention_layer,
+        self.ffn = keras.models.Sequential([
+            keras.layers.Dense(ffn_unit_num, activation='relu'),
+            keras.layers.Dense(key_dimension)
+        ])
 
-        masked_multiheaded_attention_dropout,
-        multiheaded_attention_dropout,
-        ffn_dropout,
+    def getMultiHeadedAttentionMask(self, batch_size, length):
+        x = tf.range(length)
+        y = tf.range(length)[:, None] # each value is in its own array
 
-        masked_multiheaded_attention_normalization,
-        multiheaded_attention_normalization,
-        ffn_normalization,
+        mask = y >= x
+        mask = tf.reshape(mask, [1, length, length])
+        mult = tf.constant([batch_size, 1, 1])
 
-        ffn ) = createTransformerDecoder(heads_num, key_dimension, ffn_unit_num)
+        return tf.tile(mask, mult)
 
-    multiheaded_attention_mask = getMultiHeadedAttentionMask(batch_size, length)
-    masked_multiheaded_attention_output = masked_multiheaded_attention_layer(targets, targets, attention_mask=multiheaded_attention_mask)
-    masked_multiheaded_attention_output = masked_multiheaded_attention_dropout(masked_multiheaded_attention_output)
-    output = masked_multiheaded_attention_normalization(targets + masked_multiheaded_attention_output)
+    def getOutput(self, encoder_output,targets):
+        batch_size = np.shape(targets)[0]
+        length =np.shape(targets)[1]
 
-    multiheaded_attention_output = multiheaded_attention_layer(output, encoder_output)
-    multiheaded_attention_output = multiheaded_attention_dropout(multiheaded_attention_output)
-    output = multiheaded_attention_normalization(output + multiheaded_attention_output)
+        multiheaded_attention_mask = self.getMultiHeadedAttentionMask(batch_size, length)
+        masked_multiheaded_attention_output = self.masked_multiheaded_attention_layer(targets, targets, attention_mask=multiheaded_attention_mask)
+        masked_multiheaded_attention_output = self.masked_multiheaded_attention_dropout(masked_multiheaded_attention_output)
+        output = self.masked_multiheaded_attention_normalization(targets + masked_multiheaded_attention_output)
 
-    ffn_output = ffn(output)
-    ffn_output = ffn_dropout(ffn_output)
-    ffn_output = ffn_normalization(ffn_output + output)
+        multiheaded_attention_output = self.multiheaded_attention_layer(output, encoder_output)
+        multiheaded_attention_output = self.multiheaded_attention_dropout(multiheaded_attention_output)
+        output = self.multiheaded_attention_normalization(output + multiheaded_attention_output)
 
-    return ffn_output
+        ffn_output = self.ffn(output)
+        ffn_output = self.ffn_dropout(ffn_output)
+        ffn_output = self.ffn_normalization(ffn_output + output)
+
+        return ffn_output
 
 class Transformer(keras.Model):
     def __init__(
@@ -144,4 +112,4 @@ class Transformer(keras.Model):
         decoder_lyaer_num=1,
         vocabulary_len=34
         ):    
-        pass
+        super().__init__()
