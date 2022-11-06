@@ -150,3 +150,4 @@ class Transformer(keras.Model):
             predictions = self([input, decoder_input])
             vectorized_target = tf.one_hot(decoder_target, depth=self.vocabulary_len)
             mask = decoder_target != 0
+            loss = self.compiled_loss(vectorized_target, predictions, sample_weight=mask)
