@@ -158,3 +158,6 @@ class Transformer(keras.Model):
         loss_mean = self.loss_metric.result()
 
         return {'loss': loss_mean}
+
+    def test_step(self, batch):
+        pass
