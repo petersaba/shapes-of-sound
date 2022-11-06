@@ -114,3 +114,5 @@ class Transformer(keras.Model):
 
         for i in range(decoder_layer_num):
             setattr(self, f'decoder_layer_{i}', TransformerDecoder(heads_num, key_dimension, ffn_unit_num))
+
+        self.classifier = keras.layers.Dense(vocabulary_len) 
