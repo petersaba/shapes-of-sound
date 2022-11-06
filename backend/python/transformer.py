@@ -65,7 +65,7 @@ class TransformerDecoder(keras.layers.Layer):
 
         return tf.tile(mask, mult)
 
-    def call(self, encoder_output,targets):
+    def call(self, encoder_output, targets):
         batch_size = np.shape(targets)[0]
         length =np.shape(targets)[1]
 
@@ -115,4 +115,11 @@ class Transformer(keras.Model):
         for i in range(decoder_layer_num):
             setattr(self, f'decoder_layer_{i}', TransformerDecoder(heads_num, key_dimension, ffn_unit_num))
 
-        self.classifier = keras.layers.Dense(vocabulary_len) 
+        self.classifier = keras.layers.Dense(vocabulary_len)
+
+    def decode(self, encoder_output, target):
+        output = self.decoder_input(target)
+        for i in range(self.decoder_layer_num):
+            output = getattr(self, f'decoder_layer_{i}')(encoder_output, output)
+        
+        return output
