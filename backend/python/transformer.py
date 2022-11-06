@@ -152,5 +152,9 @@ class Transformer(keras.Model):
             mask = decoder_target != 0
             loss = self.compiled_loss(vectorized_target, predictions, sample_weight=mask)
         trainable_variables = self.trainable_variables
-        gradients = tf.gradients(loss, trainable_variables)
+        gradients = tape.gradient(loss, trainable_variables)
         self.optimizer.apply_gradients(zip(gradients, trainable_variables))
+        self.loss_metric.update_state(loss)
+        loss_mean = self.loss_metric.result()
+
+        return {'loss': loss_mean}
