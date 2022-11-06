@@ -140,4 +140,8 @@ class Transformer(keras.Model):
         return linear_fct_output
 
     def train_step(self, batch):
-        pass
+        input = batch['x']
+        target = batch['y']
+
+        decoder_input = target[:, :-1]
+        decoder_input = target[:, 1:]
