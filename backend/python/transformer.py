@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+from utilities import WordEmbedding, SpeechFeatureEmbedding
 keras = tf.keras
 
 class TransformerEncoder(keras.layers.Layer):
@@ -86,10 +87,11 @@ class TransformerDecoder(keras.layers.Layer):
 class Transformer(keras.Model):
     def __init__(
         self,
+        key_dimension=64,
         head_num=2,
         ffn_unit_num=400,
         target_maxlen=100,
-        source_maxlen=100,
+        # source_maxlen=100,
         encoder_layer_num=4,
         decoder_layer_num=1,
         vocabulary_len=34
@@ -99,4 +101,6 @@ class Transformer(keras.Model):
         self.decoder_layer_num = decoder_layer_num
         self.target_maxlen = target_maxlen
         self.vocabulary_len = vocabulary_len
-        
+
+        self.encoder_input = SpeechFeatureEmbedding(head_num)
+        self.decoder_input = WordEmbedding(max_sentence_length=target_maxlen)
