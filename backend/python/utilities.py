@@ -12,30 +12,24 @@ VOCABULARY_SIZE = len(vocabulary)
 OUTPUT_VECTOR_LENGTH = 64
 MAX_SENTENCE_LENGTH = 200 # max number of characters
 
-# words is a 3d having all sentences, their words each represented by array of relevant char id
-def applyWordEmbedding(words, vocabulary_size=VOCABULARY_SIZE, output_vector_length=OUTPUT_VECTOR_LENGTH):
-    word_embedding_layer = keras.layers.Embedding(vocabulary_size, output_vector_length)
-    word_embedding = word_embedding_layer(words)
+class WordEmbedding(keras.layers.Layer):
+    def __init__(self, vocabulary_size=VOCABULARY_SIZE, max_sentence_length=MAX_SENTENCE_LENGTH, output_vector_length=OUTPUT_VECTOR_LENGTH):
+        self.word_embedding_layer = keras.layers.Embedding(vocabulary_size, output_vector_length)
+        self.positional_embedding_layer = keras.layers.Embedding(max_sentence_length, output_vector_length)
 
-    return word_embedding
+    def call(self, words):
+        max_length = np.shape(words)[-1]
+        char_positions = tf.range(max_length)
+        word_embedding = self.word_embedding_layer(words)
+        positional_embedding = self.positional_embedding_layer(char_positions)
 
-def applyPositionalEmbedding(max_sentence_length=MAX_SENTENCE_LENGTH, output_vector_length=OUTPUT_VECTOR_LENGTH):
-    char_positions = tf.range(max_sentence_length)
-    positional_embedding_layer = keras.layers.Embedding(max_sentence_length, output_vector_length)
-    positional_embedding = positional_embedding_layer(char_positions)
-
-    return positional_embedding
-
-def addEmbeddings(words, vocabulary_size=len(vocabulary), max_sentence_length=MAX_SENTENCE_LENGTH, output_vector_length=OUTPUT_VECTOR_LENGTH):
-    word_embedding = applyWordEmbedding(words, vocabulary_size, output_vector_length)
-    positional_embedding = applyPositionalEmbedding(max_sentence_length, output_vector_length)
-
-    return word_embedding + positional_embedding
+        return word_embedding + positional_embedding
 
 class SpeechFeatureEmbedding(keras.layers.Layer):
 
     # extract features to be fed to the encoder
     def __init__(self, kernel_num):
+        super().__init__()
         self.conv_layer1 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
         self.conv_layer2 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
         self.conv_layer3 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
