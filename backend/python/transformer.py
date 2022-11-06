@@ -15,7 +15,7 @@ class TransformerEncoder(keras.layers.Layer):
             keras.layers.Dense(key_dimension)
         ])
 
-    def getOutput(self,input):
+    def call(self,input):
 
         output = self.multiheaded_attention_layer(input, input)
         output = self.dropout_layer1(output, training=True)
@@ -64,7 +64,7 @@ class TransformerDecoder(keras.layers.Layer):
 
         return tf.tile(mask, mult)
 
-    def getOutput(self, encoder_output,targets):
+    def call(self, encoder_output,targets):
         batch_size = np.shape(targets)[0]
         length =np.shape(targets)[1]
 
@@ -99,5 +99,4 @@ class Transformer(keras.Model):
         self.decoder_layer_num = decoder_layer_num
         self.target_maxlen = target_maxlen
         self.vocabulary_len = vocabulary_len
-
         
