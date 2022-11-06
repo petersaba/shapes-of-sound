@@ -127,3 +127,14 @@ class Transformer(keras.Model):
     @property
     def metrics(self):
         return [self.loss_metric]
+
+    def call(self, inputs):
+        x = inputs[0]
+        y = inputs[1]
+
+        encoder_output = self.encoder(x)
+        decoder_output = self.decode(encoder_output, y)
+
+        linear_fct_output = self.classifier(decoder_output)
+
+        return linear_fct_output
