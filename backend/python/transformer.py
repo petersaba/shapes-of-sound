@@ -134,4 +134,14 @@ def getTransformerDecoderOutput(
     return ffn_output
 
 class Transformer(keras.Model):
-    pass
+    def __init__(
+        self,
+        head_num=2,
+        ffn_unit_num=400,
+        target_maxlen=100,
+        source_maxlen=100,
+        encoder_layer_num=4,
+        decoder_lyaer_num=1,
+        vocabulary_len=34
+        ):    
+        pass
