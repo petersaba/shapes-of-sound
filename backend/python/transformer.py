@@ -88,7 +88,7 @@ class Transformer(keras.Model):
     def __init__(
         self,
         key_dimension=64,
-        head_num=2,
+        heads_num=2,
         ffn_unit_num=400,
         target_maxlen=100,
         # source_maxlen=100,
@@ -102,5 +102,12 @@ class Transformer(keras.Model):
         self.target_maxlen = target_maxlen
         self.vocabulary_len = vocabulary_len
 
-        self.encoder_input = SpeechFeatureEmbedding(head_num)
+        self.encoder_input = SpeechFeatureEmbedding(key_dimension)
         self.decoder_input = WordEmbedding(max_sentence_length=target_maxlen)
+
+        self.encoder = keras.Sequential(
+            [self.encoder_input] +
+            [
+                TransformerEncoder(heads_num, key_dimension, ffn_unit_num) for _ in range(encoder_layer_num)
+            ]
+        )
