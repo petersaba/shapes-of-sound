@@ -160,4 +160,8 @@ class Transformer(keras.Model):
         return {'loss': loss_mean}
 
     def test_step(self, batch):
-        pass
+        input = batch[0]
+        target = batch[1]
+
+        decoder_input = target[:, :-1]
+        decoder_target = target[:, 1:]
