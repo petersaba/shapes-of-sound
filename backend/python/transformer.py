@@ -2,48 +2,30 @@ import tensorflow as tf
 import numpy as np
 keras = tf.keras
 
-def createTransformerEncoder(heads_num, key_dimension, ffn_layer1_unit_num, ffn_layer2_unit_num, normalization_epsilon, dropout):
-    multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
-    dropout_layer1 = keras.layers.Dropout(dropout)
-    normalization_layer1 = keras.layers.LayerNormalization(normalization_epsilon)
-    dropout_layer2 = keras.layers.Dropout(dropout)
-    normalization_layer2 = keras.layers.LayerNormalization(normalization_epsilon)
+class TransformerEncoder(keras.layers.Layer):
+    def __init__(self, heads_num, key_dimension, ffn_layer1_unit_num, normalization_epsilon=1e-6, dropout=0.1):
+        self.multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
+        self.dropout_layer1 = keras.layers.Dropout(dropout)
+        self.normalization_layer1 = keras.layers.LayerNormalization(normalization_epsilon)
+        self.dropout_layer2 = keras.layers.Dropout(dropout)
+        self.normalization_layer2 = keras.layers.LayerNormalization(normalization_epsilon)
 
-    ffn = keras.models.Sequential([
-        keras.layers.Dense(ffn_layer1_unit_num, activation='relu'),
-        keras.layers.Dense(key_dimension)
-    ])
+        self.ffn = keras.models.Sequential([
+            keras.layers.Dense(ffn_layer1_unit_num, activation='relu'),
+            keras.layers.Dense(key_dimension)
+        ])
 
-    return multiheaded_attention_layer, dropout_layer1, dropout_layer2, normalization_layer1, normalization_layer2, ffn
+    def getOutput(self,input):
 
-def getTransformerEncoderOutput(
-        input, 
-        heads_num, 
-        key_dimension, 
-        ffn_layer1_unit_num, 
-        ffn_layer2_unit_num, 
-        normalization_epsilon=1e-6, 
-        dropout=0.1
-        ):
+        output = self.multiheaded_attention_layer(input, input)
+        output = self.dropout_layer1(output, training=True)
+        output = self.normalization_layer1(input + output)
 
-    ( multiheaded_attention_layer,
-        dropout_layer1, 
-        dropout_layer2, 
-        normalization_layer1, 
-        normalization_layer2, 
-        ffn ) = createTransformerEncoder(
-            heads_num, key_dimension, ffn_layer1_unit_num, ffn_layer2_unit_num, normalization_epsilon, dropout
-        )
+        ffn_output = self.ffn(output)
+        output = self.dropout_layer2(ffn_output, training=True)
+        output = self.normalization_layer2(ffn_output + output)
 
-    output = multiheaded_attention_layer(input, input)
-    output = dropout_layer1(output, training=True)
-    output = normalization_layer1(input + output)
-
-    ffn_output = ffn(output)
-    output = dropout_layer2(ffn_output, training=True)
-    output = normalization_layer2(ffn_output + output)
-
-    return output
+        return output
 
 class TransformerDecoder(keras.layers.Layer):
     
