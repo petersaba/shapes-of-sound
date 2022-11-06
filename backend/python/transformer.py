@@ -144,4 +144,9 @@ class Transformer(keras.Model):
         target = batch['y']
 
         decoder_input = target[:, :-1]
-        decoder_input = target[:, 1:]
+        decoder_target = target[:, 1:]
+        
+        with tf.GradientTape as tape:
+            predictions = self([input, decoder_input])
+            vectorized_target = tf.one_hot(decoder_target, depth=self.vocabulary_len)
+            mask = decoder_target != 0
