@@ -151,3 +151,6 @@ class Transformer(keras.Model):
             vectorized_target = tf.one_hot(decoder_target, depth=self.vocabulary_len)
             mask = decoder_target != 0
             loss = self.compiled_loss(vectorized_target, predictions, sample_weight=mask)
+        trainable_variables = self.trainable_variables
+        gradients = tf.gradients(loss, trainable_variables)
+        self.optimizer.apply_gradients(zip(gradients, trainable_variables))
