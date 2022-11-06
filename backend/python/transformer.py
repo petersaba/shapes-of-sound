@@ -91,7 +91,13 @@ class Transformer(keras.Model):
         target_maxlen=100,
         source_maxlen=100,
         encoder_layer_num=4,
-        decoder_lyaer_num=1,
+        decoder_layer_num=1,
         vocabulary_len=34
         ):    
         super().__init__()
+        self.loss_metric = tf.metrics.Mean(name='loss')
+        self.decoder_layer_num = decoder_layer_num
+        self.target_maxlen = target_maxlen
+        self.vocabulary_len = vocabulary_len
+
+        
