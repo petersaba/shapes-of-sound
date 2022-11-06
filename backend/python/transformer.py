@@ -162,6 +162,7 @@ class Transformer(keras.Model):
     def test_step(self, batch):
         input = batch[0]
         target = batch[1]
-
         decoder_input = target[:, :-1]
         decoder_target = target[:, 1:]
+
+        predictions = self([input, decoder_input])
