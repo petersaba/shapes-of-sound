@@ -111,3 +111,6 @@ class Transformer(keras.Model):
                 TransformerEncoder(heads_num, key_dimension, ffn_unit_num) for _ in range(encoder_layer_num)
             ]
         )
+
+        for i in range(decoder_layer_num):
+            setattr(self, f'decoder_layer_{i}', TransformerDecoder(heads_num, key_dimension, ffn_unit_num))
