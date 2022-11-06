@@ -32,19 +32,20 @@ def addEmbeddings(words, vocabulary_size=len(vocabulary), max_sentence_length=MA
 
     return word_embedding + positional_embedding
 
-# extract features to be fed to the encoder
-def applySpeechFeatureEmbedding(input, kernel_num):
-    conv_layer1 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
-    conv_layer2 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
-    conv_layer3 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
+class SpeechFeatureEmbedding(keras.layers.Layer):
 
-    output = conv_layer1(input)
-    output = conv_layer2(output)
-    output = conv_layer3(output)
-    
-    return output
+    # extract features to be fed to the encoder
+    def __init__(self, kernel_num):
+        self.conv_layer1 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
+        self.conv_layer2 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
+        self.conv_layer3 = keras.layers.Conv1D(kernel_num, 11, strides=2, activation='relu')
 
-
+    def call(self, input):
+        output = self.conv_layer1(input)
+        output = self.conv_layer2(output)
+        output = self.conv_layer3(output)
+        
+        return output
 
 if __name__ ==  "__main__":
     pass
