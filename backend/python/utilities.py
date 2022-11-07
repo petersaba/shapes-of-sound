@@ -55,8 +55,10 @@ def getAudioTranscriptions(csv_path=CSV_PATH):
 
     return data
 
-def vectorizeText(text):
-    pass
+def vectorizeText(text, max_length=MAX_SENTENCE_LENGTH):
+    text = text.lower()
+    text = text[: max_length]
+    text = f"<{text}>"
 
 if __name__ ==  "__main__":
     pass
