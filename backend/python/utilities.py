@@ -45,7 +45,6 @@ CSV_PATH = 'data\LJSpeech-1.1\metadata.csv'
 
 def getAudioTranscriptions(csv_path=CSV_PATH):
     data = []
-    x = 0
     with open(csv_path, 'r', encoding='utf-8') as file:
         for line in file:
             line = line.strip().split('|')
@@ -53,8 +52,11 @@ def getAudioTranscriptions(csv_path=CSV_PATH):
             transcription = line[2]
             pair = {'audio': audio, 'text': transcription}
             data.append(pair)
-            
+
     return data
 
+def vectorizeText(text):
+    pass
+
 if __name__ ==  "__main__":
-    getAudioTranscriptions()
+    pass
