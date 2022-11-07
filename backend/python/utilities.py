@@ -73,7 +73,7 @@ def createTextDataset(data):
     return texts_dataset
 
 def readDataFromAudio(audio_path):
-    pass
+    encrypted_content = tf.io.read_file(audio_path)
 
 if __name__ ==  "__main__":
     pass
