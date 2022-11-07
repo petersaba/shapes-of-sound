@@ -72,5 +72,8 @@ def createTextDataset(data):
 
     return texts_dataset
 
+def readDataFromAudio(audio_path):
+    pass
+
 if __name__ ==  "__main__":
     pass
