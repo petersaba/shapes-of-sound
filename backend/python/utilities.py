@@ -44,8 +44,13 @@ class SpeechFeatureEmbedding(keras.layers.Layer):
 CSV_PATH = 'data\LJSpeech-1.1\metadata.csv'
 
 def getAudioTranscriptions(csv_path=CSV_PATH):
-    with open(csv_path, 'r') as file:
-        print('file read successfully')
+    data = []
+    x = 0
+    with open(csv_path, 'r', encoding='utf-8') as file:
+        for line in file:
+            line = line.strip().split('|')
+            audio = line[0]
+            transcription = line[2]
 
 if __name__ ==  "__main__":
     getAudioTranscriptions()
