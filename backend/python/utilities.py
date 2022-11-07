@@ -60,5 +60,10 @@ def vectorizeText(text, max_length=MAX_SENTENCE_LENGTH):
     text = text[: max_length]
     text = f"<{text}>"
 
+    padding_length = max_length - len(text)
+    vectorized_text = [char_to_id[char] for char in text] + [0] * padding_length
+
+    return vectorized_text
+
 if __name__ ==  "__main__":
     pass
