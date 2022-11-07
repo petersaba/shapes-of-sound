@@ -74,7 +74,10 @@ def createTextDataset(data):
 
 def readDataFromAudio(audio_path):
     encrypted_content = tf.io.read_file(audio_path)
-    signal, _ = tf.audio.decode_wav(encrypted_content)
+    signal, _ = tf.audio.decode_wav(encrypted_content, desired_channels=1)
+    signal = tf.squeeze(signal, axis=-1) # changing shape from (x, 1) to (x)
+    stft = tf.signal.stft(signal, frame_length=200, frame_step=80, fft_length=256)
+    stft = tf.math.pow(tf.abs(stft), 0.5)
 
 if __name__ ==  "__main__":
     pass
