@@ -67,7 +67,7 @@ def vectorizeText(text, max_length=MAX_SENTENCE_LENGTH):
 
 def createTextDataset(data):
     texts = [pair['text'] for pair in data]
-    
+    vectorized_texts = [vectorizeText(text) for text in texts]
 
 if __name__ ==  "__main__":
     pass
