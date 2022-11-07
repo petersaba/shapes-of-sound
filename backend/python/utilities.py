@@ -68,6 +68,9 @@ def vectorizeText(text, max_length=MAX_SENTENCE_LENGTH):
 def createTextDataset(data):
     texts = [pair['text'] for pair in data]
     vectorized_texts = [vectorizeText(text) for text in texts]
+    texts_dataset = tf.data.Dataset.from_tensor_slices(vectorized_texts)
+
+    return texts_dataset
 
 if __name__ ==  "__main__":
     pass
