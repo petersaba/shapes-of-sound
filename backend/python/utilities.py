@@ -51,6 +51,10 @@ def getAudioTranscriptions(csv_path=CSV_PATH):
             line = line.strip().split('|')
             audio = line[0]
             transcription = line[2]
+            pair = {'audio': audio, 'text': transcription}
+            data.append(pair)
+            
+    return data
 
 if __name__ ==  "__main__":
     getAudioTranscriptions()
