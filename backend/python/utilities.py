@@ -79,5 +79,10 @@ def readDataFromAudio(audio_path):
     stft = tf.signal.stft(signal, frame_length=200, frame_step=80, fft_length=256)
     stft = tf.math.pow(tf.abs(stft), 0.5)
 
+    means = tf.reduce_mean(stft, axis=1, keepdims=True)
+    standarad_deviations = tf.reduce_std(stft, axis=1, keepdims=True)
+
+    stft = (stft - means) / standarad_deviations # normalizing the stfts
+
 if __name__ ==  "__main__":
     pass
