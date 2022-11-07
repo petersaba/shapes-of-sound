@@ -41,5 +41,8 @@ class SpeechFeatureEmbedding(keras.layers.Layer):
         
         return output
 
+def getAudioTranscriptions(csv_path):
+    pass
+
 if __name__ ==  "__main__":
     pass
