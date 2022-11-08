@@ -74,15 +74,22 @@ def createTextDataset(data):
 
 def readDataFromAudio(audio_path):
     encrypted_content = tf.io.read_file(audio_path)
-    signal, _ = tf.audio.decode_wav(encrypted_content, desired_channels=1)
+    signal, sample_rate = tf.audio.decode_wav(encrypted_content, desired_channels=1)
     signal = tf.squeeze(signal, axis=-1) # changing shape from (x, 1) to (x)
     stft = tf.signal.stft(signal, frame_length=200, frame_step=80, fft_length=256)
     stft = tf.math.pow(tf.abs(stft), 0.5)
 
-    means = tf.reduce_mean(stft, axis=1, keepdims=True)
-    standarad_deviations = tf.reduce_std(stft, axis=1, keepdims=True)
+    means = tf.math.reduce_mean(stft, axis=1, keepdims=True)
+    standarad_deviations = tf.math.reduce_std(stft, axis=1, keepdims=True)
 
     stft = (stft - means) / standarad_deviations # normalizing the stfts
 
+    audio_length = tf.shape(stft)[0]
+    
+
 if __name__ ==  "__main__":
+
+    # readDataFromAudio('data\LJSpeech-1.1\wavs\LJ001-0004.wav')
+    readDataFromAudio('Recording.wav')
+
     pass
