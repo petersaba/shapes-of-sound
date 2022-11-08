@@ -98,6 +98,11 @@ def readDataFromAudio(audio_path):
     if audio_length < desired_audio_length:
         padding_length = desired_audio_length - audio_length
 
+    paddings = tf.constant[[0, padding_length], [0, 0]]
+    stft = tf.pad(stft, paddings)[: desired_audio_length] # in case the audio length is bigger than desired length only the desired length is returned
+
+    return stft
+
 
 if __name__ ==  "__main__":
 
