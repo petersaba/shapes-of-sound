@@ -1,4 +1,5 @@
 import tensorflow as tf
+import tensorflow_io as tfio
 import numpy as np
 
 keras = tf.keras
@@ -76,6 +77,11 @@ def readDataFromAudio(audio_path):
     encrypted_content = tf.io.read_file(audio_path)
     signal, sample_rate = tf.audio.decode_wav(encrypted_content, desired_channels=1)
     signal = tf.squeeze(signal, axis=-1) # changing shape from (x, 1) to (x)
+
+    sample_rate = tf.cast(sample_rate, dtype=tf.int64)
+    signal = tfio.audio.resample(signal, sample_rate, 22050) # resampling audio signal to 22050 sample rate to keep data uniform
+    sample_rate = 22050
+
     stft = tf.signal.stft(signal, frame_length=200, frame_step=80, fft_length=256)
     stft = tf.math.pow(tf.abs(stft), 0.5)
 
@@ -87,9 +93,10 @@ def readDataFromAudio(audio_path):
     audio_length = tf.shape(stft)[0]
     
 
+
 if __name__ ==  "__main__":
 
-    # readDataFromAudio('data\LJSpeech-1.1\wavs\LJ001-0004.wav')
+    readDataFromAudio('data\LJSpeech-1.1\wavs\LJ001-0004.wav')
     readDataFromAudio('Recording.wav')
 
     pass
