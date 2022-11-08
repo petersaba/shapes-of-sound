@@ -104,12 +104,8 @@ def readDataFromAudio(audio_path):
     return stft
 
 def createAudioDataset(audios):
-    pass
+    audios = [audio['audio'] for audio in audios]
 
 
 if __name__ ==  "__main__":
-
-    readDataFromAudio('data\LJSpeech-1.1\wavs\LJ001-0004.wav')
-    readDataFromAudio('Recording.wav')
-
     pass
