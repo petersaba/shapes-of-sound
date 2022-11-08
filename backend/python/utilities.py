@@ -105,6 +105,7 @@ def readDataFromAudio(audio_path):
 
 def createAudioDataset(audios):
     audios = [audio['audio'] for audio in audios]
+    audios_dataset = tf.data.Dataset.from_tensor_slices(audios)
 
 
 if __name__ ==  "__main__":
