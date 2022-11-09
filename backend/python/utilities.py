@@ -114,7 +114,9 @@ def createFullDataset(data, batch_size):
     audio_dataset = createAudioDataset(data)
     text_dataset = createTextDataset(data)
     dataset = tf.data.Dataset.zip(audio_dataset, text_dataset)
+    dataset = dataset.map(lambda audio, text: {'source': audio, 'target': text})
     
+
 
 if __name__ ==  "__main__":
     pass
