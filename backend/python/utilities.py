@@ -111,7 +111,8 @@ def createAudioDataset(audios):
     return audios_dataset
 
 def createFullDataset(data, batch_size):
-    pass
+    audio_dataset = createAudioDataset(data)
+    text_dataset = createTextDataset(data)
 
 if __name__ ==  "__main__":
     pass
