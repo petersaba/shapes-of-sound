@@ -110,12 +110,15 @@ def createAudioDataset(audios):
 
     return audios_dataset
 
-def createFullDataset(data, batch_size):
+def createFullDataset(data, batch_size=4):
     audio_dataset = createAudioDataset(data)
     text_dataset = createTextDataset(data)
     dataset = tf.data.Dataset.zip(audio_dataset, text_dataset)
     dataset = dataset.map(lambda audio, text: {'source': audio, 'target': text})
-    
+    dataset = dataset.batch(batch_size)
+    dataset = dataset.prefetch(tf.data.AUTOTUNE)
+
+    return dataset
 
 
 if __name__ ==  "__main__":
