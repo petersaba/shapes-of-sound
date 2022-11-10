@@ -183,3 +183,7 @@ class Transformer(keras.Model):
 
         for i in range(self.target_maxlen - 1):
             decoder_output = self.decode(encoder_output, decoder_input)
+            output = self.classifier(decoder_output)
+            # getting the index of each character with the highest probability
+            output = tf.argmax(output, axis=-1, output_type=tf.int32)
+            
