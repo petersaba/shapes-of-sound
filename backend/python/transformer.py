@@ -181,9 +181,13 @@ class Transformer(keras.Model):
         # start every output sentence with the start char id
         decoder_input = tf.ones((batch_size, 1), dtype=tf.int32) * start_token_id
 
+        # predicting character by character in each sentence in the batch
         for i in range(self.target_maxlen - 1):
             decoder_output = self.decode(encoder_output, decoder_input)
             output = self.classifier(decoder_output)
             # getting the index of each character with the highest probability
             output = tf.argmax(output, axis=-1, output_type=tf.int32)
             last_chars_index = tf.expand_dims(output[:, -1], axis=-1)
+
+            decoder_input = tf.concat([decoder_input, last_chars_index], axis=-1)
+        return decoder_input
