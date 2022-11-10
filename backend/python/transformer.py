@@ -191,3 +191,10 @@ class Transformer(keras.Model):
 
             decoder_input = tf.concat([decoder_input, last_chars_index], axis=-1)
         return decoder_input
+
+class DisplayOutputs(keras.callbacks.Callback):
+
+    def __init__(self, batch, start_char_id=2, end_char_id=3):
+        self.batch = batch # always showing outputs on the same batch
+        self.start_char_id = start_char_id
+        self.end_char_id = end_char_id
