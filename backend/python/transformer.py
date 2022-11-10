@@ -177,3 +177,6 @@ class Transformer(keras.Model):
 
     def generateOutput(self, batch, start_token_id=2):
         batch_size = tf.shape(batch)[0]
+        encoder_output = self.encoder(batch)
+        # start every output sentece with the start char id
+        decoder_input = tf.ones((batch_size, 1), dtype=tf.int32) * start_token_id
