@@ -176,4 +176,4 @@ class Transformer(keras.Model):
         return {'loss': loss_mean}
 
     def generateOutput(self, batch, start_token_id=2):
-        pass
+        batch_size = tf.shape(batch)[0]
