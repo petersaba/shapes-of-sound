@@ -121,5 +121,11 @@ def createFullDataset(data, batch_size=4):
     return dataset
 
 
+class DisplayOutputs(keras.callbacks.Callback):
+
+    def __init__(self, batch, start_char_id=2, end_char_id=3):
+        pass
+
+
 if __name__ ==  "__main__":
     pass
