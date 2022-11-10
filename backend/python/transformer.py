@@ -198,3 +198,8 @@ class DisplayOutputs(keras.callbacks.Callback):
         self.batch = batch # always showing outputs on the same batch
         self.start_char_id = start_char_id
         self.end_char_id = end_char_id
+
+    def on_epoch_end(self, epoch, logs=None):
+        source = self.batch['source']
+        target = self.batch['target'].numpy()
+        batch_size = tf.shape(source)[0]
