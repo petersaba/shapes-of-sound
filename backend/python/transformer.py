@@ -252,3 +252,7 @@ class CustomSchedule(keras.optimizers.schedules.LearningRateSchedule):
         )
 
         return tf.math.minimum(warmup_lr, decay_lr)
+
+    def __call__(self, step):
+        epoch = step // self.steps_per_epoch
+        return self.calculateLearningRate(epoch)
