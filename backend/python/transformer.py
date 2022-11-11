@@ -239,3 +239,6 @@ class CustomSchedule(keras.optimizers.schedules.LearningRateSchedule):
         self.final_lr = final_lr
         self.warmup_epochs = warmup_epochs
         self.decay_epochs = decay_epochs
+
+    def calculateLearningRate(self, epoch):
+        pass
