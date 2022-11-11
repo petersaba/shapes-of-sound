@@ -6,8 +6,10 @@ keras = tf.keras
 vocabulary = ["-", "#", "<", ">"] + [chr(i + 96) for i in range(1, 27)] + [" ", ".", ",", "?"]
 
 char_to_id = {}
+id_to_char = {}
 for i, char in enumerate(vocabulary):
     char_to_id[char] = i
+    id_to_char[i] = char
 
 VOCABULARY_SIZE = len(vocabulary)
 OUTPUT_VECTOR_LENGTH = 64
