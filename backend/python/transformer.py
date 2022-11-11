@@ -200,12 +200,16 @@ class DisplayOutputs(keras.callbacks.Callback):
         self.end_char_id = end_char_id
 
     def on_epoch_end(self, epoch, logs=None):
+        if epoch % 5 != 0:
+            return
+
         source = self.batch['source']
         target = self.batch['target'].numpy()
         batch_size = tf.shape(source)[0]
 
         predictions = self.model.generateOutput(source, self.start_char_id)
         predictions = predictions.numpy()
+        
         for i in range(batch_size):
             target_text = ''.join([id_to_char[index] for index in target[i]])
             prediction = ''
@@ -213,3 +217,6 @@ class DisplayOutputs(keras.callbacks.Callback):
                 prediction += id_to_char[id]
                 if id == self.end_char_id:
                     break
+            print(f"target: {target_text.replace('-', '')}")
+            print(f"prediction: {prediction}")
+            print('-----------------------------------------------')
