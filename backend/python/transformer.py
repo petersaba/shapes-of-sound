@@ -242,3 +242,11 @@ class CustomSchedule(keras.optimizers.schedules.LearningRateSchedule):
 
     def calculateLearningRate(self, epoch):
         warmup_lr = self.init_lr + epoch * (self.lr_after_warmup - self.init_lr) / (self.warmup_epochs - 1)
+
+        decay_lr = tf.math.maximum(
+            self.final_lr,
+            self.lr_after_warmup 
+            - (epoch - self.warmup_epochs) 
+            * (self.lr_after_warmup - self.final_lr) 
+            / self.decay_epochs
+        )
