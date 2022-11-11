@@ -9,3 +9,6 @@ if __name__ == '__main__':
     
     train_data = data[: validation_split]
     validation_data = [validation_split :]
+
+    train_dataset = utilities.createFullDataset(train_data, 64)
+    validation_dataset = utilities.createFullDataset(validation_data)
