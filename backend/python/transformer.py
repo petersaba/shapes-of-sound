@@ -220,3 +220,16 @@ class DisplayOutputs(keras.callbacks.Callback):
             print(f"target: {target_text.replace('-', '')}")
             print(f"prediction: {prediction}")
             print('-----------------------------------------------')
+
+class CustomSchedule(keras.optimizers.schedules.LearningRateSchedule):
+
+    def __init__(
+        self,
+        steps_per_epoch,
+        init_lr=0.00001,
+        lr_after_warmup=0.001,
+        final_lr=0.00001,
+        warmup_epochs=15,
+        decay_epochs=85
+    ):
+        pass
