@@ -232,4 +232,10 @@ class CustomSchedule(keras.optimizers.schedules.LearningRateSchedule):
         warmup_epochs=15,
         decay_epochs=85
     ):
-        pass
+        super().__init__()
+        self.steps_per_epoch = steps_per_epoch
+        self.init_lr = init_lr
+        self.lr_after_warmup = lr_after_warmup
+        self.final_lr = final_lr
+        self.warmup_epochs = warmup_epochs
+        self.decay_epochs = decay_epochs
