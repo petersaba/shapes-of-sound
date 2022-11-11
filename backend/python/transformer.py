@@ -203,3 +203,6 @@ class DisplayOutputs(keras.callbacks.Callback):
         source = self.batch['source']
         target = self.batch['target'].numpy()
         batch_size = tf.shape(source)[0]
+
+        predictions = self.model.generateOutput(source, self.start_char_id)
+        predictions = predictions.numpy()
