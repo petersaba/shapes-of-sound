@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-from utilities import WordEmbedding, SpeechFeatureEmbedding
+from utilities import WordEmbedding, SpeechFeatureEmbedding, id_to_char
 keras = tf.keras
 
 class TransformerEncoder(keras.layers.Layer):
@@ -206,3 +206,5 @@ class DisplayOutputs(keras.callbacks.Callback):
 
         predictions = self.model.generateOutput(source, self.start_char_id)
         predictions = predictions.numpy()
+        for i in range(batch_size):
+            target_text = ''.join([id_to_char[index] for index in target[i]])
