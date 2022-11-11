@@ -12,3 +12,6 @@ if __name__ == '__main__':
 
     train_dataset = utilities.createFullDataset(train_data, 64)
     validation_dataset = utilities.createFullDataset(validation_data)
+
+    test_batch = next(iter(validation_dataset)) # batch to be used when testing once every 5 epochs
+    display_test = transformer.DisplayOutputs(test_batch)
