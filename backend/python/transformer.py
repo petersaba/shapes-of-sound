@@ -208,3 +208,8 @@ class DisplayOutputs(keras.callbacks.Callback):
         predictions = predictions.numpy()
         for i in range(batch_size):
             target_text = ''.join([id_to_char[index] for index in target[i]])
+            prediction = ''
+            for id in predictions[i]:
+                prediction += id_to_char[id]
+                if id == self.end_char_id:
+                    break
