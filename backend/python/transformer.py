@@ -250,3 +250,5 @@ class CustomSchedule(keras.optimizers.schedules.LearningRateSchedule):
             * (self.lr_after_warmup - self.final_lr) 
             / self.decay_epochs
         )
+
+        return tf.math.minimum(warmup_lr, decay_lr)
