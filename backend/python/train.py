@@ -15,3 +15,5 @@ if __name__ == '__main__':
 
     test_batch = next(iter(validation_dataset)) # batch to be used when testing once every 5 epochs
     display_test = transformer.DisplayOutputs(test_batch)
+
+    model = transformer.Transformer(key_dimension=200, target_maxlen=200)
