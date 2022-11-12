@@ -17,3 +17,4 @@ if __name__ == '__main__':
     display_test = transformer.DisplayOutputs(test_batch)
 
     model = transformer.Transformer(key_dimension=200, target_maxlen=200)
+    loss = keras.losses.CategoricalCrossentropy(label_smoothing=0.1, from_logits=True)
