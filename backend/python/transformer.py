@@ -7,9 +7,9 @@ class TransformerEncoder(keras.layers.Layer):
     def __init__(self, heads_num, key_dimension, ffn_layer1_unit_num, normalization_epsilon=1e-6, dropout=0.1):
         self.multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
         self.dropout_layer1 = keras.layers.Dropout(dropout)
-        self.normalization_layer1 = keras.layers.LayerNormalization(normalization_epsilon)
+        self.normalization_layer1 = keras.layers.LayerNormalization(epsilon=normalization_epsilon)
         self.dropout_layer2 = keras.layers.Dropout(dropout)
-        self.normalization_layer2 = keras.layers.LayerNormalization(normalization_epsilon)
+        self.normalization_layer2 = keras.layers.LayerNormalization(epsilon=normalization_epsilon)
 
         self.ffn = keras.models.Sequential([
             keras.layers.Dense(ffn_layer1_unit_num, activation='relu'),
@@ -46,9 +46,9 @@ class TransformerDecoder(keras.layers.Layer):
         self.multiheaded_attention_dropout = keras.layers.Dropout(dropout2)
         self.ffn_dropout = keras.layers.Dropout(dropout2)
 
-        self.masked_multiheaded_attention_normalization = keras.layers.LayerNormalization(normalization_epsilon)
-        self.multiheaded_attention_normalization = keras.layers.LayerNormalization(normalization_epsilon)
-        self.ffn_normalization = keras.layers.LayerNormalization(normalization_epsilon)
+        self.masked_multiheaded_attention_normalization = keras.layers.LayerNormalization(epsilon=normalization_epsilon)
+        self.multiheaded_attention_normalization = keras.layers.LayerNormalization(epsilon=normalization_epsilon)
+        self.ffn_normalization = keras.layers.LayerNormalization(epsilon=normalization_epsilon)
 
         self.ffn = keras.models.Sequential([
             keras.layers.Dense(ffn_unit_num, activation='relu'),
