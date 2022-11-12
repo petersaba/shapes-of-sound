@@ -8,7 +8,7 @@ if __name__ == '__main__':
     validation_split = int(len(data) * 0.99)
     
     train_data = data[: validation_split]
-    validation_data = [validation_split :]
+    validation_data = data[validation_split :]
 
     train_dataset = utilities.createFullDataset(train_data, 64)
     validation_dataset = utilities.createFullDataset(validation_data)
@@ -18,3 +18,6 @@ if __name__ == '__main__':
 
     model = transformer.Transformer(key_dimension=200, target_maxlen=200)
     loss = keras.losses.CategoricalCrossentropy(label_smoothing=0.1, from_logits=True)
+
+    learning_rate = transformer.CustomSchedule(steps_per_epoch=len(train_dataset))
+    optimizer = keras.optimizers.Adam(learning_rate)
