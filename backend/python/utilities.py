@@ -17,6 +17,7 @@ MAX_SENTENCE_LENGTH = 200 # max number of characters
 
 class WordEmbedding(keras.layers.Layer):
     def __init__(self, vocabulary_size=VOCABULARY_SIZE, max_sentence_length=MAX_SENTENCE_LENGTH, output_vector_length=OUTPUT_VECTOR_LENGTH):
+        super().__init__()
         self.word_embedding_layer = keras.layers.Embedding(vocabulary_size, output_vector_length)
         self.positional_embedding_layer = keras.layers.Embedding(max_sentence_length, output_vector_length)
 
@@ -102,14 +103,21 @@ def readDataFromAudio(audio_path):
     print('finished------------------------------------------------------')
     return stft
 
-def createAudioDataset(data):
-    audios = [pair['audio'] for pair in data]
-    audios = [readDataFromAudio(audio) for audio in audios]
-    audios_dataset = tf.data.Dataset.from_tensor_slices(audios)
-    # stft_dataset = audios_dataset.map(readDataFromAudio, num_parallel_calls=tf.data.AUTOTUNE)
+def func1(x):
+    print(type(x))
+    return x
 
-    # return stft_dataset
-    return audios_dataset
+def createAudioDataset(data):
+    audios = [_['audio'] for _ in data]
+    # audios_dataset = [readDataFromAudio(_) for _ in audios]
+    # audios_dataset = tf.data.Dataset.from_tensor_slices(audios_dataset)
+
+    audios_dataset = tf.data.Dataset.from_tensor_slices(audios)
+    # stft_dataset = audios_dataset.map(readDataFromAudio)
+    stft_dataset = audios_dataset.map(func1)
+
+    return stft_dataset
+    # return audios_dataset
 
 def createFullDataset(data, batch_size=4):
     audio_dataset = createAudioDataset(data)
