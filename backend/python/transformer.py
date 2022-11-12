@@ -5,6 +5,7 @@ keras = tf.keras
 
 class TransformerEncoder(keras.layers.Layer):
     def __init__(self, heads_num, key_dimension, ffn_layer1_unit_num, normalization_epsilon=1e-6, dropout=0.1):
+        super().__init__()
         self.multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
         self.dropout_layer1 = keras.layers.Dropout(dropout)
         self.normalization_layer1 = keras.layers.LayerNormalization(epsilon=normalization_epsilon)
@@ -39,6 +40,7 @@ class TransformerDecoder(keras.layers.Layer):
         dropout1=0.5,
         dropout2=0.1
     ):
+        super().__init__()
         self.multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
         self.masked_multiheaded_attention_layer = keras.layers.MultiHeadAttention(heads_num, key_dimension)
 
