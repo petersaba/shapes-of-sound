@@ -45,6 +45,7 @@ class SpeechFeatureEmbedding(keras.layers.Layer):
         return output
 
 CSV_PATH = 'data\LJSpeech-1.1\metadata.csv'
+AUDIOS_PATH = 'data\LJSpeech-1.1\wavs'
 
 def getAudioTranscriptions(csv_path=CSV_PATH):
     data = []
@@ -64,7 +65,7 @@ def vectorizeText(text, max_length=MAX_SENTENCE_LENGTH):
     text = f"<{text}>"
 
     padding_length = max_length - len(text)
-    vectorized_text = [char_to_id[char] for char in text] + [0] * padding_length
+    vectorized_text = [char_to_id.get(char, 1) for char in text] + [0] * padding_length
 
     return vectorized_text
 
@@ -76,7 +77,7 @@ def createTextDataset(data):
     return texts_dataset
 
 def readDataFromAudio(audio_path):
-    encrypted_content = tf.io.read_file(audio_path)
+    encrypted_content = tf.io.read_file(f'{AUDIOS_PATH}\{audio_path}.wav')
     signal, sample_rate = tf.audio.decode_wav(encrypted_content, desired_channels=1)
     signal = tf.squeeze(signal, axis=-1) # changing shape from (x, 1) to (x)
 
@@ -93,29 +94,27 @@ def readDataFromAudio(audio_path):
 
     stft = (stft - means) / standarad_deviations # normalizing the stfts
 
-    audio_length = tf.shape(stft)[0]
     desired_audio_length = 2754 # (sample rate / frame step) * desired duration: here the desired duration is 10seconds
 
-    padding_length = 0
-    if audio_length < desired_audio_length:
-        padding_length = desired_audio_length - audio_length
-
-    paddings = tf.constant[[0, padding_length], [0, 0]]
+    paddings = tf.constant([[0, desired_audio_length], [0, 0]])
     stft = tf.pad(stft, paddings)[: desired_audio_length] # in case the audio length is bigger than desired length only the desired length is returned
 
+    print('finished------------------------------------------------------')
     return stft
 
-def createAudioDataset(audios):
-    audios = [audio['audio'] for audio in audios]
+def createAudioDataset(data):
+    audios = [pair['audio'] for pair in data]
+    audios = [readDataFromAudio(audio) for audio in audios]
     audios_dataset = tf.data.Dataset.from_tensor_slices(audios)
-    audios_dataset = audios_dataset.map(readDataFromAudio, num_parallel_calls=tf.data.AUTOTUNE)
+    # stft_dataset = audios_dataset.map(readDataFromAudio, num_parallel_calls=tf.data.AUTOTUNE)
 
+    # return stft_dataset
     return audios_dataset
 
 def createFullDataset(data, batch_size=4):
     audio_dataset = createAudioDataset(data)
     text_dataset = createTextDataset(data)
-    dataset = tf.data.Dataset.zip(audio_dataset, text_dataset)
+    dataset = tf.data.Dataset.zip((audio_dataset, text_dataset))
     dataset = dataset.map(lambda audio, text: {'source': audio, 'target': text})
     dataset = dataset.batch(batch_size)
     dataset = dataset.prefetch(tf.data.AUTOTUNE)
