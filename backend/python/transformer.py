@@ -12,21 +12,20 @@ class TransformerEncoder(keras.layers.Layer):
         self.dropout_layer2 = keras.layers.Dropout(dropout)
         self.normalization_layer2 = keras.layers.LayerNormalization(epsilon=normalization_epsilon)
 
-        self.ffn = keras.models.Sequential([
+        self.ffn = keras.Sequential([
             keras.layers.Dense(ffn_layer1_unit_num, activation='relu'),
             keras.layers.Dense(key_dimension)
         ])
 
-    def call(self,input):
+    def call(self,input, training):
 
         output = self.multiheaded_attention_layer(input, input)
-        output = self.dropout_layer1(output, training=True)
+        output = self.dropout_layer1(output, training=training)
         output = self.normalization_layer1(input + output)
 
         ffn_output = self.ffn(output)
-        output = self.dropout_layer2(ffn_output, training=True)
+        ffn_output = self.dropout_layer2(ffn_output, training=training)
         output = self.normalization_layer2(ffn_output + output)
-
         return output
 
 class TransformerDecoder(keras.layers.Layer):
@@ -52,7 +51,7 @@ class TransformerDecoder(keras.layers.Layer):
         self.multiheaded_attention_normalization = keras.layers.LayerNormalization(epsilon=normalization_epsilon)
         self.ffn_normalization = keras.layers.LayerNormalization(epsilon=normalization_epsilon)
 
-        self.ffn = keras.models.Sequential([
+        self.ffn = keras.Sequential([
             keras.layers.Dense(ffn_unit_num, activation='relu'),
             keras.layers.Dense(key_dimension)
         ])
@@ -63,13 +62,15 @@ class TransformerDecoder(keras.layers.Layer):
 
         mask = y >= x
         mask = tf.reshape(mask, [1, length, length])
-        mult = tf.constant([batch_size, 1, 1])
+        mult = tf.concat(
+            [tf.expand_dims(batch_size, -1), tf.constant([1, 1], dtype=tf.int32)], 0
+        )
 
         return tf.tile(mask, mult)
 
     def call(self, encoder_output, targets):
-        batch_size = np.shape(targets)[0]
-        length =np.shape(targets)[1]
+        batch_size = tf.shape(targets)[0]
+        length =tf.shape(targets)[1]
 
         multiheaded_attention_mask = self.getMultiHeadedAttentionMask(batch_size, length)
         masked_multiheaded_attention_output = self.masked_multiheaded_attention_layer(targets, targets, attention_mask=multiheaded_attention_mask)
@@ -89,11 +90,10 @@ class TransformerDecoder(keras.layers.Layer):
 class Transformer(keras.Model):
     def __init__(
         self,
-        key_dimension=64,
+        key_dimension=200,
         heads_num=2,
         ffn_unit_num=400,
-        target_maxlen=100,
-        # source_maxlen=100,
+        target_maxlen=200,
         encoder_layer_num=4,
         decoder_layer_num=1,
         vocabulary_len=34
@@ -104,7 +104,7 @@ class Transformer(keras.Model):
         self.target_maxlen = target_maxlen
         self.vocabulary_len = vocabulary_len
 
-        self.encoder_input = SpeechFeatureEmbedding(key_dimension)
+        self.encoder_input = SpeechFeatureEmbedding(key_dimension, target_maxlen)
         self.decoder_input = WordEmbedding(max_sentence_length=target_maxlen)
 
         self.encoder = keras.Sequential(
@@ -131,24 +131,24 @@ class Transformer(keras.Model):
         return [self.loss_metric]
 
     def call(self, inputs):
-        x = inputs[0]
-        y = inputs[1]
+        source = inputs[0]
+        target = inputs[1]
 
-        encoder_output = self.encoder(x)
-        decoder_output = self.decode(encoder_output, y)
+        encoder_output = self.encoder(source)
+        decoder_output = self.decode(encoder_output, target)
 
         linear_fct_output = self.classifier(decoder_output)
 
         return linear_fct_output
 
     def train_step(self, batch):
-        input = batch['x']
-        target = batch['y']
+        input = batch['source']
+        target = batch['target']
 
         decoder_input = target[:, :-1]
         decoder_target = target[:, 1:]
         
-        with tf.GradientTape as tape:
+        with tf.GradientTape() as tape:
             predictions = self([input, decoder_input])
             vectorized_target = tf.one_hot(decoder_target, depth=self.vocabulary_len)
             mask = decoder_target != 0
@@ -162,8 +162,8 @@ class Transformer(keras.Model):
         return {'loss': loss_mean}
 
     def test_step(self, batch):
-        input = batch[0]
-        target = batch[1]
+        input = batch['source']
+        target = batch['target']
         decoder_input = target[:, :-1]
         decoder_target = target[:, 1:]
 
@@ -219,6 +219,7 @@ class DisplayOutputs(keras.callbacks.Callback):
                 prediction += id_to_char[id]
                 if id == self.end_char_id:
                     break
+            print()
             print(f"target: {target_text.replace('-', '')}")
             print(f"prediction: {prediction}")
             print('-----------------------------------------------')
