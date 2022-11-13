@@ -12,7 +12,7 @@ for i, char in enumerate(vocabulary):
     id_to_char[i] = char
 
 VOCABULARY_SIZE = len(vocabulary)
-OUTPUT_VECTOR_LENGTH = 64
+OUTPUT_VECTOR_LENGTH = 200
 MAX_SENTENCE_LENGTH = 200 # max number of characters
 
 class WordEmbedding(keras.layers.Layer):
@@ -78,14 +78,9 @@ def createTextDataset(data):
     return texts_dataset
 
 def readDataFromAudio(audio_path):
-    encrypted_content = tf.io.read_file(f'{AUDIOS_PATH}\{audio_path}.wav')
+    encrypted_content = tf.io.read_file(audio_path)
     signal, sample_rate = tf.audio.decode_wav(encrypted_content, desired_channels=1)
     signal = tf.squeeze(signal, axis=-1) # changing shape from (x, 1) to (x)
-
-    if sample_rate != 22050:
-        sample_rate = tf.cast(sample_rate, dtype=tf.int64)
-        signal = tfio.audio.resample(signal, sample_rate, 22050) # resampling audio signal to 22050 sample rate to keep data uniform
-        sample_rate = 22050
 
     stft = tf.signal.stft(signal, frame_length=200, frame_step=80, fft_length=256)
     stft = tf.math.pow(tf.abs(stft), 0.5)
@@ -100,24 +95,19 @@ def readDataFromAudio(audio_path):
     paddings = tf.constant([[0, desired_audio_length], [0, 0]])
     stft = tf.pad(stft, paddings)[: desired_audio_length] # in case the audio length is bigger than desired length only the desired length is returned
 
-    print('finished------------------------------------------------------')
     return stft
 
-def func1(x):
-    print(type(x))
-    return x
-
 def createAudioDataset(data):
-    audios = [_['audio'] for _ in data]
-    # audios_dataset = [readDataFromAudio(_) for _ in audios]
-    # audios_dataset = tf.data.Dataset.from_tensor_slices(audios_dataset)
+    audios = []
+    for pair in data:
+        audio_name = pair['audio']
+        audio_path = f'{AUDIOS_PATH}\{audio_name}.wav'
+        audios.append(audio_path)
 
     audios_dataset = tf.data.Dataset.from_tensor_slices(audios)
-    # stft_dataset = audios_dataset.map(readDataFromAudio)
-    stft_dataset = audios_dataset.map(func1)
+    stft_dataset = audios_dataset.map(readDataFromAudio, num_parallel_calls=tf.data.AUTOTUNE)
 
     return stft_dataset
-    # return audios_dataset
 
 def createFullDataset(data, batch_size=4):
     audio_dataset = createAudioDataset(data)
