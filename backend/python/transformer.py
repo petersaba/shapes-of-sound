@@ -104,7 +104,7 @@ class Transformer(keras.Model):
         self.target_maxlen = target_maxlen
         self.vocabulary_len = vocabulary_len
 
-        self.encoder_input = SpeechFeatureEmbedding(key_dimension, target_maxlen)
+        self.encoder_input = SpeechFeatureEmbedding(key_dimension)
         self.decoder_input = WordEmbedding(max_sentence_length=target_maxlen)
 
         self.encoder = keras.Sequential(
