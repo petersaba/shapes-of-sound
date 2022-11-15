@@ -23,4 +23,9 @@ if __name__ == '__main__':
     optimizer = keras.optimizers.Adam(learning_rate)
     model.compile(optimizer, loss=loss)
 
-    model.fit(train_dataset, validation_data=validation_dataset, callbacks=[display_test], epochs=100)
+    model.fit(train_dataset, validation_data=validation_dataset, callbacks=[display_test], epochs=150)
+
+    model_json = model.to_json()
+    with open('./model/model.json', 'w') as file:
+        file.write(model_json)
+    model.save_weights('./model/model_weights.h5')
