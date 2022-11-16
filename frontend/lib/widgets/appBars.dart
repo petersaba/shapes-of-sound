@@ -38,6 +38,12 @@ class CustomBottomNavigationBar extends StatefulWidget {
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int _currentPage = 0;
 
+  void _changePage(int index){
+    setState(() {
+      _currentPage = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -59,6 +65,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               label: '')
         ],
         currentIndex: _currentPage,
+        onTap: _changePage,
       ),
     );
   }
