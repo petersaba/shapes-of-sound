@@ -49,6 +49,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return SizedBox(
       height: 80,
       child: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         backgroundColor: const Color(0xFF355085),
         items: const [
           BottomNavigationBarItem(
