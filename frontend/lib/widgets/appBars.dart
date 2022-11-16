@@ -36,6 +36,8 @@ class CustomBottomNavigationBar extends StatefulWidget {
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  int _currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -44,20 +46,19 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         backgroundColor: const Color(0xFF355085),
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.translate,
-              size: 38,
-            ),
-            label: ''
-          ),
+              icon: Icon(
+                Icons.translate,
+                size: 38,
+              ),
+              label: ''),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.account_circle_rounded,
-              size: 38,
-            ),
-            label: ''
-          )
+              icon: Icon(
+                Icons.account_circle_rounded,
+                size: 38,
+              ),
+              label: '')
         ],
+        currentIndex: _currentPage,
       ),
     );
   }
