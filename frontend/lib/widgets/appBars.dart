@@ -40,6 +40,15 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 80,
+      child: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.translate,
+              size: 38,
+            ))
+        ],
+      ),
     );
   }
 }
