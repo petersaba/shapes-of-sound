@@ -10,6 +10,10 @@ class HomepageMainSection extends StatefulWidget {
 class _HomepageMainSectionState extends State<HomepageMainSection> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        
+      ],
+    );
   }
 }
