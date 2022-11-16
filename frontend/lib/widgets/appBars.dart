@@ -41,6 +41,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return SizedBox(
       height: 80,
       child: BottomNavigationBar(
+        backgroundColor: const Color(0xFF355085),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
