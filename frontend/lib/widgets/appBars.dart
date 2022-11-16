@@ -66,6 +66,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               ),
               label: '')
         ],
+        selectedItemColor: const Color(0xFFBBBBBB),
+        unselectedItemColor: const Color(0x4DBBBBBB),
         currentIndex: _currentPage,
         onTap: _changePage,
       ),
