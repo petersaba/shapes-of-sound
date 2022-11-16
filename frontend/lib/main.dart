@@ -35,17 +35,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  void _incrementCounter(int index) {
     setState(() {
-      _counter++;
+      _counter = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: const CustomAppBar(),
+    return const Scaffold(
+      appBar: CustomAppBar(),
+      bottomNavigationBar: CustomBottomNavigationBar()
     );
   }
 }
