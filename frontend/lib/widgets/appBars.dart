@@ -46,7 +46,16 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             icon: Icon(
               Icons.translate,
               size: 38,
-            ))
+            ),
+            label: ''
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.account_circle_rounded,
+              size: 38,
+            ),
+            label: ''
+          )
         ],
       ),
     );
