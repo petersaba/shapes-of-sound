@@ -10,20 +10,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      flexibleSpace: Column(children: <Widget>[
-        const SizedBox(height: 55),
-        Row(children: const <Widget>[
-          SizedBox(
-            width: 20,
+        flexibleSpace: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: const <Widget>[
+          Padding(
+            padding: EdgeInsets.fromLTRB(20, 0, 0, 20),
+            child: Text(
+              'Shapes Of Sound',
+              style: TextStyle(
+                  fontFamily: 'AlfaSlabOne', fontSize: 22, color: Colors.white),
+            ),
           ),
-          Text(
-            'Shapes Of Sound',
-            style: TextStyle(
-                fontFamily: 'AlfaSlabOne', fontSize: 22, color: Colors.white),
-          ),
-        ])
-      ]),
-    );
+        ]));
   }
 }
 
@@ -38,7 +37,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int _currentPage = 0;
 
-  void _changePage(int index){
+  void _changePage(int index) {
     setState(() {
       _currentPage = index;
     });
