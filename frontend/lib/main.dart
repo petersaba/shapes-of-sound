@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/app_bars.dart';
+import 'package:provider/provider.dart';
 import 'utilities.dart';
 import 'package:frontend/widgets/translate.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return const Scaffold(
         appBar: CustomAppBar(),
         bottomNavigationBar: CustomBottomNavigationBar(),
-        body: HomepageMainSection()
-        );
+        body: HomepageMainSection());
   }
 }
