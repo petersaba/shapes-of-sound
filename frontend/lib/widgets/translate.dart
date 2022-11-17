@@ -60,6 +60,10 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     print(permission);
     if (permission == PermissionStatus.granted) {
       _isPermanent = false;
+      // on IOS there is no do not allow once, hence do not allow is permanent
+    } else if (Platform.isIOS ||
+        permission == PermissionStatus.permanentlyDenied) {
+      _isPermanent = true;
     }
   }
 }
