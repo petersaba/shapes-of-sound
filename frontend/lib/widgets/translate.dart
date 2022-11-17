@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomepageMainSection extends StatefulWidget {
   const HomepageMainSection({super.key});
@@ -8,6 +10,9 @@ class HomepageMainSection extends StatefulWidget {
 }
 
 class _HomepageMainSectionState extends State<HomepageMainSection> {
+  bool _isPermanent =
+      false; // if the microphone permission is permanently denied
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,7 +40,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                 child: ElevatedButton(
-                  onPressed: () => 10,
+                  onPressed: _record,
                   style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                       backgroundColor: const Color(0xFF28AFB0),
@@ -48,5 +53,13 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
         )
       ],
     );
+  }
+
+  Future<void> _record() async {
+    final permission = await Permission.microphone.request();
+    print(permission);
+    if (permission == PermissionStatus.granted) {
+      _isPermanent = false;
+    }
   }
 }
