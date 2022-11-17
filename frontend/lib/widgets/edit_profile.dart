@@ -26,9 +26,13 @@ class _EditProfileState extends State<EditProfile> {
                 children: [
                   ElevatedButton(
                     onPressed: () => 10,
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFFFF0000))),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFF0000),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)
+                      ),
+                      minimumSize: const Size(100, 43)
+                    ),
                     child: const Text('LOGOUT', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
                   )
                 ],
