@@ -71,9 +71,11 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
   }
 
   Future<void> _startRecording() async {
+    final tempPath = _getTempPath();
     await _recorder.openRecorder();
     await _recorder.setSubscriptionDuration(const Duration(milliseconds: 10));
-    // await recorder.startRecorder();
+    await _recorder.startRecorder(toFile: '$tempPath/recording.wav', sampleRate: 22050);
+    
   }
 
   Future<String> _getTempPath() async {
