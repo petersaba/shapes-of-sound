@@ -17,6 +17,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
       false; // if the microphone permission is permanently denied
   final _recorder = FlutterSoundRecorder();
   final filename = 'recording.wav';
+  Icon _recordButtonIcon = const Icon(Icons.mic);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
                       shape: const CircleBorder(),
                       backgroundColor: const Color(0xFF28AFB0),
                       minimumSize: const Size(40, 40)),
-                  child: const Icon(Icons.mic),
+                  child: _recordButtonIcon,
                 ),
               ),
             ],
@@ -82,12 +83,18 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     await _recorder.setSubscriptionDuration(const Duration(milliseconds: 10));
     await _recorder.startRecorder(
         toFile: '$tempPath/$filename', sampleRate: 22050);
+    setState(() {
+      _recordButtonIcon = const Icon(Icons.stop);
+    });
   }
 
   Future<void> _stopRecording(String tempPath) async {
     if (_recorder.isRecording) {
       await _recorder.stopRecorder();
       await _recorder.closeRecorder();
+      setState(() {
+        _recordButtonIcon = const Icon(Icons.mic);
+      });
       final base64String = await _getBase64String(tempPath);
       debugPrint(base64String);
     }
