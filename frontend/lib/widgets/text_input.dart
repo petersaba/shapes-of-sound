@@ -21,16 +21,20 @@ class _TextInputState extends State<TextInput> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Full Name',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              TextField(
-                style: TextStyle(fontSize: 18),
-                decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFF355085)),
-                        borderRadius: BorderRadius.circular(10))),
+              SizedBox(
+                height: 40,
+                child: TextField(
+                  style: const TextStyle(fontSize: 18),
+                  decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Color(0xFF355085)),
+                          borderRadius: BorderRadius.circular(10))),
+                ),
               )
             ],
           ),
