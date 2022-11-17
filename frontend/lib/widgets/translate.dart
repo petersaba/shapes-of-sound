@@ -96,7 +96,9 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     return directory.path;
   }
 
-  Future<String> _getBase64String(String tempPath) {
+  Future<String> _getBase64String(String tempPath) async {
     final file = File('$tempPath/$filename');
+    final fileContent = await file.readAsBytes();
+    return base64Encode(fileContent);
   }
 }
