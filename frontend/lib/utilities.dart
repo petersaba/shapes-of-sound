@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// creates material color equivalent of a color object
 MaterialColor buildMaterialColor(Color color) {
   List strengths = <double>[.05];
   Map<int, Color> swatch = {};
