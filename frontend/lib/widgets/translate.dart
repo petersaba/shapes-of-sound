@@ -46,7 +46,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                 child: ElevatedButton(
-                  onPressed: _record,
+                  onPressed: _startOrStopRecord,
                   style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                       backgroundColor: const Color(0xFF28AFB0),
@@ -61,11 +61,10 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     );
   }
 
-  Future<void> _record() async {
+  Future<void> _record(String tempPath) async {
     final permission = await Permission.microphone.request();
     print(permission);
     if (permission == PermissionStatus.granted) {
-      final tempPath = await _getTempPath();
 
       await _startRecording(tempPath);
       Future.delayed(const Duration(seconds: 10),
@@ -109,5 +108,14 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     final file = File('$tempPath/$filename');
     final fileContent = await file.readAsBytes();
     return base64Encode(fileContent);
+  }
+
+  Future<void> _startOrStopRecord() async {
+    final tempPath = await _getTempPath();
+    if (_recorder.isRecording) {
+      await _stopRecording(tempPath);
+    } else {
+      await _record(tempPath);
+    }
   }
 }
