@@ -49,13 +49,18 @@ class _EditProfileState extends State<EditProfile> {
         const SizedBox(
           height: 18,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           ElevatedButton(
             onPressed: () => 10,
-            style: ElevatedButton.styleFrom(minimumSize: const Size(110, 47)),
-            child: const Text('Edit image', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),),
+            style: ElevatedButton.styleFrom(
+                minimumSize: const Size(110, 47),
+                backgroundColor: const Color(0xFF28AFB0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15))),
+            child: const Text(
+              'Edit image',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+            ),
           )
         ]),
       ]),
