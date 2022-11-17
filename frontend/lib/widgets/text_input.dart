@@ -22,7 +22,7 @@ class _TextInputState extends State<TextInput> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Full Name',
+                'Full Name:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -30,13 +30,18 @@ class _TextInputState extends State<TextInput> {
                 child: TextField(
                   style: const TextStyle(fontSize: 18),
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      fillColor: const Color(0xFFFFFFFF),
+                      contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                       enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Color(0xFF355085)),
+                          borderRadius: BorderRadius.circular(10)),
+                      focusedBorder: OutlineInputBorder(
                           borderSide:
                               const BorderSide(color: Color(0xFF355085)),
                           borderRadius: BorderRadius.circular(10))),
                 ),
-              )
+              ),
             ],
           ),
         )
