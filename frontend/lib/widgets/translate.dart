@@ -22,6 +22,11 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
         Container(
           height: 60,
           color: const Color(0x4D808080),
+          child: Row(
+            children: [
+              Expanded(child: TextField())
+            ],
+          ),
         )
       ],
     );
