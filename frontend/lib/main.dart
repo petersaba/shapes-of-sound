@@ -4,6 +4,7 @@ import 'package:frontend/widgets/app_bars.dart';
 import 'package:provider/provider.dart';
 import 'utilities.dart';
 import 'package:frontend/widgets/translate.dart';
+import 'widgets/edit_profile.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -51,6 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return const Scaffold(
       appBar: CustomAppBar(),
       bottomNavigationBar: CustomBottomNavigationBar(),
-      body: Text('HELLO FROM PAGE 2'));
+      body: EditProfile());
 }
 }
