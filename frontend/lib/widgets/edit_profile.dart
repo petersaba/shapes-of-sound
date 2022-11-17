@@ -26,10 +26,10 @@ class _EditProfileState extends State<EditProfile> {
                 children: [
                   ElevatedButton(
                     onPressed: () => 10,
-                    child: Text('LOGOUT'),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Color(0xFFFF0000))),
+                            const Color(0xFFFF0000))),
+                    child: const Text('LOGOUT', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
                   )
                 ],
               ),
