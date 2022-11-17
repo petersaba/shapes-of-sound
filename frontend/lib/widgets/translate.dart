@@ -33,20 +33,16 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
                     contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
               )),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () => 10,
-                    style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                child: ElevatedButton(
+                  onPressed: () => 10,
+                  style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                       backgroundColor: const Color(0xFF28AFB0),
-                    ),
-                    child: const Icon(Icons.mic),
-                  ),
+                      minimumSize: const Size(40, 40)),
+                  child: const Icon(Icons.mic),
                 ),
-              )
+              ),
             ],
           ),
         )
