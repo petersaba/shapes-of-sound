@@ -74,8 +74,13 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     final tempPath = _getTempPath();
     await _recorder.openRecorder();
     await _recorder.setSubscriptionDuration(const Duration(milliseconds: 10));
-    await _recorder.startRecorder(toFile: '$tempPath/recording.wav', sampleRate: 22050);
-    
+    await _recorder.startRecorder(
+        toFile: '$tempPath/recording.wav', sampleRate: 22050);
+  }
+
+  Future<void> _stopRecording() async {
+    await _recorder.stopRecorder();
+    await _recorder.closeRecorder();
   }
 
   Future<String> _getTempPath() async {
