@@ -67,8 +67,8 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
       final tempPath = await _getTempPath();
 
       await _startRecording(tempPath);
-      Future.delayed(
-          const Duration(seconds: 10), (() async => await _stopRecording()));
+      Future.delayed(const Duration(seconds: 10),
+          (() async => await _stopRecording(tempPath)));
 
       // on IOS there is no do not allow once, hence do not allow is permanent
     } else if (Platform.isIOS ||
@@ -84,10 +84,12 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
         toFile: '$tempPath/$filename', sampleRate: 22050);
   }
 
-  Future<void> _stopRecording() async {
+  Future<void> _stopRecording(String tempPath) async {
     if (_recorder.isRecording) {
       await _recorder.stopRecorder();
       await _recorder.closeRecorder();
+      final base64String = await _getBase64String(tempPath);
+      debugPrint(base64String);
     }
   }
 
