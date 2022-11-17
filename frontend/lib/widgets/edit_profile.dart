@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
@@ -18,6 +19,15 @@ class _EditProfileState extends State<EditProfile> {
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 20, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  
+                ],
+              ),
+            ),
             Image.asset(
               'assets/images/no-profile.png',
               width: 226,
