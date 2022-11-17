@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:frontend/widgets/form_button.dart';
+import 'package:frontend/widgets/text_input.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -49,20 +48,9 @@ class _EditProfileState extends State<EditProfile> {
         const SizedBox(
           height: 18,
         ),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          ElevatedButton(
-            onPressed: () => 10,
-            style: ElevatedButton.styleFrom(
-                minimumSize: const Size(110, 47),
-                backgroundColor: const Color(0xFF28AFB0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15))),
-            child: const Text(
-              'Edit image',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-            ),
-          )
-        ]),
+        const FormButton(width: 110,),
+        const SizedBox(height: 18,),
+        const TextInput(),
       ]),
     );
   }
