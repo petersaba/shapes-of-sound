@@ -24,7 +24,14 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
           color: const Color(0x4D808080),
           child: Row(
             children: [
-              Expanded(child: TextField())
+              Expanded(
+                  child: TextField(
+                style: TextStyle(fontSize: 18),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Type here',
+                    contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+              ))
             ],
           ),
         )
