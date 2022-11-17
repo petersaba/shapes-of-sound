@@ -19,7 +19,7 @@ class _EditProfileState extends State<EditProfile> {
       color: const Color(0xFFF3F5F8),
       child: ListView(children: <Widget>[
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 10, 20, 0),
+          padding: const EdgeInsets.fromLTRB(0, 10, 20, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -38,11 +38,12 @@ class _EditProfileState extends State<EditProfile> {
             ],
           ),
         ),
+        const SizedBox(height: 18,),
         Image.asset(
           'assets/images/no-profile.png',
           width: 226,
           height: 226,
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
         ),
       ]),
     );
