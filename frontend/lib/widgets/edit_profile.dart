@@ -14,7 +14,6 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: double.infinity,
       width: double.infinity,
       color: const Color(0xFFF3F5F8),
       child: ListView(children: <Widget>[
@@ -29,7 +28,7 @@ class _EditProfileState extends State<EditProfile> {
                     backgroundColor: const Color(0xFFFF0000),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
-                    minimumSize: const Size(100, 43)),
+                    minimumSize: const Size(100, 47)),
                 child: const Text(
                   'LOGOUT',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -38,13 +37,27 @@ class _EditProfileState extends State<EditProfile> {
             ],
           ),
         ),
-        const SizedBox(height: 18,),
+        const SizedBox(
+          height: 18,
+        ),
         Image.asset(
           'assets/images/no-profile.png',
           width: 226,
           height: 226,
           fit: BoxFit.contain,
         ),
+        const SizedBox(
+          height: 18,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+          ElevatedButton(
+            onPressed: () => 10,
+            style: ElevatedButton.styleFrom(minimumSize: const Size(110, 47)),
+            child: const Text('Edit image', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),),
+          )
+        ]),
       ]),
     );
   }
