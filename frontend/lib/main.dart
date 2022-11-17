@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/appBars.dart';
+import 'package:frontend/widgets/app_bars.dart';
 import 'utilities.dart';
 import 'package:frontend/widgets/translate.dart';
 
