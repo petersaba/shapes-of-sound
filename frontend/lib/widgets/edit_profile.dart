@@ -24,7 +24,13 @@ class _EditProfileState extends State<EditProfile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  
+                  ElevatedButton(
+                    onPressed: () => 10,
+                    child: Text('LOGOUT'),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xFFFF0000))),
+                  )
                 ],
               ),
             ),
