@@ -30,6 +30,7 @@ class _TextInputState extends State<TextInput> {
                 child: TextField(
                   style: const TextStyle(fontSize: 18),
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                       enabledBorder: OutlineInputBorder(
                           borderSide:
                               const BorderSide(color: Color(0xFF355085)),
