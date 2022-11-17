@@ -15,7 +15,16 @@ class _EditProfileState extends State<EditProfile> {
     return Container(
       width: double.infinity,
       color: const Color(0xFFF3F5F8),
-      
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              'assets/images/no-profile.png',
+              width: 226,
+              height: 226,
+              fit: BoxFit.cover,
+            ),
+          ]),
     );
   }
 }
