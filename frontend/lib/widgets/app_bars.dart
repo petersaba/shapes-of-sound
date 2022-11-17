@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart'; // could not fix warning for naming of file
+import 'package:provider/provider.dart';
+import 'package:frontend/providers/selected_page.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -35,12 +37,9 @@ class CustomBottomNavigationBar extends StatefulWidget {
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  int _currentPage = 0;
 
-  void _changePage(int index) {
-    setState(() {
-      _currentPage = index;
-    });
+  void _changePage(BuildContext context, int index) {
+    context.read<SelectedPage>().selectedPage = index;
   }
 
   @override
@@ -67,8 +66,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         ],
         selectedItemColor: const Color(0xFFBBBBBB),
         unselectedItemColor: const Color(0x4DBBBBBB),
-        currentIndex: _currentPage,
-        onTap: _changePage,
+        currentIndex: context.watch<SelectedPage>().selectedPage,
+        onTap: ((value) => _changePage(context, value)),
       ),
     );
   }
