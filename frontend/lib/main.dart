@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/selected_page.dart';
 import 'package:frontend/widgets/app_bars.dart';
 import 'package:provider/provider.dart';
 import 'utilities.dart';
@@ -6,7 +7,9 @@ import 'package:frontend/widgets/translate.dart';
 
 void main() {
   runApp(MultiProvider(
-    providers: [],
+    providers: [
+      ChangeNotifierProvider(create: (context) => SelectedPage()),
+    ],
     child: const MyApp(),
   ));
 }
@@ -38,9 +41,16 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    int selectedPage = context.watch<SelectedPage>().selectedPage;
+    if (selectedPage == 0) {
+      return const Scaffold(
         appBar: CustomAppBar(),
         bottomNavigationBar: CustomBottomNavigationBar(),
         body: HomepageMainSection());
-  }
+    }
+    return const Scaffold(
+      appBar: CustomAppBar(),
+      bottomNavigationBar: CustomBottomNavigationBar(),
+      body: Text('HELLO FROM PAGE 2'));
+}
 }
