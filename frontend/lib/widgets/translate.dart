@@ -38,7 +38,13 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
                   width: 40,
                   height: 40,
                   child: ElevatedButton(
-                      onPressed: () => 10, child: const Icon(Icons.mic)),
+                    onPressed: () => 10,
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      backgroundColor: const Color(0xFF28AFB0),
+                    ),
+                    child: const Icon(Icons.mic),
+                  ),
                 ),
               )
             ],
