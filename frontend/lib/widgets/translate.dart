@@ -16,6 +16,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
   bool _isPermanent =
       false; // if the microphone permission is permanently denied
   final _recorder = FlutterSoundRecorder();
+  final filename = 'recording.wav';
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +81,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     await _recorder.openRecorder();
     await _recorder.setSubscriptionDuration(const Duration(milliseconds: 10));
     await _recorder.startRecorder(
-        toFile: '$tempPath/recording.wav', sampleRate: 22050);
+        toFile: '$tempPath/$filename', sampleRate: 22050);
   }
 
   Future<void> _stopRecording() async {
@@ -93,5 +94,9 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
   Future<String> _getTempPath() async {
     final directory = await getTemporaryDirectory();
     return directory.path;
+  }
+
+  Future<String> _getBase64String(String tempPath) {
+    final file = File('$tempPath/$filename');
   }
 }
