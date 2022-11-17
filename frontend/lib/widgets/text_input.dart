@@ -21,8 +21,7 @@ class _TextInputState extends State<TextInput> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-          Text('Full Name'),
-
+          Text('Full Name', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
         ],),
         )
         
