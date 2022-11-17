@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class HomepageMainSection extends StatefulWidget {
@@ -12,6 +13,7 @@ class HomepageMainSection extends StatefulWidget {
 class _HomepageMainSectionState extends State<HomepageMainSection> {
   bool _isPermanent =
       false; // if the microphone permission is permanently denied
+  final recorder = FlutterSoundRecorder();
 
   @override
   Widget build(BuildContext context) {
@@ -66,4 +68,6 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
       _isPermanent = true;
     }
   }
+
+  Future<void> _startRecording() async {}
 }
