@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -62,7 +63,12 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     final permission = await Permission.microphone.request();
     print(permission);
     if (permission == PermissionStatus.granted) {
-      _isPermanent = false;
+      final tempPath = await _getTempPath();
+
+      await _startRecording(tempPath);
+      Future.delayed(
+          const Duration(seconds: 10), (() async => await _stopRecording()));
+
       // on IOS there is no do not allow once, hence do not allow is permanent
     } else if (Platform.isIOS ||
         permission == PermissionStatus.permanentlyDenied) {
@@ -70,8 +76,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     }
   }
 
-  Future<void> _startRecording() async {
-    final tempPath = _getTempPath();
+  Future<void> _startRecording(String tempPath) async {
     await _recorder.openRecorder();
     await _recorder.setSubscriptionDuration(const Duration(milliseconds: 10));
     await _recorder.startRecorder(
@@ -79,8 +84,10 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
   }
 
   Future<void> _stopRecording() async {
-    await _recorder.stopRecorder();
-    await _recorder.closeRecorder();
+    if (_recorder.isRecording) {
+      await _recorder.stopRecorder();
+      await _recorder.closeRecorder();
+    }
   }
 
   Future<String> _getTempPath() async {
