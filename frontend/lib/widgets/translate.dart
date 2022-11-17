@@ -69,5 +69,8 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     }
   }
 
-  Future<void> _startRecording() async {}
+  Future<void> _startRecording() async {
+    await recorder.openRecorder();
+    await recorder.setSubscriptionDuration(const Duration(milliseconds: 10));
+  }
 }
