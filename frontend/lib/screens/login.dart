@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/widgets/form_button.dart';
+import 'package:frontend/widgets/switch_pages_button.dart';
 import 'package:frontend/widgets/text_input.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,25 +16,42 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          width: double.infinity,
+            width: double.infinity,
             child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(
-          'assets/images/logo.png',
-          width: 260,
-          height: 260,
-        ),
-        const SizedBox(height: 20,),
-        const Text('Login', style: TextStyle(fontFamily: 'AlfaSlabOne', fontSize: 45),),
-        const SizedBox(height: 20,),
-        const TextInput(text: 'Email'),
-        const SizedBox(height: 20,),
-        const TextInput(text: 'Password'),
-        const SizedBox(height: 20,),
-        const FormButton(width: 330, text: 'Login')
-      ],
-    )));
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                    Image.asset(
+                      'assets/images/logo.png',
+                      width: 260,
+                      height: 260,
+                    ),
+                  ] +
+                  const [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Login',
+                      style: TextStyle(fontFamily: 'AlfaSlabOne', fontSize: 45),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextInput(text: 'Email'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextInput(text: 'Password'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    FormButton(width: 330, text: 'Login'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SwitchButton()
+                  ],
+            )));
   }
 }
