@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/providers/selected_page.dart';
+import 'package:frontend/screens/signup.dart';
 import 'package:frontend/widgets/app_bars.dart';
 import 'package:provider/provider.dart';
 import 'utilities.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MyHomePage(),
         '/login':(context) => const LoginPage(),
+        '/signup':(context) => const SignUpPage(),
       },
     );
   }
