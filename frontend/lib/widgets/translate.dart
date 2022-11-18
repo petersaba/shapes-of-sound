@@ -35,10 +35,11 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
           color: const Color(0x4D808080),
           child: Row(
             children: [
-              const Expanded(
+              Expanded(
                   child: TextField(
-                style: TextStyle(fontSize: 18),
-                decoration: InputDecoration(
+                onChanged: _changeRecordIcon,
+                style: const TextStyle(fontSize: 18),
+                decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Type here',
                     contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
@@ -65,7 +66,6 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     final permission = await Permission.microphone.request();
     print(permission);
     if (permission == PermissionStatus.granted) {
-
       await _startRecording(tempPath);
       Future.delayed(const Duration(seconds: 10),
           (() async => await _stopRecording(tempPath)));
@@ -117,5 +117,15 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     } else {
       await _record(tempPath);
     }
+  }
+
+  void _changeRecordIcon(String text) {
+    setState(() {
+      if (text != '') {
+        _recordButtonIcon = const Icon(Icons.send);
+      } else {
+        _recordButtonIcon = const Icon(Icons.mic);
+      }
+    });
   }
 }
