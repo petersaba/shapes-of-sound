@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/widgets.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,7 +22,9 @@ class _LoginPageState extends State<LoginPage> {
           'assets/images/logo.png',
           width: 260,
           height: 260,
-        )
+        ),
+        const SizedBox(height: 20,),
+        const Text('Login', style: TextStyle(fontFamily: 'AlfaSlabOne', fontSize: 45),)
       ],
     )));
   }
