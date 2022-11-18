@@ -22,8 +22,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: Center(
                     child: SizedBox(
                       height: double.infinity,
-                      child:                     
+                      child:  Center(child:                    
                     ListView(
+                      shrinkWrap: true,
                   children: <Widget>[
                         Image.asset(
                           'assets/images/logo.png',
@@ -58,6 +59,6 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         SwitchButton()
                       ],
-                ))))));
+        )))))));
   }
 }
