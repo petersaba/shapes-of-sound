@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\Favorite;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
 use App\Models\User;
-use Illuminate\Database\Console\Migrations\StatusCommand;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -18,7 +15,7 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = JWTAuth::attempt($credentials)) {
+        if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -56,7 +53,8 @@ class AuthController extends Controller
         ]);
     }
 
-    function createUser(Request $request){
+    function createUser(Request $request)
+    {
 
         $validator = validator()->make($request->all(), [
             'full_name' => 'string|required',
@@ -65,35 +63,41 @@ class AuthController extends Controller
             'gender' => ['regex:/^(male|female)$/i', 'required']
         ]);
 
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'success' => FALSE,
                 'message' => 'input format is invalid'
             ], 400);
         }
 
-        if (count(self::isAttributeUsed('email', $request->email)) != 0){
+        if (count(self::isAttributeUsed('email', $request->email)) != 0) {
             return response()->json([
                 'success' => FALSE,
                 'message' => 'email is already in use'
-            ], 400);  
+            ], 400);
         }
 
         $user = new User;
-            $user->email = $request->email;
-            $user->full_name = $request->full_name;
-            $user->password = bcrypt($request->password);
-            $user->gender = strtolower($request->gender);
-    
-            if($user->save()) {
-                return response()->json([
-                    'success' => TRUE,
-                    'request' => $request->email,
-                    'db' => self::isAttributeUsed('email', $request->email)]);
-            }
+        $user->email = $request->email;
+        $user->full_name = $request->full_name;
+        $user->password = bcrypt($request->password);
+        $user->gender = strtolower($request->gender);
+
+        if ($user->save()) {
+            return response()->json([
+                'success' => TRUE,
+                'request' => $request->email,
+                'db' => self::isAttributeUsed('email', $request->email)
+            ]);
+        }
     }
 
-    function isAttributeUsed($attribute_name, $attribute_value){
+    function getUserInfo(Request $request) {
+        
+    }
+
+    function isAttributeUsed($attribute_name, $attribute_value)
+    {
         return User::where($attribute_name, $attribute_value)->get();
     }
 }
