@@ -48,15 +48,38 @@ class _EditProfileState extends State<EditProfile> {
         const SizedBox(
           height: 18,
         ),
-        const FormButton(width: 110, text: 'Edit image',),
-        const SizedBox(height: 18,),
-        const TextInput(text: 'Full Name:',),
-        const SizedBox(height: 18,),
-        const TextInput(text: 'Password:',),
-        const SizedBox(height: 18,),
-        const TextInput(text: 'Confirm password:',),
-        const SizedBox(height: 18,),
-        const FormButton(width: 330, text: 'Confrim Changes',),
+        const FormButton(
+          width: 110,
+          text: 'Edit image',
+        ),
+        const SizedBox(
+          height: 18,
+        ),
+        const TextInput(
+          text: 'Full Name:',
+          regex: '.{3,}',
+        ),
+        const SizedBox(
+          height: 18,
+        ),
+        const TextInput(
+          text: 'Password:',
+          regex: '.{12,}',
+        ),
+        const SizedBox(
+          height: 18,
+        ),
+        const TextInput(
+          text: 'Confirm password:',
+          regex: '.{12,}',
+        ),
+        const SizedBox(
+          height: 18,
+        ),
+        const FormButton(
+          width: 330,
+          text: 'Confrim Changes',
+        ),
       ]),
     );
   }
