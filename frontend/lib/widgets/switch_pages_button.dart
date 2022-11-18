@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class SwitchButton extends StatelessWidget {
-  const SwitchButton({super.key});
+  const SwitchButton({super.key, required this.route});
+  final String route;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 330,
+        width: 330,
         child: ElevatedButton(
-            onPressed: (() => 10),
+            onPressed: (() => Navigator.pushNamed(context, route)),
             style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent),
