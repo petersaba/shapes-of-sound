@@ -1,5 +1,3 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 
 class DropDown extends StatefulWidget {
@@ -26,14 +24,19 @@ class _DropDownState extends State<DropDown> {
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: const Color(0xFF355085))),
                   height: 40,
                   child: DropdownButton(
-                    borderRadius: BorderRadius.circular(15),
                     icon: const Icon(Icons.keyboard_arrow_down_rounded),
                     isExpanded: true,
                     items: const [
-                      DropdownMenuItem(value: 'male', child: Text('Male'),),
+                      DropdownMenuItem(
+                        value: 'male',
+                        child: Text('Male'),
+                      ),
                       DropdownMenuItem(
                         value: 'female',
                         child: Text('Female'),
