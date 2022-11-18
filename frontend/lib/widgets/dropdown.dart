@@ -30,6 +30,7 @@ class _DropDownState extends State<DropDown> {
                       border: Border.all(color: const Color(0xFF355085))),
                   height: 40,
                   child: DropdownButton(
+                    underline: const SizedBox(),
                     icon: const Icon(Icons.keyboard_arrow_down_rounded),
                     isExpanded: true,
                     items: const [
