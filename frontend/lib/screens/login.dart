@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend/widgets/text_input.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,7 +25,11 @@ class _LoginPageState extends State<LoginPage> {
           height: 260,
         ),
         const SizedBox(height: 20,),
-        const Text('Login', style: TextStyle(fontFamily: 'AlfaSlabOne', fontSize: 45),)
+        const Text('Login', style: TextStyle(fontFamily: 'AlfaSlabOne', fontSize: 45),),
+        const SizedBox(height: 20,),
+        const TextInput(text: 'Email'),
+        const SizedBox(height: 20,),
+        const TextInput(text: 'Password')
       ],
     )));
   }
