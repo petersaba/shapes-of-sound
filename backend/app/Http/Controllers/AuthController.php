@@ -97,7 +97,23 @@ class AuthController extends Controller
     }
 
     function editUserInfo(Request $request){
-        
+
+        $validator = validator()->make($request->all(), [
+            'full_name' => 'string',
+            'email' => 'email',
+        ]);
+
+        if ($validator->fails()){
+            return response()->json([
+                'success' => FALSE,
+                'message' => 'input data is invalid'
+            ]);
+        }
+
+        $user = Auth::user();
+        return response()->json([
+            'success' => TRUE
+        ]);
     }
 
     function isAttributeUsed($attribute_name, $attribute_value)
