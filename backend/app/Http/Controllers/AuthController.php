@@ -96,6 +96,10 @@ class AuthController extends Controller
         }
     }
 
+    function editUserInfo(Request $request){
+        
+    }
+
     function isAttributeUsed($attribute_name, $attribute_value)
     {
         return User::where($attribute_name, $attribute_value)->get();
