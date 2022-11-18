@@ -50,7 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(height: 20,),
                 FormButton(width: 330, text: 'Sign Up'),
                 SizedBox(height: 20,),
-                SwitchButton(),
+                SwitchButton(route: '/login',),
                 SizedBox(height: 20,)
               ],
             )));

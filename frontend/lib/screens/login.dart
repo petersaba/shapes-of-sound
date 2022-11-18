@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:frontend/widgets/form_button.dart';
 import 'package:frontend/widgets/switch_pages_button.dart';
 import 'package:frontend/widgets/text_input.dart';
@@ -17,7 +16,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         body: Container(
             color: const Color(0xFFF3F5F8),
-            // width: double.infinity,
             child: Center(
                 child: SizedBox(
                     height: double.infinity,
@@ -56,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            SwitchButton()
+                            SwitchButton(route: '/signup',)
                           ],
                     ))))));
   }
