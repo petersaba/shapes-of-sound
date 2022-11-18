@@ -89,7 +89,14 @@ class AuthController extends Controller
 
     function createUser(Request $request){
 
-        
+        $validator = validator()->make($request->all(), [
+            'full_name' => 'string|required',
+            'email' => 'email|required',
+            'password' => 'string|required',
+            'gender' => ['regex:/^(male|female)$/i', 'required']
+        ]);
+
+
         return response()->json([
             'success' => TRUE
         ]);
