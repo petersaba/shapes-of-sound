@@ -10,10 +10,13 @@ class TextInput extends StatefulWidget {
 }
 
 class _TextInputState extends State<TextInput> {
-  String validate(String? value) {
-
-    
-    return '';
+  String? validate(String? value) {
+    if (value == null) {
+      return 'Field should not be empty';
+    } else if (!RegExp(widget.regex).hasMatch(value)) {
+      return 'Input is not valid';
+    }
+    return null;
   }
 
   @override
