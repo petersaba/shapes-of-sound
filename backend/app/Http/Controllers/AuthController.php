@@ -77,6 +77,7 @@ class AuthController extends Controller
         $user->full_name = $request->full_name;
         $user->password = bcrypt($request->password);
         $user->gender = strtolower($request->gender);
+        $user->image_path = $request->base64_image ? self::saveImage($request->base64_image, $request->email) : NULL;
 
         if ($user->save()) {
             return response()->json([
@@ -117,6 +118,10 @@ class AuthController extends Controller
 
         if (isset($request->password)){
             $user->password = bcrypt($request->password);
+        }
+
+        if (isset($request->image_base64)){
+            $user->image_path = self::saveImage($request->base64_image, $request->email ? $request->email : $user->email);
         }
 
         if($user->save()){
