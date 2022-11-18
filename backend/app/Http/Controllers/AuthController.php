@@ -126,6 +126,13 @@ class AuthController extends Controller
         }
     }
 
+    function saveImage($image_base64, $user_email){
+        // $data = base64_decode($image_base64);
+        $image_name = $user_email . date('Y-m-d-H-i-s') . '.jpg';
+        file_put_contents('../../../public/images/' . $image_name, $image_base64);
+        return $image_name;
+    }
+
     function isAttributeUsed($attribute_name, $attribute_value)
     {
         return User::where($attribute_name, $attribute_value)->get();
