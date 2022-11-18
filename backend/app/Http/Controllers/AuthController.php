@@ -22,11 +22,6 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-    public function me()
-    {
-        return response()->json(auth()->user());
-    }
-
     public function logout()
     {
         auth()->logout();
@@ -92,8 +87,13 @@ class AuthController extends Controller
         }
     }
 
-    function getUserInfo(Request $request) {
-        
+    function getUserInfo() {
+        if (Auth::check()){
+            return response()->json([
+                'success' => TRUE,
+                'user' => Auth::user()
+            ]);
+        }
     }
 
     function isAttributeUsed($attribute_name, $attribute_value)
