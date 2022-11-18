@@ -103,9 +103,12 @@ class AuthController extends Controller
             ], 400);
         }
 
-
         return response()->json([
             'success' => $request
         ]);
+    }
+
+    function isAttributeUsed($attribute_name, $attribute_value){
+        return User::where($attribute_name, $attribute_value);
     }
 }
