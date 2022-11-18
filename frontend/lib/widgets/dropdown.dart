@@ -29,11 +29,14 @@ class _DropDownState extends State<DropDown> {
               SizedBox(
                   height: 40,
                   child: DropdownButton(
-                    items: [
-                      DropdownMenuItem(child: Text('Male'), value: 'male'),
+                    borderRadius: BorderRadius.circular(15),
+                    icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                    isExpanded: true,
+                    items: const [
+                      DropdownMenuItem(value: 'male', child: Text('Male'),),
                       DropdownMenuItem(
-                        child: Text('Female'),
                         value: 'female',
+                        child: Text('Female'),
                       )
                     ],
                     onChanged: ((value) => 10),
