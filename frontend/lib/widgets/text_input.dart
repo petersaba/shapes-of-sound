@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TextInput extends StatefulWidget {
-  const TextInput({super.key, required this.text});
+  const TextInput({super.key, required this.text, required this.regex});
+  final String regex;
   final String text;
 
   @override
@@ -9,6 +10,12 @@ class TextInput extends StatefulWidget {
 }
 
 class _TextInputState extends State<TextInput> {
+  String validate(String? value) {
+
+    
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -21,11 +28,13 @@ class _TextInputState extends State<TextInput> {
             children: [
               Text(
                 widget.text,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 40,
-                child: TextField(
+                child: TextFormField(
+                  validator: ((value) => validate(value)),
                   style: const TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                       fillColor: const Color(0xFFFFFFFF),
