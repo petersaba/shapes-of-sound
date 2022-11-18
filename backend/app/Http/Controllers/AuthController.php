@@ -103,19 +103,28 @@ class AuthController extends Controller
             ], 400);
         }
 
-        if (self::isAttributeUsed('email', $request->email)){
+        if (count(self::isAttributeUsed('email', $request->email)) != 0){
             return response()->json([
                 'success' => FALSE,
                 'message' => 'email is already in use'
-            ], 400);
+            ], 400);  
         }
 
-        return response()->json([
-            'success' => $request
-        ]);
+        $user = new User;
+            $user->email = $request->email;
+            $user->full_name = $request->full_name;
+            $user->password = bcrypt($request->password);
+            $user->gender = strtolower($request->gender);
+    
+            if($user->save()) {
+                return response()->json([
+                    'success' => TRUE,
+                    'request' => $request->email,
+                    'db' => self::isAttributeUsed('email', $request->email)]);
+            }
     }
 
     function isAttributeUsed($attribute_name, $attribute_value){
-        return User::where($attribute_name, $attribute_value);
+        return User::where($attribute_name, $attribute_value)->get();
     }
 }
