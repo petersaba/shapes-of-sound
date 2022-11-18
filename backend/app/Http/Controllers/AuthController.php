@@ -99,7 +99,7 @@ class AuthController extends Controller
     function editUserInfo(Request $request){
 
         $validator = validator()->make($request->all(), [
-            'full_name' => 'string',
+            'password' => 'string',
             'email' => 'email',
         ]);
 
@@ -109,11 +109,21 @@ class AuthController extends Controller
                 'message' => 'input data is invalid'
             ]);
         }
+        $user = User::find(Auth::id());
 
-        $user = Auth::user();
-        return response()->json([
-            'success' => TRUE
-        ]);
+        if (isset($request->email)){
+            $user->email = $request->email;
+        }
+
+        if (isset($request->password)){
+            $user->password = bcrypt($request->password);
+        }
+
+        if($user->save()){
+            return response()->json([
+                'success' => TRUE,
+            ]);
+        }
     }
 
     function isAttributeUsed($attribute_name, $attribute_value)
