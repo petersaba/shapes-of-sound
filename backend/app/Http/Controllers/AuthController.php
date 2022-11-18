@@ -96,9 +96,16 @@ class AuthController extends Controller
             'gender' => ['regex:/^(male|female)$/i', 'required']
         ]);
 
+        if ($validator->fails()){
+            return response()->json([
+                'success' => FALSE,
+                'message' => 'input format is invalid'
+            ], 400);
+        }
+
 
         return response()->json([
-            'success' => TRUE
+            'success' => $request
         ]);
     }
 }
