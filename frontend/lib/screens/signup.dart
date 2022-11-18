@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/dropdown.dart';
 import 'package:frontend/widgets/form_button.dart';
+import 'package:frontend/widgets/text_input.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -28,7 +30,19 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 Image.asset('assets/images/no-profile.png', width: 200, height: 200,),
                 const SizedBox(height: 20,),
-                const FormButton(width: 110, text: 'Add image')
+                const FormButton(width: 110, text: 'Add image'),
+                ... const [
+                  SizedBox(height: 20,),
+                  TextInput(text: 'Email'),
+                  SizedBox(height: 20,),
+                  TextInput(text: 'Full name'),
+                  SizedBox(height: 20,),
+                  TextInput(text: 'Password'),
+                  SizedBox(height: 20,),
+                  TextInput(text: 'Confirm Password'),
+                  SizedBox(height: 20,),
+                  DropDown(text: 'Gender')
+                ]
               ],
             )));
   }
