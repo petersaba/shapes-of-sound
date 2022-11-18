@@ -7,4 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('signup', [AuthController::class, 'createUser']);
-Route::post('transcribe', [TranscribeController::class, 'transcribeAudio']);
+Route::post('login', [AuthController::class, 'login']);
+Route::group(['Middleware' => 'auth:api'], function(){
+    Route::post('transcribe', [TranscribeController::class, 'transcribeAudio']);
+});
