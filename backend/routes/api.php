@@ -6,5 +6,5 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('test', [AuthController::class, 'test']);
+Route::post('signup', [AuthController::class, 'createUser']);
 Route::post('transcribe', [TranscribeController::class, 'transcribeAudio']);
