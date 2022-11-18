@@ -10,4 +10,5 @@ Route::post('signup', [AuthController::class, 'createUser']);
 Route::post('login', [AuthController::class, 'login']);
 Route::group(['Middleware' => 'auth:api'], function(){
     Route::post('transcribe', [TranscribeController::class, 'transcribeAudio']);
+    Route::get('users', [AuthController::class, 'getUserInfo']);
 });
