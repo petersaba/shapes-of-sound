@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend/widgets/form_button.dart';
 import 'package:frontend/widgets/text_input.dart';
 
 class LoginPage extends StatefulWidget {
@@ -29,7 +30,9 @@ class _LoginPageState extends State<LoginPage> {
         const SizedBox(height: 20,),
         const TextInput(text: 'Email'),
         const SizedBox(height: 20,),
-        const TextInput(text: 'Password')
+        const TextInput(text: 'Password'),
+        const SizedBox(height: 20,),
+        const FormButton(width: 330, text: 'Login')
       ],
     )));
   }
