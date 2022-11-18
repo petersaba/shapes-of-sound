@@ -103,6 +103,13 @@ class AuthController extends Controller
             ], 400);
         }
 
+        if (self::isAttributeUsed('email', $request->email)){
+            return response()->json([
+                'success' => FALSE,
+                'message' => 'email is already in use'
+            ], 400);
+        }
+
         return response()->json([
             'success' => $request
         ]);
