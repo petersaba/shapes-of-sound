@@ -11,5 +11,5 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::group(['middleware' => 'auth:api'], function(){
     Route::post('transcribe', [TranscribeController::class, 'transcribeAudio']);
     Route::get('users', [AuthController::class, 'getUserInfo']);
-    Route::put('users', [AuthController::class, 'getUserInfo']);
+    Route::put('users', [AuthController::class, 'editUserInfo']);
 });
