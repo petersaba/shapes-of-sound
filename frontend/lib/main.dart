@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'utilities.dart';
 import 'package:frontend/widgets/translate.dart';
 import 'widgets/edit_profile.dart';
+import 'screens/login.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/': (context) => const MyHomePage(),
-        '/login':(context) => const Scaffold() 
+        '/login':(context) => const LoginPage(),
       },
     );
   }
