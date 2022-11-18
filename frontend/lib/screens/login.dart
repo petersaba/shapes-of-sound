@@ -11,6 +11,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,43 +21,53 @@ class _LoginPageState extends State<LoginPage> {
             child: Center(
                 child: SizedBox(
                     height: double.infinity,
-                    child: Center(
-                        child: ListView(
-                      shrinkWrap: true,
-                      children: <Widget>[
-                            Image.asset(
-                              'assets/images/logo.png',
-                              width: 260,
-                              height: 260,
-                            ),
-                          ] +
-                          const [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Center(
-                                child: Text(
-                              'Login',
-                              style: TextStyle(
-                                  fontFamily: 'AlfaSlabOne', fontSize: 45),
-                            )),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextInput(text: 'Email'),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextInput(text: 'Password'),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            FormButton(width: 330, text: 'Login'),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            SwitchButton(route: '/signup',)
-                          ],
-                    ))))));
+                    child: Form(
+                        key: _formKey,
+                        child: Center(
+                            child: ListView(
+                          shrinkWrap: true,
+                          children: <Widget>[
+                                Image.asset(
+                                  'assets/images/logo.png',
+                                  width: 260,
+                                  height: 260,
+                                ),
+                              ] +
+                              const [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Center(
+                                    child: Text(
+                                  'Login',
+                                  style: TextStyle(
+                                      fontFamily: 'AlfaSlabOne', fontSize: 45),
+                                )),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                TextInput(
+                                  text: 'Email',
+                                  regex: '.{3,}@.{3,}\..{2,}',
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                TextInput(
+                                  text: 'Password',
+                                  regex: '.{12,}',
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                FormButton(width: 330, text: 'Login', route: '/home',),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                SwitchButton(
+                                  route: '/signup',
+                                )
+                              ],
+                        )))))));
   }
 }
