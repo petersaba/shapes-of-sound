@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
         body: Center(
             child: Container(
                 color: const Color(0xFFF3F5F8),
-                width: double.infinity,
+                // width: double.infinity,
                 child: Center(
                     child: SizedBox(
                       height: double.infinity,
