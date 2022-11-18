@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TextInput extends StatefulWidget {
-  const TextInput({super.key});
+  const TextInput({super.key, required this.text});
+  final String text;
 
   @override
   State<TextInput> createState() => _TextInputState();
@@ -18,9 +19,9 @@ class _TextInputState extends State<TextInput> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Full Name:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Text(
+                widget.text,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 40,
