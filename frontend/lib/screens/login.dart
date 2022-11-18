@@ -12,7 +12,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Column(
+    return Scaffold(
+        body: Container(
+          width: double.infinity,
+            child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
           'assets/images/logo.png',
@@ -20,6 +25,6 @@ class _LoginPageState extends State<LoginPage> {
           height: 260,
         )
       ],
-    ));
+    )));
   }
 }
