@@ -7,8 +7,12 @@ class SwitchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         onPressed: (() => 10),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent
+        ),
         child: Row(
-          children: [Text("Don't have an account? "),
+          children: const [Text("Don't have an account? ", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),),
           Text('Sign Up')],
         ));
   }
