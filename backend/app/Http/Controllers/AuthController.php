@@ -87,8 +87,9 @@ class AuthController extends Controller
     //     ]);
     // }
 
-    function test(Request $request){
+    function createUser(Request $request){
 
+        
         return response()->json([
             'success' => TRUE
         ]);
