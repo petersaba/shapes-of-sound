@@ -16,8 +16,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-          height: double.infinity,
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            height: double.infinity,
             color: const Color(0xFFF3F5F8),
             child: ListView(
               shrinkWrap: true,
@@ -33,25 +33,51 @@ class _SignUpPageState extends State<SignUpPage> {
                 CircleAvatar(
                   backgroundColor: Colors.transparent,
                   radius: 170,
-                backgroundImage: AssetImage('assets/images/no-profile.png'),
+                  backgroundImage: AssetImage('assets/images/no-profile.png'),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 FormButton(width: 110, text: 'Add image'),
-                SizedBox(height: 20,),
-                TextInput(text: 'Email'),
-                SizedBox(height: 20,),
-                TextInput(text: 'Full name'),
-                SizedBox(height: 20,),
-                TextInput(text: 'Password'),
-                SizedBox(height: 20,),
-                TextInput(text: 'Confirm Password'),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
+                TextInput(text: 'Email',
+                  regex: '.{.{3,}@.{3,}\..{2,}}',),
+                SizedBox(
+                  height: 20,
+                ),
+                TextInput(text: 'Full name',
+                  regex: '.{3,}',),
+                SizedBox(
+                  height: 20,
+                ),
+                TextInput(text: 'Password',
+                  regex: '.{12,}',),
+                SizedBox(
+                  height: 20,
+                ),
+                TextInput(
+                  text: 'Confirm Password',
+                  regex: '.{12,}',
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 DropDown(text: 'Gender'),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 FormButton(width: 330, text: 'Sign Up'),
-                SizedBox(height: 20,),
-                SwitchButton(route: '/login',),
-                SizedBox(height: 20,)
+                SizedBox(
+                  height: 20,
+                ),
+                SwitchButton(
+                  route: '/login',
+                ),
+                SizedBox(
+                  height: 20,
+                )
               ],
             )));
   }
