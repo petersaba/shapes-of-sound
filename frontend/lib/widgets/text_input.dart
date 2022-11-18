@@ -10,7 +10,7 @@ class TextInput extends StatefulWidget {
 }
 
 class _TextInputState extends State<TextInput> {
-  String? validate(String? value) {
+  String? _validate(String? value) {
     if (value == null) {
       return 'Field should not be empty';
     } else if (!RegExp(widget.regex).hasMatch(value)) {
@@ -37,7 +37,7 @@ class _TextInputState extends State<TextInput> {
               SizedBox(
                 height: 40,
                 child: TextFormField(
-                  validator: ((value) => validate(value)),
+                  validator: ((value) => _validate(value)),
                   style: const TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                       fillColor: const Color(0xFFFFFFFF),
