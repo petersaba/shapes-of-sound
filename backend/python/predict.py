@@ -2,6 +2,13 @@ import sys
 import utilities
 import tensorflow as tf
 import transformer
+import os
+
+# disabling all tensorflow logs and error/warning messages
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+import logging
+tf.get_logger().setLevel(logging.ERROR)
+
 keras = tf.keras
 
 if __name__ == "__main__":
