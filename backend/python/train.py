@@ -24,5 +24,5 @@ if __name__ == '__main__':
     model.compile(optimizer, loss=loss)
 
 
-    model.fit(train_dataset, validation_data=validation_dataset, callbacks=[display_test], epochs=1)
+    model.fit(train_dataset, validation_data=validation_dataset, callbacks=[display_test], epochs=100)
     model.save_weights('./saved_model/model', save_format='tf')
