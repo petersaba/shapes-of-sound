@@ -40,6 +40,10 @@ class TranscribeController extends Controller
     }
 
     function getTranscription($audio_path){
-        
+        chdir('..');
+        chdir('python');
+        return response()->json([
+            'success' => getcwd()
+        ]);
     }
 }
