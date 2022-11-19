@@ -25,4 +25,4 @@ if __name__ == '__main__':
 
 
     model.fit(train_dataset, validation_data=validation_dataset, callbacks=[display_test], epochs=1)
-    model.save_weights('./temp/model', save_format='tf')
+    model.save_weights('./saved_model/model', save_format='tf')
