@@ -20,4 +20,6 @@ if __name__ == "__main__":
     model.compile(optimizer, loss)
     model.load_weights('./saved_model/model')
 
-    sentence_in_ids = model.generateOutput(audio_data)[1]
+    transcription_in_ids = model.generateOutput(audio_data).numpy()[0]
+    
+    print(utilities.getTranscriptionFromIds(transcription_in_ids))
