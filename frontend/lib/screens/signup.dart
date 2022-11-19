@@ -21,61 +21,60 @@ class _SignUpPageState extends State<SignUpPage> {
             color: const Color(0xFFF3F5F8),
             child: ListView(
               shrinkWrap: true,
-              children: const [
-                Center(
+              children: [
+                const Center(
                     child: Text(
                   'Sign Up',
                   style: TextStyle(fontFamily: 'AlfaSlabOne', fontSize: 45),
                 )),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 170,
-                  backgroundImage: AssetImage('assets/images/no-profile.png'),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.asset('assets/images/no-profile.png', width: 200, height: 200,),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                FormButton(width: 110, text: 'Add image'),
-                SizedBox(
+                const FormButton(width: 110, text: 'Add image'),
+                const SizedBox(
                   height: 20,
                 ),
-                TextInput(text: 'Email',
+                const TextInput(text: 'Email',
                   regex: '.{.{3,}@.{3,}\..{2,}}',),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                TextInput(text: 'Full name',
+                const TextInput(text: 'Full name',
                   regex: '.{3,}',),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                TextInput(text: 'Password',
+                const TextInput(text: 'Password',
                   regex: '.{12,}',),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                TextInput(
+                const TextInput(
                   text: 'Confirm Password',
                   regex: '.{12,}',
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                DropDown(text: 'Gender'),
-                SizedBox(
+                const DropDown(text: 'Gender'),
+                const SizedBox(
                   height: 20,
                 ),
-                FormButton(width: 330, text: 'Sign Up', route: '/home',),
-                SizedBox(
+                const FormButton(width: 330, text: 'Sign Up', route: '/home',),
+                const SizedBox(
                   height: 20,
                 ),
-                SwitchButton(
+                const SwitchButton(
                   route: '/login',
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 )
               ],
