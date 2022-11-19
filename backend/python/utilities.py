@@ -119,5 +119,13 @@ def createFullDataset(data, batch_size=4):
 
     return dataset
 
+def getTranscriptionFromIds(ids_array, end_char_id=3):
+    transcription = ''
+    for id in ids_array:
+        transcription += id_to_char[id]
+        if id == end_char_id:
+            break
+    return transcription
+
 if __name__ ==  "__main__":
     pass
