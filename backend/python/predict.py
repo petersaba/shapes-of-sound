@@ -19,3 +19,5 @@ if __name__ == "__main__":
     optimizer = keras.optimizers.Adam(0) # model will not be trained here, learning rate is useless in that case
     model.compile(optimizer, loss)
     model.load_weights('./saved_model/model')
+
+    sentence_in_ids = model.generateOutput(audio_data)[1]
