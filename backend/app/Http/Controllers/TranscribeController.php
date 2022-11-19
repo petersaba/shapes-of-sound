@@ -23,6 +23,7 @@ class TranscribeController extends Controller
         }
         $audio_path = $audio_folder . $current_date . '.wav';
 
+        return self::getTranscription($audio_path);
         $base64_encoded_audio = $request->encoded_audio;
         $decoded_audio = base64_decode($base64_encoded_audio);
 
@@ -31,10 +32,14 @@ class TranscribeController extends Controller
         $recording->user_id = $user_id;
         $recording->recording_url = $audio_path;
 
-        // if($recording->save()){
+        if($recording->save()){
             return response()->json([
                 'success' => TRUE
             ]);
-        // }
+        }
+    }
+
+    function getTranscription($audio_path){
+        
     }
 }
