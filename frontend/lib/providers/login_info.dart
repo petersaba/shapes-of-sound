@@ -20,11 +20,12 @@ class LoginInfo with ChangeNotifier {
     switch (attribute) {
       case 'email':
         _email = value;
-        return;
+        break;
 
       case 'password':
         _password = value;
-        return;
+        break;
     }
+    notifyListeners();
   }
 }
