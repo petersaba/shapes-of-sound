@@ -1,6 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 // creates material color equivalent of a color object
 MaterialColor buildMaterialColor(Color color) {
@@ -24,7 +24,8 @@ MaterialColor buildMaterialColor(Color color) {
   return MaterialColor(color.value, swatch);
 }
 
-const String baseUrl = 'http://10.0.2.2:8000/api/';
+const String baseUrl = 'http://127.0.0.1:8000/api/';
+// const String baseUrl = 'https://5a05-178-135-3-244.eu.ngrok.io/api/';
 
 void getRequest(String path) async {
   final url = Uri.parse(baseUrl + path);
@@ -32,9 +33,15 @@ void getRequest(String path) async {
   final response = await http.get(url);
 }
 
-Future postRequest(String path, Map body) async {
+Future postRequest(String path, Map body, {String? token}) async {
   final url = Uri.parse(baseUrl + path);
-  final response = await http.post(url, body: body);
-  
+  // debugPrint(token);
+  final dataInJSON = jsonEncode(body);
+  final response = await http.post(url, body: dataInJSON, headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': token != null ? 'Bearer $token' : '',
+  });
+
   return response;
 }
