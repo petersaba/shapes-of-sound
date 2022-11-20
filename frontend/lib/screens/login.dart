@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/widgets/form_button.dart';
 import 'package:frontend/widgets/switch_pages_button.dart';
 import 'package:frontend/widgets/text_input.dart';
+import 'package:frontend/providers/login_info.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -46,21 +48,38 @@ class _LoginPageState extends State<LoginPage> {
                                 SizedBox(
                                   height: 20,
                                 ),
+                              ] +
+                              [
                                 TextInput(
                                   text: 'Email',
                                   regex: '.{3,}@.{3,}\..{2,}',
+                                  attribute: 'email',
+                                  onSave: saveInput,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 TextInput(
                                   text: 'Password',
                                   regex: '.{12,}',
+                                  isPassword: true,
+                                  attribute: 'password',
+                                  onSave: saveInput,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
-                                FormButton(width: 330, text: 'Login', route: '/home',),
+                              ] +
+                              [
+                                FormButton(
+                                  width: 330,
+                                  text: 'Login',
+                                  route: '/home',
+                                  function: login,
+                                  formKey: _formKey,
+                                ),
+                              ] +
+                              const [
                                 SizedBox(
                                   height: 20,
                                 ),
@@ -69,5 +88,22 @@ class _LoginPageState extends State<LoginPage> {
                                 )
                               ],
                         )))))));
+  }
+
+  void saveInput(String attribute, String value) {
+    context.read<LoginInfo>().setAttribute(attribute, value);
+  }
+
+  void login(GlobalKey<FormState> formKey) {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    formKey.currentState!.save();
+    final model = Provider.of<LoginInfo>(context, listen: false);
+    final email = model.getAttribute('email');
+    final password = model.getAttribute('password');
+
+    debugPrint('email: ${email!} password: ${password!}');
   }
 }
