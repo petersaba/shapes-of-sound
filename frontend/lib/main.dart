@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/login_info.dart';
 import 'package:frontend/providers/selected_page.dart';
 import 'package:frontend/providers/user_info.dart';
 import 'package:frontend/screens/signup.dart';
@@ -14,6 +15,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (context) => SelectedPage()),
       ChangeNotifierProvider(create: (context) => UserInfo()),
+      ChangeNotifierProvider(create: (context) => LoginInfo()),
     ],
     child: const MyApp(),
   ));
