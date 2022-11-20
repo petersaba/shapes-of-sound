@@ -110,6 +110,14 @@ class AuthController extends Controller
                 'message' => 'input data is invalid'
             ]);
         }
+
+        if (count(self::isAttributeUsed('email', $request->email)) != 0 && isset($request->email)) {
+            return response()->json([
+                'success' => FALSE,
+                'message' => 'email is already in use'
+            ], 400);
+        }
+
         $user = User::find(Auth::id());
 
         if (isset($request->email)){
@@ -120,7 +128,7 @@ class AuthController extends Controller
             $user->password = bcrypt($request->password);
         }
 
-        if (isset($request->image_base64)){
+        if (isset($request->base64_image)){
             $user->image_path = self::saveImage($request->base64_image, $request->email ? $request->email : $user->email);
         }
 
@@ -131,10 +139,16 @@ class AuthController extends Controller
         }
     }
 
-    function saveImage($image_base64, $user_email){
-        // $data = base64_decode($image_base64);
+    function saveImage($base64_image, $user_email){
+        $images_path = './images/';
         $image_name = $user_email . date('Y-m-d-H-i-s') . '.jpg';
-        file_put_contents('../../../public/images/' . $image_name, $image_base64);
+
+        if (!is_dir($images_path)){
+            mkdir($images_path);
+        }
+        $decoded_image = base64_decode($base64_image);
+
+        file_put_contents($images_path . $image_name, $decoded_image);
         return $image_name;
     }
 
