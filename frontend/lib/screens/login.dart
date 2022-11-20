@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/utilities.dart';
 import 'package:frontend/widgets/form_button.dart';
 import 'package:frontend/widgets/switch_pages_button.dart';
 import 'package:frontend/widgets/text_input.dart';
 import 'package:frontend/providers/login_info.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +16,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _wrongCredentials = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +38,27 @@ class _LoginPageState extends State<LoginPage> {
                                   height: 260,
                                 ),
                               ] +
-                              const [
-                                SizedBox(
+                              [
+                                const SizedBox(
                                   height: 20,
                                 ),
-                                Center(
+                                const Center(
                                     child: Text(
                                   'Login',
                                   style: TextStyle(
                                       fontFamily: 'AlfaSlabOne', fontSize: 45),
                                 )),
-                                SizedBox(
+                                _wrongCredentials == true
+                                    ? const Center(
+                                        child: Text(
+                                        'Invalid credentials',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.red,
+                                            fontSize: 16),
+                                      ))
+                                    : const SizedBox(),
+                                const SizedBox(
                                   height: 20,
                                 ),
                               ] +
@@ -61,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 TextInput(
                                   text: 'Password',
-                                  regex: '.{12,}',
+                                  regex: '.{8,}',
                                   isPassword: true,
                                   attribute: 'password',
                                   onSave: saveInput,
@@ -74,7 +87,6 @@ class _LoginPageState extends State<LoginPage> {
                                 FormButton(
                                   width: 330,
                                   text: 'Login',
-                                  route: '/home',
                                   function: login,
                                   formKey: _formKey,
                                 ),
@@ -94,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
     context.read<LoginInfo>().setAttribute(attribute, value);
   }
 
-  void login(GlobalKey<FormState> formKey) {
+  void login(GlobalKey<FormState> formKey) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -104,6 +116,17 @@ class _LoginPageState extends State<LoginPage> {
     final email = model.getAttribute('email');
     final password = model.getAttribute('password');
 
-    debugPrint('email: ${email!} password: ${password!}');
+    Map requestBody = {'email': email, 'password': password};
+    Response response = await postRequest('login', requestBody);
+    if (response.statusCode != 200) {
+      setState(() {
+        _wrongCredentials = true;
+      });
+      return;
+    }
+
+    if (!mounted) return;
+    Navigator.pushReplacementNamed(context, '/home');
+
   }
 }
