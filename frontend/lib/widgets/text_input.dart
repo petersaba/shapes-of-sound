@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TextInput extends StatefulWidget {
-  const TextInput({super.key, required this.text, required this.regex});
+  const TextInput(
+      {super.key, required this.text, required this.regex, this.isPassword});
   final String regex;
+  final bool? isPassword;
   final String text;
 
   @override
@@ -11,9 +13,9 @@ class TextInput extends StatefulWidget {
 
 class _TextInputState extends State<TextInput> {
   String? _validate(String? value) {
-    if (value == null) {
+    if (value == '') {
       return 'Field should not be empty';
-    } else if (!RegExp(widget.regex).hasMatch(value)) {
+    } else if (!RegExp(widget.regex).hasMatch(value!)) {
       return 'Input is not valid';
     }
     return null;
@@ -37,6 +39,7 @@ class _TextInputState extends State<TextInput> {
               SizedBox(
                 height: 40,
                 child: TextFormField(
+                  obscureText: widget.isPassword == true ? true : false,
                   validator: ((value) => _validate(value)),
                   style: const TextStyle(fontSize: 18),
                   decoration: InputDecoration(
