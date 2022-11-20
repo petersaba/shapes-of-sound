@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 
 class TextInput extends StatefulWidget {
   const TextInput(
-      {super.key, required this.text, required this.regex, this.isPassword});
+      {super.key,
+      required this.text,
+      required this.regex,
+      this.isPassword,
+      required this.onSave,
+      required this.attribute});
+  final String attribute;
+  final Function onSave;
   final String regex;
   final bool? isPassword;
   final String text;
@@ -19,6 +26,10 @@ class _TextInputState extends State<TextInput> {
       return 'Input is not valid';
     }
     return null;
+  }
+
+  void _saveInput(String value) {
+    widget.onSave(widget.attribute, value);
   }
 
   @override
@@ -41,6 +52,7 @@ class _TextInputState extends State<TextInput> {
                 child: TextFormField(
                   obscureText: widget.isPassword == true ? true : false,
                   validator: ((value) => _validate(value)),
+                  onSaved: (newValue) => _saveInput(newValue!),
                   style: const TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                       fillColor: const Color(0xFFFFFFFF),
