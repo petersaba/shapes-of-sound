@@ -23,27 +23,29 @@ class TranscribeController extends Controller
         }
         $audio_path = $audio_folder . $current_date . '.wav';
 
-        return self::getTranscription($audio_path);
         $base64_encoded_audio = $request->encoded_audio;
         $decoded_audio = base64_decode($base64_encoded_audio);
-
+        
         file_put_contents($audio_path, $decoded_audio);
-        $recording = new Recording;
-        $recording->user_id = $user_id;
-        $recording->recording_url = $audio_path;
+        return self::getTranscription('audios/' . $user_id . '/' . $current_date . '.wav');
+        // $recording = new Recording;
+        // $recording->user_id = $user_id;
+        // $recording->recording_url = $audio_path;
 
-        if($recording->save()){
+        // if($recording->save()){
             return response()->json([
                 'success' => TRUE
             ]);
-        }
+        // }
     }
 
     function getTranscription($audio_path){
         chdir('..');
         chdir('python');
+
+        $command = shell_exec('python predict.py ' . $audio_path);
         return response()->json([
-            'success' => getcwd()
+            'success' => $command
         ]);
     }
 }
