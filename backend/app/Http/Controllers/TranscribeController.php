@@ -27,25 +27,28 @@ class TranscribeController extends Controller
         $decoded_audio = base64_decode($base64_encoded_audio);
         
         file_put_contents($audio_path, $decoded_audio);
-        return self::getTranscription('audios/' . $user_id . '/' . $current_date . '.wav');
-        // $recording = new Recording;
-        // $recording->user_id = $user_id;
-        // $recording->recording_url = $audio_path;
+        $transcription = self::getTranscription('audios/' . $user_id . '/' . $current_date . '.wav');
+        $recording = new Recording;
+        $recording->user_id = $user_id;
+        $recording->recording_url = $audio_path;
 
-        // if($recording->save()){
+        if($recording->save()){
             return response()->json([
-                'success' => TRUE
+                'success' => TRUE,
+                'transcription' => $transcription
             ]);
-        // }
+        }
     }
 
     function getTranscription($audio_path){
+        // cwd is public
         chdir('..');
         chdir('python');
 
-        $command = shell_exec('python predict.py ' . $audio_path);
-        return response()->json([
-            'success' => $command
-        ]);
+        $output = shell_exec('python predict.py ' . $audio_path);
+        $pattern = '/<(.*)>/'; # prediction starts with < and ends with >
+        preg_match($pattern, $output, $transcription);
+
+        return $transcription[1]; # the first match is for the whole pattern
     }
 }
