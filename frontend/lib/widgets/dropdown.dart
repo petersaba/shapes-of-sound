@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 
 class DropDown extends StatefulWidget {
-  const DropDown({super.key, required this.text});
+  const DropDown(
+      {super.key,
+      required this.text,
+      required this.attribute,
+      required this.onChange});
   final String text;
+  final String attribute;
+  final Function onChange;
 
   @override
   State<DropDown> createState() => _DropDownState();
 }
 
 class _DropDownState extends State<DropDown> {
+  String _selectedItem = 'male';
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -30,20 +38,26 @@ class _DropDownState extends State<DropDown> {
                       border: Border.all(color: const Color(0xFF355085))),
                   height: 40,
                   child: DropdownButton(
+                    value: _selectedItem,
                     underline: const SizedBox(),
                     icon: const Icon(Icons.keyboard_arrow_down_rounded),
                     isExpanded: true,
                     items: const [
                       DropdownMenuItem(
                         value: 'male',
-                        child: Text('Male'),
+                        child: Text('  Male'),
                       ),
                       DropdownMenuItem(
                         value: 'female',
-                        child: Text('Female'),
+                        child: Text('  Female'),
                       )
                     ],
-                    onChanged: ((value) => 10),
+                    onChanged: ((value) {
+                      setState(() {
+                        _selectedItem = value!;
+                      });
+                      widget.onChange(widget.attribute, value);
+                    }),
                   )),
             ],
           ),
