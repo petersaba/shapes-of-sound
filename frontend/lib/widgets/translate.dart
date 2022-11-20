@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:frontend/utilities.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomepageMainSection extends StatefulWidget {
   const HomepageMainSection({super.key});
@@ -13,8 +16,6 @@ class HomepageMainSection extends StatefulWidget {
 }
 
 class _HomepageMainSectionState extends State<HomepageMainSection> {
-  bool _isPermanent =
-      false; // if the microphone permission is permanently denied
   final _recorder = FlutterSoundRecorder();
   final filename = 'recording.wav';
   Icon _recordButtonIcon = const Icon(Icons.mic);
@@ -64,7 +65,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
 
   Future<void> _record(String tempPath) async {
     final permission = await Permission.microphone.request();
-    print(permission);
+    // print(permission);
     if (permission == PermissionStatus.granted) {
       await _startRecording(tempPath);
       Future.delayed(const Duration(seconds: 10),
@@ -72,9 +73,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
 
       // on IOS there is no do not allow once, hence do not allow is permanent
     } else if (Platform.isIOS ||
-        permission == PermissionStatus.permanentlyDenied) {
-      _isPermanent = true;
-    }
+        permission == PermissionStatus.permanentlyDenied) {}
   }
 
   Future<void> _startRecording(String tempPath) async {
@@ -94,8 +93,20 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
       setState(() {
         _recordButtonIcon = const Icon(Icons.mic);
       });
+
       final base64String = await _getBase64String(tempPath);
-      debugPrint(base64String);
+      Map bodyData = {'encoded_audio': base64String};
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      debugPrint('transcribing audio...');
+      Response response = await postRequest('transcribe', bodyData,
+          token: sharedPreferences.getString('token'));
+      if (response.statusCode != 200) {
+        return;
+      }
+
+      final responseData = jsonDecode(response.body);
+      debugPrint('transcribed audio is: ${responseData["transcription"]}');
     }
   }
 
@@ -110,7 +121,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     return base64Encode(fileContent);
   }
 
-  Future<void> _startOrStopRecord() async {
+  void _startOrStopRecord() async {
     final tempPath = await _getTempPath();
     if (_recorder.isRecording) {
       await _stopRecording(tempPath);
