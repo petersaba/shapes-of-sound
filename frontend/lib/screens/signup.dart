@@ -5,6 +5,9 @@ import 'package:frontend/widgets/form_button.dart';
 import 'package:frontend/widgets/switch_pages_button.dart';
 import 'package:frontend/widgets/text_input.dart';
 import 'package:provider/provider.dart';
+import 'package:frontend/utilities.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -49,6 +52,21 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(
                       height: 20,
                     ),
+                    _wrongCredentials == true
+                        ? Center(
+                            child: Text(
+                            _message,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                                fontSize: 18),
+                          ))
+                        : const SizedBox(),
+                    _wrongCredentials == true
+                        ? const SizedBox(
+                            height: 20,
+                          )
+                        : const SizedBox(),
                     FormButton(
                       width: 110,
                       text: 'Add image',
@@ -76,6 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 20,
                     ),
                     TextInput(
+                      isPassword: true,
                       text: 'Password',
                       regex: RegExp(r'.{12,}'),
                       attribute: 'password',
@@ -85,9 +104,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 20,
                     ),
                     TextInput(
+                      isPassword: true,
                       text: 'Confirm Password',
                       regex: RegExp(r'.{12,}'),
-                      attribute: 'conf_password',
+                      attribute: 'confPassword',
                       onSave: _saveInput,
                     ),
                     const SizedBox(
@@ -101,17 +121,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    _wrongCredentials == true
-                        ? 
-                        Center(
-                            child: Text(
-                            _message,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                                fontSize: 16),
-                          ))
-                        : const SizedBox(),
                     FormButton(
                       width: 330,
                       text: 'Sign Up',
@@ -135,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
     context.read<SignUpInfo>().setAttribute(attribute, value);
   }
 
-  void _signUp(GlobalKey<FormState> formKey) {
+  void _signUp(GlobalKey<FormState> formKey) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -155,6 +164,9 @@ class _SignUpPageState extends State<SignUpPage> {
       });
       return;
     }
+    setState(() {
+      _wrongCredentials = false;
+    });
 
     Map bodyData = {
       'email': email,
@@ -162,5 +174,18 @@ class _SignUpPageState extends State<SignUpPage> {
       'password': password,
       'gender': gender
     };
+
+    Response response = await postRequest('signup', bodyData);
+    if (response.statusCode != 200) {
+      setState(() {
+        _wrongCredentials = true;
+        _message = jsonDecode(response.body)['message'];
+      });
+      return;
+    }
+
+    
+
+    print(jsonDecode(response.body));
   }
 }
