@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                               [
                                 TextInput(
                                   text: 'Email',
-                                  regex: '.{3,}@.{3,}\..{2,}',
+                                  regex: RegExp(r'.{3,}@.{3,}\..{2,}'),
                                   attribute: 'email',
                                   onSave: saveInput,
                                 ),
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 TextInput(
                                   text: 'Password',
-                                  regex: '.{8,}',
+                                  regex: RegExp(r'.{8,}'),
                                   isPassword: true,
                                   attribute: 'password',
                                   onSave: saveInput,
