@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/utilities.dart';
 
 class FormButton extends StatelessWidget {
-  const FormButton(
-      {super.key, required this.width, required this.text, this.route});
+  const FormButton({
+    super.key,
+    required this.width,
+    required this.text,
+    required this.function,
+    this.attributeMap,
+    this.route,
+  });
+  final Function function;
+  final Map? attributeMap;
   final String? route;
   final double width;
   final String text;
 
   void _navigate(BuildContext context) {
-    if (route != null) {
-      Navigator.pushReplacementNamed(context, route!);
-    }
+    // if (route != null) {
+    //   Navigator.pushReplacementNamed(context, route!);
+    // }
+
+    // postRequest('login');
   }
 
   @override
