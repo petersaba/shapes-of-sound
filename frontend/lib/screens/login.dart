@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/utilities.dart';
 import 'package:frontend/widgets/form_button.dart';
@@ -6,6 +8,7 @@ import 'package:frontend/widgets/text_input.dart';
 import 'package:frontend/providers/login_info.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -124,9 +127,11 @@ class _LoginPageState extends State<LoginPage> {
       });
       return;
     }
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map responseData = jsonDecode(response.body);
+    sharedPreferences.setString('token', responseData['access_token']);
 
     if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/home');
-
   }
 }
