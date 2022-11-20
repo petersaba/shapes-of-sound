@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 class TranscribeController extends Controller
 {
     function transcribeAudio(Request $request){
+        if ($request->encoded_audio == NULL) {
+            return response()->json([
+                'success' => FALSE,
+                'message' => 'audio recording is needed'
+            ], 400);
+        }
+
         $current_date = date('Y-m-d-H-i-s');
         $user_id = Auth::id();
 
