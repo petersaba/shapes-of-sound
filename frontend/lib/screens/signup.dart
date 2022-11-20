@@ -37,28 +37,36 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                const FormButton(width: 110, text: 'Add image'),
+                FormButton(width: 110, text: 'Add image', function: (() => null),),
                 const SizedBox(
                   height: 20,
                 ),
-                const TextInput(text: 'Email',
-                  regex: '.{.{3,}@.{3,}\..{2,}}',),
+                TextInput(text: 'Email',
+                  regex: RegExp(r'.{.{3,}@.{3,}\..{2,}}'),
+                  attribute: 'email',
+                  onSave: print,),
                 const SizedBox(
                   height: 20,
                 ),
-                const TextInput(text: 'Full name',
-                  regex: '.{3,}',),
+                TextInput(text: 'Full name',
+                  regex: RegExp(r'.{3,}'),
+                  attribute: 'full_name',
+                  onSave: print,),
                 const SizedBox(
                   height: 20,
                 ),
-                const TextInput(text: 'Password',
-                  regex: '.{12,}',),
+                TextInput(text: 'Password',
+                  regex: RegExp(r'.{12,}'),
+                  attribute: 'password',
+                  onSave: print,),
                 const SizedBox(
                   height: 20,
                 ),
-                const TextInput(
+                TextInput(
                   text: 'Confirm Password',
-                  regex: '.{12,}',
+                  regex: RegExp(r'.{12,}'),
+                  attribute: 'conf_password',
+                  onSave: print,
                 ),
                 const SizedBox(
                   height: 20,
@@ -67,7 +75,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                const FormButton(width: 330, text: 'Sign Up', route: '/home',),
+                FormButton(width: 330, text: 'Sign Up', function: (() => null),),
                 const SizedBox(
                   height: 20,
                 ),
