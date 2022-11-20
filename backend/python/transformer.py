@@ -214,7 +214,7 @@ class DisplayOutputs(keras.callbacks.Callback):
         
         for i in range(batch_size):
             target_text = ''.join([id_to_char[index] for index in target[i]])
-            prediction = getTranscriptionFromIds(predictions)
+            prediction = getTranscriptionFromIds(predictions[i])
             
             print()
             print(f"target: {target_text.replace('-', '')}")
