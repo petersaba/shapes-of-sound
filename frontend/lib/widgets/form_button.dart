@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/utilities.dart';
 
 class FormButton extends StatelessWidget {
   const FormButton({
@@ -7,28 +6,19 @@ class FormButton extends StatelessWidget {
     required this.width,
     required this.text,
     required this.function,
-    this.attributeMap,
-    this.route,
+    this.formKey,
   });
   final Function function;
-  final Map? attributeMap;
-  final String? route;
+  final GlobalKey<FormState>? formKey;
   final double width;
   final String text;
 
-  void _navigate(BuildContext context) {
-    // if (route != null) {
-    //   Navigator.pushReplacementNamed(context, route!);
-    // }
-
-    // postRequest('login');
-  }
 
   @override
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       ElevatedButton(
-        onPressed: () => _navigate(context),
+        onPressed: (() => function(formKey)),
         style: ElevatedButton.styleFrom(
             minimumSize: Size(width, 47),
             backgroundColor: const Color(0xFF28AFB0),
