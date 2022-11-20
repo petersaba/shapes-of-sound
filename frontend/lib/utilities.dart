@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
 
 // creates material color equivalent of a color object
 MaterialColor buildMaterialColor(Color color) {
@@ -20,4 +22,10 @@ MaterialColor buildMaterialColor(Color color) {
     );
   });
   return MaterialColor(color.value, swatch);
+}
+
+const String baseUrl = 'http://127.0.0.1:8000/api/';
+
+void getRequest(String path){
+  
 }
