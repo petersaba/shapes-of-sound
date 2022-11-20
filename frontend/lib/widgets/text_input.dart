@@ -10,7 +10,7 @@ class TextInput extends StatefulWidget {
       required this.attribute});
   final String attribute;
   final Function onSave;
-  final String regex;
+  final RegExp regex;
   final bool? isPassword;
   final String text;
 
@@ -22,7 +22,7 @@ class _TextInputState extends State<TextInput> {
   String? _validate(String? value) {
     if (value == '') {
       return 'Field should not be empty';
-    } else if (!RegExp(widget.regex).hasMatch(value!)) {
+    } else if (!widget.regex.hasMatch(value!)) {
       return 'Input is not valid';
     }
     return null;
