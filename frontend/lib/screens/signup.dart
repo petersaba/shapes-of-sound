@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/signup_info.dart';
 import 'package:frontend/widgets/dropdown.dart';
 import 'package:frontend/widgets/form_button.dart';
 import 'package:frontend/widgets/switch_pages_button.dart';
 import 'package:frontend/widgets/text_input.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -32,33 +34,47 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image.asset('assets/images/no-profile.png', width: 200, height: 200,),
+                  child: Image.asset(
+                    'assets/images/no-profile.png',
+                    width: 200,
+                    height: 200,
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                FormButton(width: 110, text: 'Add image', function: (() => null),),
+                FormButton(
+                  width: 110,
+                  text: 'Add image',
+                  function: (() => null),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                TextInput(text: 'Email',
+                TextInput(
+                  text: 'Email',
                   regex: RegExp(r'.{.{3,}@.{3,}\..{2,}}'),
                   attribute: 'email',
-                  onSave: print,),
+                  onSave: print,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                TextInput(text: 'Full name',
+                TextInput(
+                  text: 'Full name',
                   regex: RegExp(r'.{3,}'),
                   attribute: 'full_name',
-                  onSave: print,),
+                  onSave: print,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                TextInput(text: 'Password',
+                TextInput(
+                  text: 'Password',
                   regex: RegExp(r'.{12,}'),
                   attribute: 'password',
-                  onSave: print,),
+                  onSave: print,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -75,7 +91,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                FormButton(width: 330, text: 'Sign Up', function: (() => null),),
+                FormButton(
+                  width: 330,
+                  text: 'Sign Up',
+                  function: (() => null),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -87,5 +107,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 )
               ],
             )));
+  }
+
+  void saveInput(String attribute, String value) {
+    context.read<SignUpInfo>().setAttribute(attribute, value);
   }
 }
