@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,8 +23,7 @@ MaterialColor buildMaterialColor(Color color) {
   return MaterialColor(color.value, swatch);
 }
 
-const String baseUrl = 'http://127.0.0.1:8000/api/';
-// const String baseUrl = 'https://5a05-178-135-3-244.eu.ngrok.io/api/';
+const String baseUrl = 'http://10.0.2.2:8000/api/';
 
 void getRequest(String path) async {
   final url = Uri.parse(baseUrl + path);
@@ -35,11 +33,8 @@ void getRequest(String path) async {
 
 Future postRequest(String path, Map body, {String? token}) async {
   final url = Uri.parse(baseUrl + path);
-  // debugPrint(token);
-  final dataInJSON = jsonEncode(body);
-  final response = await http.post(url, body: dataInJSON, headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
+
+  final response = await http.post(url, body: body, headers: {
     'Authorization': token != null ? 'Bearer $token' : '',
   });
 
