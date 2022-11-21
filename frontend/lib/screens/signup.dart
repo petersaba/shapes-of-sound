@@ -11,7 +11,6 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:frontend/providers/user_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:image_picker/image_picker.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -177,6 +176,7 @@ class _SignUpPageState extends State<SignUpPage> {
     final password = model.getAttribute('password');
     final confPassword = model.getAttribute('confPassword');
     final gender = model.getAttribute('gender');
+    final base64Image = model.getAttribute('image');
 
     if (password != confPassword) {
       setState(() {
@@ -195,8 +195,11 @@ class _SignUpPageState extends State<SignUpPage> {
       'email': email,
       'full_name': fullName,
       'password': password,
-      'gender': gender
+      'gender': gender,
     };
+    if (base64Image != null) {
+      bodyData['base64_image'] = base64Image;
+    }
 
     Response response = await postRequest('signup', bodyData);
     if (response.statusCode != 200) {
@@ -214,10 +217,11 @@ class _SignUpPageState extends State<SignUpPage> {
     response = await postRequest('login', bodyData);
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString(
-        'token', jsonDecode(response.body)['access_token']);
+    final responseBody = jsonDecode(response.body);
+    sharedPreferences.setString('token', responseBody['access_token']);
 
     if (mounted) {
+      fillUserInfo(context, fullName!, responseBody['user']['image_path']);
       Navigator.pushReplacementNamed(context, '/home');
     }
   }
@@ -229,7 +233,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
 
     final base64Image = await imageToBase64(image);
-    if (mounted){
+    if (mounted) {
       context.read<SignUpInfo>().setAttribute('image', base64Image);
     }
   }
