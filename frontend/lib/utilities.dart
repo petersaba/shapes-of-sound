@@ -25,10 +25,14 @@ MaterialColor buildMaterialColor(Color color) {
 
 const String baseUrl = 'http://10.0.2.2:8000/api/';
 
-void getRequest(String path) async {
+Future getRequest(String path, {String? token}) async {
   final url = Uri.parse(baseUrl + path);
 
-  final response = await http.get(url);
+  final response = await http.get(url, headers: {
+    'Authorization': token != null ? 'Bearer $token' : '',
+  });
+
+  return response;
 }
 
 Future postRequest(String path, Map body, {String? token}) async {
