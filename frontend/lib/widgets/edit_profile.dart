@@ -7,6 +7,7 @@ import 'package:frontend/providers/user_info.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,9 +22,13 @@ class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _wrongCredentials = false;
   String _message = 'Invalid Credentials';
+  File? _chosenImage;
 
   @override
   Widget build(BuildContext context) {
+    final imagePath = context.watch<UserInfo>().getAttribute('imagePath');
+    final fullName = context.watch<UserInfo>().getAttribute('fullName');
+
     return Container(
         width: double.infinity,
         color: const Color(0xFFF3F5F8),
@@ -54,11 +59,31 @@ class _EditProfileState extends State<EditProfile> {
             const SizedBox(
               height: 18,
             ),
-            Image.asset(
-              'assets/images/no-profile.png',
-              width: 226,
-              height: 226,
-              fit: BoxFit.contain,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 226,
+                  height: 226,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(150),
+                    child: _chosenImage == null
+                        ? imagePath == null
+                            ? Image.asset(
+                                'assets/images/no-profile.png',
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(
+                                imagesFolder + imagePath,
+                                fit: BoxFit.cover,
+                              )
+                        : Image.file(
+                            _chosenImage!,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                )
+              ],
             ),
             const SizedBox(
               height: 18,
@@ -66,12 +91,13 @@ class _EditProfileState extends State<EditProfile> {
             FormButton(
               width: 110,
               text: 'Edit image',
-              function: (() => null),
+              function: () => saveImage(context),
             ),
             const SizedBox(
               height: 18,
             ),
             TextInput(
+              initialValue: fullName,
               text: 'Full Name:',
               regex: RegExp(r'.{3,}'),
               attribute: 'fullName',
@@ -112,7 +138,7 @@ class _EditProfileState extends State<EditProfile> {
                 : const SizedBox(),
             FormButton(
               width: 330,
-              text: 'Confrim Changes',
+              text: 'Confirm Changes',
               function: _editProfile,
               formKey: _formKey,
             ),
@@ -134,6 +160,7 @@ class _EditProfileState extends State<EditProfile> {
     final fullName = model.getAttribute('fullName');
     final password = model.getAttribute('password');
     final confPassword = model.getAttribute('confPassword');
+    final base64Image = model.getAttribute('base64Image');
 
     if (password != confPassword) {
       setState(() {
@@ -145,24 +172,40 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {
       _wrongCredentials = false;
     });
-    debugPrint('$fullName');
 
     Map bodyData = {'fullName': fullName, 'password': password};
+    if (base64Image != null) {
+      bodyData['base64_image'] = base64Image;
+    }
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? token = sharedPreferences.getString('token');
 
     Response response = await postRequest('edit', bodyData, token: token);
+    final responseBody = jsonDecode(response.body);
 
     if (response.statusCode != 200) {
       setState(() {
         _wrongCredentials = true;
-        _message = jsonDecode(response.body)['message'];
+        _message = responseBody['message'];
       });
       return;
     }
 
     if (mounted) {
+      model.setAttribute('imagePath', responseBody['new_image_path']);
       context.read<SelectedPage>().selectedPage = 0;
+    }
+  }
+
+  void saveImage(BuildContext context) async {
+    File image = await selectImage();
+    setState(() {
+      _chosenImage = image;
+    });
+
+    final base64Image = await imageToBase64(image);
+    if (mounted) {
+      context.read<UserInfo>().setAttribute('base64Image', base64Image);
     }
   }
 }
