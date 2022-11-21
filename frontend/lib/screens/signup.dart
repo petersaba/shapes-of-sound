@@ -89,7 +89,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     TextInput(
                       text: 'Full name',
                       regex: RegExp(r'.{3,}'),
-                      attribute: 'full_name',
+                      attribute: 'fullName',
                       onSave: _saveInput,
                     ),
                     const SizedBox(
@@ -154,7 +154,7 @@ class _SignUpPageState extends State<SignUpPage> {
     formKey.currentState!.save();
     SignUpInfo model = Provider.of<SignUpInfo>(context, listen: false);
     final email = model.getAttribute('email');
-    final fullName = model.getAttribute('full_name');
+    final fullName = model.getAttribute('fullName');
     final password = model.getAttribute('password');
     final confPassword = model.getAttribute('confPassword');
     final gender = model.getAttribute('gender');
@@ -181,7 +181,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
     Response response = await postRequest('signup', bodyData);
     if (response.statusCode != 200) {
-      print(response.body);
       setState(() {
         _wrongCredentials = true;
         _message = jsonDecode(response.body)['message'];
