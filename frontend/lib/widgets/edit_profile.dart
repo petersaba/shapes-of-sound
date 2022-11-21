@@ -41,7 +41,7 @@ class _EditProfileState extends State<EditProfile> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: () => 10,
+                    onPressed: logout,
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFF0000),
                         shape: RoundedRectangleBorder(
@@ -206,6 +206,15 @@ class _EditProfileState extends State<EditProfile> {
     final base64Image = await imageToBase64(image);
     if (mounted) {
       context.read<UserInfo>().setAttribute('base64Image', base64Image);
+    }
+  }
+
+  void logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove('token');
+    if (mounted) {
+      context.read<SelectedPage>().selectedPage = 0;
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 }
