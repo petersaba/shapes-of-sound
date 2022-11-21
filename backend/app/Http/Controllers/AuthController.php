@@ -87,8 +87,6 @@ class AuthController extends Controller
         if ($user->save()) {
             return response()->json([
                 'success' => TRUE,
-                'request' => $request->email,
-                'db' => self::isAttributeUsed('email', $request->email)
             ]);
         }
     }
@@ -133,6 +131,7 @@ class AuthController extends Controller
         if($user->save()){
             return response()->json([
                 'success' => TRUE,
+                'new_image_path' => $user->image_path
             ]);
         }
     }
