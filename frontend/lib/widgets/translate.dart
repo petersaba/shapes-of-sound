@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomepageMainSection extends StatefulWidget {
   const HomepageMainSection({super.key});
+  final imagesFolder = './assets/images/';
 
   @override
   State<HomepageMainSection> createState() => _HomepageMainSectionState();
@@ -17,19 +18,28 @@ class HomepageMainSection extends StatefulWidget {
 
 class _HomepageMainSectionState extends State<HomepageMainSection> {
   final _recorder = FlutterSoundRecorder();
-  final filename = 'recording.wav';
+  final _filename = 'recording.wav';
   Icon _recordButtonIcon = const Icon(Icons.mic);
+  String _currentImage = '';
+
+  @override
+  void initState() {
+    _currentImage = '${widget.imagesFolder}letter_a.png';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
-          child: Image.asset(
-            'assets/images/letter_a.png',
-            width: double.infinity,
-            fit: BoxFit.contain,
-          ),
+          child: SizedBox()
+          //  Image.asset(
+          //   _currentImage,
+          //   width: double.infinity,
+          //   fit: BoxFit.contain,
+          // ),
+          // sizedBox(),
         ),
         Container(
           height: 60,
@@ -80,7 +90,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     await _recorder.openRecorder();
     await _recorder.setSubscriptionDuration(const Duration(milliseconds: 10));
     await _recorder.startRecorder(
-        toFile: '$tempPath/$filename', sampleRate: 22050);
+        toFile: '$tempPath/$_filename', sampleRate: 22050);
     setState(() {
       _recordButtonIcon = const Icon(Icons.stop);
     });
@@ -98,15 +108,16 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
       Map bodyData = {'encoded_audio': base64String};
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      debugPrint('transcribing audio...');
-      Response response = await postRequest('transcribe', bodyData,
-          token: sharedPreferences.getString('token'));
-      if (response.statusCode != 200) {
-        return;
-      }
 
-      final responseData = jsonDecode(response.body);
-      debugPrint('transcribed audio is: ${responseData["transcription"]}');
+      // Response response = await postRequest('transcribe', bodyData,
+      //     token: sharedPreferences.getString('token'));
+      // if (response.statusCode != 200) {
+      //   return;
+      // }
+
+      // final responseData = jsonDecode(response.body);
+      // debugPrint('transcribed audio is: ${responseData["transcription"]}');
+      _showCharacterImages('hello world!');
     }
   }
 
@@ -116,7 +127,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
   }
 
   Future<String> _getBase64String(String tempPath) async {
-    final file = File('$tempPath/$filename');
+    final file = File('$tempPath/$_filename');
     final fileContent = await file.readAsBytes();
     return base64Encode(fileContent);
   }
@@ -138,5 +149,16 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
         _recordButtonIcon = const Icon(Icons.mic);
       }
     });
+  }
+
+  void _showCharacterImages(String sentence) async {
+    for (var code in sentence.runes) {
+      await Future.delayed(const Duration(milliseconds: 500), (() {
+        setState(() {
+          final char = String.fromCharCode(code);
+          _currentImage = '${widget.imagesFolder}letter_$char.png';
+        });
+      }));
+    }
   }
 }
