@@ -18,6 +18,12 @@ class _DropDownState extends State<DropDown> {
   String _selectedItem = 'male';
 
   @override
+  void initState() {
+    widget.onChange(widget.attribute, _selectedItem);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
