@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 // creates material color equivalent of a color object
 MaterialColor buildMaterialColor(Color color) {
@@ -43,4 +45,11 @@ Future postRequest(String path, Map body, {String? token}) async {
   });
 
   return response;
+}
+
+Future<File> selectImage() async {
+  final ImagePicker imagePicker = ImagePicker();
+  final XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
+  final File tempImage = File(image!.path);
+  return tempImage;
 }
