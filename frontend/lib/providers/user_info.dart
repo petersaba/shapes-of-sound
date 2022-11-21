@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class UserInfo extends ChangeNotifier {
-  String _imagePath = 'assets/images/no-profile.png';
+  String? _imagePath;
+  String? _base64Image;
   String? _fullName;
   String? _password;
   String? _confPassword;
@@ -10,6 +11,9 @@ class UserInfo extends ChangeNotifier {
     switch (attribute) {
       case 'imagePath':
         return _imagePath;
+
+      case 'base64Image':
+        return _base64Image;
 
       case 'fullName':
         return _fullName;
@@ -28,6 +32,10 @@ class UserInfo extends ChangeNotifier {
     switch (attribute) {
       case 'imagePath':
         _imagePath = value;
+        break;
+
+      case 'base64Image':
+        _base64Image = value;
         break;
 
       case 'fullName':
