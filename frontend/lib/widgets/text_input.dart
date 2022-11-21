@@ -7,12 +7,14 @@ class TextInput extends StatefulWidget {
       required this.regex,
       required this.onSave,
       required this.attribute,
-      this.isPassword,});
+      this.isPassword,
+      this.initialValue});
   final String attribute;
   final Function onSave;
   final RegExp regex;
   final bool? isPassword;
   final String text;
+  final String? initialValue;
 
   @override
   State<TextInput> createState() => _TextInputState();
@@ -50,6 +52,7 @@ class _TextInputState extends State<TextInput> {
               SizedBox(
                 height: 40,
                 child: TextFormField(
+                  initialValue: widget.initialValue,
                   obscureText: widget.isPassword == true ? true : false,
                   validator: ((value) => _validate(value)),
                   onSaved: (newValue) => _saveInput(newValue!),
