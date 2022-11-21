@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -19,7 +20,11 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        return response()->json([
+            'success' => TRUE,
+            'user' => Auth::user(),
+            'access_token' => self::respondWithToken($token)['access_token']
+        ]);
     }
 
     public function logout()
@@ -41,11 +46,11 @@ class AuthController extends Controller
 
     protected function respondWithToken($token)
     {
-        return response()->json([
+        return [
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => config('jwt.ttl')
-        ]);
+        ];
     }
 
     function createUser(Request $request)
