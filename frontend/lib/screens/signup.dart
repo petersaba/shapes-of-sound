@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend/providers/signup_info.dart';
 import 'package:frontend/widgets/dropdown.dart';
@@ -10,6 +11,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:frontend/providers/user_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -22,6 +24,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _wrongCredentials = false;
   String _message = 'Invalid Credentials';
+  File? _chosenImage;
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +46,29 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.asset(
-                        'assets/images/no-profile.png',
-                        width: 200,
-                        height: 200,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: _chosenImage != null
+                                ? Image.file(
+                                    _chosenImage!,
+                                    width: 200,
+                                    height: 200,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    'assets/images/no-profile.png',
+                                    width: 200,
+                                    height: 200,
+                                  ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(
                       height: 20,
@@ -72,7 +91,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     FormButton(
                       width: 110,
                       text: 'Add image',
-                      function: (() => null),
+                      function: () => saveImage(context),
                     ),
                     const SizedBox(
                       height: 20,
@@ -200,6 +219,18 @@ class _SignUpPageState extends State<SignUpPage> {
 
     if (mounted) {
       Navigator.pushReplacementNamed(context, '/home');
+    }
+  }
+
+  void saveImage(BuildContext context) async {
+    File image = await selectImage();
+    setState(() {
+      _chosenImage = image;
+    });
+
+    final base64Image = await imageToBase64(image);
+    if (mounted){
+      context.read<SignUpInfo>().setAttribute('image', base64Image);
     }
   }
 }
