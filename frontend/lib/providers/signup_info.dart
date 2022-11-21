@@ -12,7 +12,7 @@ class SignUpInfo with ChangeNotifier {
       case 'email':
         return _email;
 
-      case 'full_name':
+      case 'fullName':
         return _fullName;
 
       case 'password':
@@ -34,7 +34,7 @@ class SignUpInfo with ChangeNotifier {
         _email = value;
         return;
 
-      case 'full_name':
+      case 'fullName':
         _fullName = value;
         return;
 
