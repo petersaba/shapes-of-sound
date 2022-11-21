@@ -5,9 +5,9 @@ class TextInput extends StatefulWidget {
       {super.key,
       required this.text,
       required this.regex,
-      this.isPassword,
       required this.onSave,
-      required this.attribute});
+      required this.attribute,
+      this.isPassword,});
   final String attribute;
   final Function onSave;
   final RegExp regex;
