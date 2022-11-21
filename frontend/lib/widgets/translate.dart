@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:frontend/utilities.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:http/http.dart';
+// import 'package:frontend/utilities.dart';
 
 class HomepageMainSection extends StatefulWidget {
   const HomepageMainSection({super.key});
@@ -21,10 +21,11 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
   final _filename = 'recording.wav';
   Icon _recordButtonIcon = const Icon(Icons.mic);
   String _currentImage = '';
+  bool _imageExists = true;
 
   @override
   void initState() {
-    _currentImage = '${widget.imagesFolder}letter_a.png';
+    _currentImage = '${widget.imagesFolder}logo.png';
     super.initState();
   }
 
@@ -33,14 +34,13 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     return Column(
       children: [
         Expanded(
-          child: SizedBox()
-          //  Image.asset(
-          //   _currentImage,
-          //   width: double.infinity,
-          //   fit: BoxFit.contain,
-          // ),
-          // sizedBox(),
-        ),
+            child: _imageExists == true
+                ? Image.asset(
+                    _currentImage,
+                    width: double.infinity,
+                    fit: BoxFit.contain,
+                  )
+                : const SizedBox()),
         Container(
           height: 60,
           color: const Color(0x4D808080),
@@ -75,7 +75,6 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
 
   Future<void> _record(String tempPath) async {
     final permission = await Permission.microphone.request();
-    // print(permission);
     if (permission == PermissionStatus.granted) {
       await _startRecording(tempPath);
       Future.delayed(const Duration(seconds: 10),
@@ -156,9 +155,20 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
       await Future.delayed(const Duration(milliseconds: 500), (() {
         setState(() {
           final char = String.fromCharCode(code);
-          _currentImage = '${widget.imagesFolder}letter_$char.png';
+          final imageExists = RegExp(r'[a-z]').hasMatch(char);
+          setState(() {
+            _imageExists = imageExists;
+          });
+
+          if (imageExists) {
+            _currentImage = '${widget.imagesFolder}letter_$char.png';
+          }
         });
       }));
     }
+    setState(() {
+      _imageExists = true;
+      _currentImage = '${widget.imagesFolder}logo.png';
+    });
   }
 }
