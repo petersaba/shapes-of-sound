@@ -6,6 +6,7 @@ class SignUpInfo with ChangeNotifier {
   String? _password;
   String? _confPassword;
   String? _gender;
+  String? _base64Image;
 
   String? getAttribute(String attribute) {
     switch (attribute) {
@@ -23,6 +24,9 @@ class SignUpInfo with ChangeNotifier {
 
       case 'gender':
         return _gender;
+
+      case 'image':
+        return _base64Image;
     }
 
     return null;
@@ -48,6 +52,10 @@ class SignUpInfo with ChangeNotifier {
 
       case 'gender':
         _gender = value;
+        return;
+
+      case 'image':
+        _base64Image = value;
         return;
     }
   }
