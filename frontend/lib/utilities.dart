@@ -1,9 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:frontend/providers/user_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:provider/provider.dart';
 
 // creates material color equivalent of a color object
 MaterialColor buildMaterialColor(Color color) {
@@ -28,6 +29,7 @@ MaterialColor buildMaterialColor(Color color) {
 }
 
 const String baseUrl = 'http://10.0.2.2:8000/api/';
+const String imagesFolder = 'http://10.0.2.2:8000/images/';
 
 Future getRequest(String path, {String? token}) async {
   final url = Uri.parse(baseUrl + path);
@@ -60,4 +62,14 @@ Future<String> imageToBase64(File image) async {
   final imageContent = await image.readAsBytes();
   final base64Image = base64Encode(imageContent);
   return base64Image;
+}
+
+void fillUserInfo(
+    BuildContext context, String fullName, String? imagePath) {
+  final model = Provider.of<UserInfo>(context, listen: false);
+
+  model.setAttribute('fullName', fullName);
+  if (imagePath != null) {
+    model.setAttribute('imagePath', imagePath);
+  }
 }
