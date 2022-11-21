@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:frontend/utilities.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:frontend/providers/user_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -150,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     formKey.currentState!.save();
-    final model = Provider.of<SignUpInfo>(context, listen: false);
+    SignUpInfo model = Provider.of<SignUpInfo>(context, listen: false);
     final email = model.getAttribute('email');
     final fullName = model.getAttribute('full_name');
     final password = model.getAttribute('password');
@@ -168,6 +170,8 @@ class _SignUpPageState extends State<SignUpPage> {
       _wrongCredentials = false;
     });
 
+    UserInfo infoModel = Provider.of<UserInfo>(context, listen: false);
+
     Map bodyData = {
       'email': email,
       'full_name': fullName,
@@ -177,6 +181,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     Response response = await postRequest('signup', bodyData);
     if (response.statusCode != 200) {
+      print(response.body);
       setState(() {
         _wrongCredentials = true;
         _message = jsonDecode(response.body)['message'];
@@ -184,8 +189,18 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
 
-    
+    infoModel.setAttribute('email', email!);
+    infoModel.setAttribute('password', password!);
 
-    print(jsonDecode(response.body));
+    bodyData = {'email': email, 'password': password};
+    response = await postRequest('login', bodyData);
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString(
+        'token', jsonDecode(response.body)['access_token']);
+
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, '/home');
+    }
   }
 }
