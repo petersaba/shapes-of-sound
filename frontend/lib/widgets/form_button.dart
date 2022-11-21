@@ -13,12 +13,11 @@ class FormButton extends StatelessWidget {
   final double width;
   final String text;
 
-
   @override
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       ElevatedButton(
-        onPressed: (() => function(formKey)),
+        onPressed: (() => formKey == null ? function() : function(formKey)),
         style: ElevatedButton.styleFrom(
             minimumSize: Size(width, 47),
             backgroundColor: const Color(0xFF28AFB0),
