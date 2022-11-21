@@ -101,7 +101,7 @@ class AuthController extends Controller
 
         $validator = validator()->make($request->all(), [
             'password' => 'string',
-            'email' => 'email',
+            'full_name' => 'string',
         ]);
 
         if ($validator->fails()){
@@ -111,17 +111,10 @@ class AuthController extends Controller
             ]);
         }
 
-        if (count(self::isAttributeUsed('email', $request->email)) != 0 && isset($request->email)) {
-            return response()->json([
-                'success' => FALSE,
-                'message' => 'email is already in use'
-            ], 400);
-        }
-
         $user = User::find(Auth::id());
 
-        if (isset($request->email)){
-            $user->email = $request->email;
+        if (isset($request->full_name)){
+            $user->full_name = $request->full_name;
         }
 
         if (isset($request->password)){
