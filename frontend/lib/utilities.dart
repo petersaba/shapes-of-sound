@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -52,4 +54,10 @@ Future<File> selectImage() async {
   final XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
   final File tempImage = File(image!.path);
   return tempImage;
+}
+
+Future<String> imageToBase64(File image) async {
+  final imageContent = await image.readAsBytes();
+  final base64Image = base64Encode(imageContent);
+  return base64Image;
 }
