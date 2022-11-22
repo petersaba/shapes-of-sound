@@ -219,9 +219,10 @@ class _SignUpPageState extends State<SignUpPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final responseBody = jsonDecode(response.body);
     sharedPreferences.setString('token', responseBody['access_token']);
+    String imagePath = responseBody['user']['image_path'];
 
     if (mounted) {
-      fillUserInfo(context, fullName!, responseBody['user']['image_path']);
+      fillUserInfo(context, fullName!, imagePath);
       Navigator.pushReplacementNamed(context, '/home');
     }
   }
