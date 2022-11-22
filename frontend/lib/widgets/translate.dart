@@ -174,10 +174,12 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
         });
       }));
     }
-    setState(() {
-      _imageExists = true;
-      _currentImage = '${widget.imagesFolder}logo.png';
-    });
+    await Future.delayed(const Duration(milliseconds: 500), (() {
+      setState(() {
+        _imageExists = true;
+        _currentImage = '${widget.imagesFolder}logo.png';
+      });
+    }));
   }
 
   Future<String> getAudioTranscription(String tempPath) async {
