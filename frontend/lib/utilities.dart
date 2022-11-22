@@ -34,7 +34,7 @@ const String imagesFolder = 'http://10.0.2.2:8000/images/';
 const String audioUploadUrl = 'https://api.assemblyai.com/v2/upload';
 const String audioTranscriptEndpoint =
     'https://api.assemblyai.com/v2/transcript';
-Map<String, String> assemblyAuthorization = {
+Map<String, String> assemblyaiAuthorization = {
   'Authorization': dotenv.env['ASSEMBLYAI_TOKEN']!
 };
 
@@ -62,7 +62,7 @@ Future<Map> uploadToAssemblyAi(List data) async {
   final url = Uri.parse(audioUploadUrl);
 
   final response =
-      await http.post(url, body: data, headers: assemblyAuthorization);
+      await http.post(url, body: data, headers: assemblyaiAuthorization);
 
   return jsonDecode(response.body);
 }
@@ -71,9 +71,25 @@ Future<Map> transcribeAssemblyAi(Map data) async {
   final url = Uri.parse(audioTranscriptEndpoint);
   final bodyData = jsonEncode(data);
   final response =
-      await http.post(url, body: bodyData, headers: assemblyAuthorization);
+      await http.post(url, body: bodyData, headers: assemblyaiAuthorization);
 
   return jsonDecode(response.body);
+}
+
+Future<Map> getTranscription(String transcriptionId) async {
+  final url = Uri.parse('$audioTranscriptEndpoint/$transcriptionId');
+  while (true) {
+    final response = await http.get(url, headers: assemblyaiAuthorization);
+    Map responseData = jsonDecode(response.body);
+
+    if (responseData['status'] == 'completed') {
+      return responseData;
+    }
+
+    if (responseData['status'] == 'error') {
+      return responseData['error'];
+    }
+  }
 }
 
 Future<File> selectImage() async {
