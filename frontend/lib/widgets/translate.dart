@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:http/http.dart';
-// import 'package:frontend/utilities.dart';
+import 'package:frontend/utilities.dart';
 
 class HomepageMainSection extends StatefulWidget {
   const HomepageMainSection({super.key});
@@ -22,6 +20,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
   Icon _recordButtonIcon = const Icon(Icons.mic);
   String _currentImage = '';
   bool _imageExists = true;
+  final _inputController = TextEditingController();
 
   @override
   void initState() {
@@ -48,6 +47,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
             children: [
               Expanded(
                   child: TextField(
+                controller: _inputController,
                 onChanged: _changeRecordIcon,
                 style: const TextStyle(fontSize: 18),
                 decoration: const InputDecoration(
@@ -103,20 +103,9 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
         _recordButtonIcon = const Icon(Icons.mic);
       });
 
-      final base64String = await _getBase64String(tempPath);
-      Map bodyData = {'encoded_audio': base64String};
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-
-      // Response response = await postRequest('transcribe', bodyData,
-      //     token: sharedPreferences.getString('token'));
-      // if (response.statusCode != 200) {
-      //   return;
-      // }
-
-      // final responseData = jsonDecode(response.body);
-      // debugPrint('transcribed audio is: ${responseData["transcription"]}');
-      _showCharacterImages('hello world!');
+      String transcription = await getAudioTranscription(tempPath);
+      _inputController.text = transcription;
+      _showCharacterImages(transcription);
     }
   }
 
@@ -154,7 +143,8 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     for (var code in sentence.runes) {
       await Future.delayed(const Duration(milliseconds: 500), (() {
         setState(() {
-          final char = String.fromCharCode(code);
+          String char = String.fromCharCode(code);
+          char = char.toLowerCase();
           final imageExists = RegExp(r'[a-z]').hasMatch(char);
           setState(() {
             _imageExists = imageExists;
@@ -170,5 +160,20 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
       _imageExists = true;
       _currentImage = '${widget.imagesFolder}logo.png';
     });
+  }
+
+  Future<String> getAudioTranscription(String tempPath) async {
+    final file = File('$tempPath/$_filename');
+    final fileContent = await file.readAsBytes();
+    Map response = await uploadToAssemblyAi(fileContent);
+
+    // the audio becomes stored in the upload url path
+    Map bodyData = {'audio_url': response['upload_url']};
+
+    response = await transcribeAssemblyAi(bodyData);
+    String transcriptionId = response['id'];
+    response = await getTranscription(transcriptionId);
+
+    return response['text'];
   }
 }
