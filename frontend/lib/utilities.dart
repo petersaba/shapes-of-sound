@@ -58,11 +58,20 @@ Future postRequest(String path, Map body, {String? token}) async {
   return response;
 }
 
-Future<Map> postToAssemblyAi(String link, List? data) async {
-  final url = Uri.parse(link);
+Future<Map> uploadToAssemblyAi(List data) async {
+  final url = Uri.parse(audioUploadUrl);
 
   final response =
       await http.post(url, body: data, headers: assemblyAuthorization);
+
+  return jsonDecode(response.body);
+}
+
+Future<Map> transcribeAssemblyAi(Map data) async {
+  final url = Uri.parse(audioTranscriptEndpoint);
+  final bodyData = jsonEncode(data);
+  final response =
+      await http.post(url, body: bodyData, headers: assemblyAuthorization);
 
   return jsonDecode(response.body);
 }
