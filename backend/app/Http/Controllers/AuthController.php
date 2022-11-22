@@ -125,7 +125,10 @@ class AuthController extends Controller
         }
 
         if (isset($request->base64_image)){
-            $user->image_path = self::saveImage($request->base64_image, $request->email ? $request->email : $user->email);
+            $new_image_path = self::saveImage($request->base64_image, $request->email ? $request->email : $user->email);
+            $user->image_path = $new_image_path;
+        }else {
+            $new_image_path = $user->image_path;
         }
 
         if($user->save()){
@@ -137,7 +140,7 @@ class AuthController extends Controller
     }
 
     function saveImage($base64_image, $user_email){
-        $images_path = './images/';
+        $images_path = 'images/';
         $image_name = $user_email . date('Y-m-d-H-i-s') . '.jpg';
 
         if (!is_dir($images_path)){
