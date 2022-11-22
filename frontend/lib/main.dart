@@ -10,8 +10,10 @@ import 'utilities.dart';
 import 'package:frontend/widgets/translate.dart';
 import 'widgets/edit_profile.dart';
 import 'screens/login.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: 'assets/.env');
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => SelectedPage()),
@@ -35,11 +37,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: buildMaterialColor(const Color(0xFF355085)),
       ),
-
       initialRoute: '/login',
       routes: {
-        '/login':(context) => const LoginPage(),
-        '/signup':(context) => const SignUpPage(),
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => const SignUpPage(),
         '/home': (context) => const MyHomePage(),
       },
     );
@@ -59,13 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
     int selectedPage = context.watch<SelectedPage>().selectedPage;
     if (selectedPage == 0) {
       return const Scaffold(
-        appBar: CustomAppBar(),
-        bottomNavigationBar: CustomBottomNavigationBar(),
-        body: HomepageMainSection());
+          appBar: CustomAppBar(),
+          bottomNavigationBar: CustomBottomNavigationBar(),
+          body: HomepageMainSection());
     }
     return const Scaffold(
-      appBar: CustomAppBar(),
-      bottomNavigationBar: CustomBottomNavigationBar(),
-      body: EditProfile());
-}
+        appBar: CustomAppBar(),
+        bottomNavigationBar: CustomBottomNavigationBar(),
+        body: EditProfile());
+  }
 }
