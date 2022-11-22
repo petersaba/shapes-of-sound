@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -21,6 +20,8 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
   String _currentImage = '';
   bool _imageExists = true;
   final _inputController = TextEditingController();
+  bool _enableTextInput = true;
+  bool _disableRecording = false;
 
   @override
   void initState() {
@@ -47,6 +48,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
             children: [
               Expanded(
                   child: TextField(
+                enabled: _enableTextInput,
                 controller: _inputController,
                 onChanged: _changeRecordIcon,
                 style: const TextStyle(fontSize: 18),
@@ -58,12 +60,22 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                 child: ElevatedButton(
-                  onPressed: _startOrStopRecord,
+                  onPressed: _disableRecording == false
+                      ? _inputController.text != ''
+                          ? (() => _showCharacterImages(_inputController.text))
+                          : _startOrStopRecord
+                      : () => 10,
                   style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
                       backgroundColor: const Color(0xFF28AFB0),
                       minimumSize: const Size(40, 40)),
-                  child: _recordButtonIcon,
+                  child: _disableRecording == true
+                      ? Image.asset(
+                          'assets/images/loading.gif',
+                          width: 25,
+                          height: 25,
+                        )
+                      : _recordButtonIcon,
                 ),
               ),
             ],
@@ -92,6 +104,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
         toFile: '$tempPath/$_filename', sampleRate: 22050);
     setState(() {
       _recordButtonIcon = const Icon(Icons.stop);
+      _enableTextInput = false;
     });
   }
 
@@ -100,11 +113,16 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
       await _recorder.stopRecorder();
       await _recorder.closeRecorder();
       setState(() {
-        _recordButtonIcon = const Icon(Icons.mic);
+        _disableRecording = true;
       });
 
       String transcription = await getAudioTranscription(tempPath);
       _inputController.text = transcription;
+      _enableTextInput = true;
+      setState(() {
+        _recordButtonIcon = const Icon(Icons.send);
+        _disableRecording = false;
+      });
       _showCharacterImages(transcription);
     }
   }
@@ -114,11 +132,11 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     return directory.path;
   }
 
-  Future<String> _getBase64String(String tempPath) async {
-    final file = File('$tempPath/$_filename');
-    final fileContent = await file.readAsBytes();
-    return base64Encode(fileContent);
-  }
+  // Future<String> _getBase64String(String tempPath) async {
+  //   final file = File('$tempPath/$_filename');
+  //   final fileContent = await file.readAsBytes();
+  //   return base64Encode(fileContent);
+  // }
 
   void _startOrStopRecord() async {
     final tempPath = await _getTempPath();
