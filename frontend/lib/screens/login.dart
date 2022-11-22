@@ -130,8 +130,11 @@ class _LoginPageState extends State<LoginPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map responseData = jsonDecode(response.body);
     sharedPreferences.setString('token', responseData['access_token']);
+    String fullName = responseData['user']['full_name'];
+    String imagePath = responseData['user']['image_path'];
 
     if (!mounted) return;
+    fillUserInfo(context, fullName, imagePath);
     Navigator.pushReplacementNamed(context, '/home');
   }
 }
