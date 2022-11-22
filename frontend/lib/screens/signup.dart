@@ -116,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     TextInput(
                       isPassword: true,
                       text: 'Password',
-                      regex: RegExp(r'.{12,}'),
+                      regex: RegExp(r'.{8,}'),
                       attribute: 'password',
                       onSave: _saveInput,
                     ),
@@ -126,7 +126,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     TextInput(
                       isPassword: true,
                       text: 'Confirm Password',
-                      regex: RegExp(r'.{12,}'),
+                      regex: RegExp(r'.{8,}'),
                       attribute: 'confPassword',
                       onSave: _saveInput,
                     ),
