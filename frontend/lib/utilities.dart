@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // creates material color equivalent of a color object
 MaterialColor buildMaterialColor(Color color) {
@@ -30,6 +31,12 @@ MaterialColor buildMaterialColor(Color color) {
 
 const String baseUrl = 'http://10.0.2.2:8000/api/';
 const String imagesFolder = 'http://10.0.2.2:8000/images/';
+const String audioUploadUrl = 'https://api.assemblyai.com/v2/upload';
+const String audioTranscriptEndpoint =
+    'https://api.assemblyai.com/v2/transcript';
+Map<String, String> assemblyAuthorization = {
+  'Authorization': dotenv.env['ASSEMBLYAI_TOKEN']!
+};
 
 Future getRequest(String path, {String? token}) async {
   final url = Uri.parse(baseUrl + path);
@@ -51,6 +58,15 @@ Future postRequest(String path, Map body, {String? token}) async {
   return response;
 }
 
+Future<Map> postToAssemblyAi(String link, List? data) async {
+  final url = Uri.parse(link);
+
+  final response =
+      await http.post(url, body: data, headers: assemblyAuthorization);
+
+  return jsonDecode(response.body);
+}
+
 Future<File> selectImage() async {
   final ImagePicker imagePicker = ImagePicker();
   final XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -64,8 +80,7 @@ Future<String> imageToBase64(File image) async {
   return base64Image;
 }
 
-void fillUserInfo(
-    BuildContext context, String fullName, String? imagePath) {
+void fillUserInfo(BuildContext context, String fullName, String? imagePath) {
   final model = Provider.of<UserInfo>(context, listen: false);
 
   model.setAttribute('fullName', fullName);
