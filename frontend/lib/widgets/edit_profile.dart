@@ -50,7 +50,7 @@ class _EditProfileState extends State<EditProfile> {
                     child: const Text(
                       'LOGOUT',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                   )
                 ],
@@ -142,6 +142,7 @@ class _EditProfileState extends State<EditProfile> {
               function: _editProfile,
               formKey: _formKey,
             ),
+            const SizedBox(height: 20,)
           ]),
         ));
   }
