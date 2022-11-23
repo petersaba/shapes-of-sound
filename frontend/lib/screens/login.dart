@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 SwitchButton(
                                   route: '/signup',
-                                  blackText: "Don't have and account?",
+                                  blackText: "Don't have an account?",
                                   coloredText: 'Sign Up',
                                 )
                               ],
