@@ -33,13 +33,9 @@ Note that i didn't use any styling library or theme, all from scratch and using 
 <b>WIREFRAMES</b>
 <br><br>
 
-| Landing  | Sign Up  |
-| -----------------| -----|
-| ![Landing](readme/log_in_wireframe.svg) | ![Home](readme/sign_up_wireframe.svg) |
-
-| Edit Profile  | Home  |
-| -----------------| -----|
-| ![Edit Profile](readme/profile_wireframe.svg) | ![Home](readme/homepage_wireframe.svg) |
+| Login  | Sign Up  |  Edit Profile  | Home  |
+| -----------------| -----| -----------------| -----|
+| ![Landing](readme/log_in_wireframe.svg) | ![Home](readme/sign_up_wireframe.svg) | ![Edit Profile](readme/profile_wireframe.svg) | ![Home](readme/homepage_wireframe.svg) |
 
 
 <br>
@@ -47,13 +43,9 @@ Note that i didn't use any styling library or theme, all from scratch and using 
 <b>MOCKUPS</b>
 <br><br>
 
-| Landing  | Sign Up  |
-| -----------------| -----|
-| ![Landing](readme/log_in.svg) | ![Home](readme/sign_up.svg) |
-
-| Edit Profile  | Home  |
-| -----------------| -----|
-| ![Edit Profile](readme/profile.svg) | ![Home](readme/homepage.svg) |
+| Login  | Sign Up  | Edit Profile  | Home  |
+| -----------------| -----|-----------------| -----|
+| ![Landing](readme/log_in.svg) | ![Home](readme/sign_up.svg) | ![Edit Profile](readme/profile.svg) | ![Home](readme/homepage.svg) |
 
 
 <br><br>
@@ -66,12 +58,13 @@ Here's a brief high-level overview of the tech stack the Well app uses:
 - In order to build the speech recognition model, the app uses [TensorFlow](https://www.tensorflow.org/learn) along with [Keras](https://keras.io/api/) to build the transformer neural network. [TensorFlow](https://www.tensorflow.org/learn) is an open-source library developed by Google primarily for deep learning applications. It also supports traditional machine learning. [Keras](https://keras.io/api/) is an open-source software library that provides a Python interface for artificial neural networks. Keras acts as an interface for the TensorFlow library.
 - This project uses the [Laravel](https://laravel.com/docs/9.x) for the backend. Laravel is a cross-platform PHP framework for building web applications. It's a server-based platform that manages data using the Model-View-Controller (MVC) design pattern, dividing an application's backend architecture into logical pieces.
 - For persistent storage (database), the app uses the [MySQL](https://www.mysql.com/) relational database management system that is based on Structured Query Language(SQL).
+- The implemented speech recognition model is currently trained on the [LJSpeech](https://keithito.com/LJ-Speech-Dataset/) dataset. Due to the required time needed to train full functional speech recognition model, Shapes Of Sound is currently using [AssemblAi's](https://www.assemblyai.com/) speech recognition API until the implemented model is fully trained.
 
 
 <br><br>
 <img src="./readme/title5.svg"/>
 
-> Uing the above mentioned tecch stacks and the wireframes build with figma from the user sotries we have, the implementation of the app is shown as below, these are screenshots from the real app
+> Using the above mentioned tech stacks and the wireframes build with figma from the user sotries we have, the implementation of the app is shown as below, these are screenshots from the real app
 
 | Landing  | Home/Search  |
 | -----------------| -----|
@@ -86,29 +79,42 @@ Here's a brief high-level overview of the tech stack the Well app uses:
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
+* Install [Flutter](https://docs.flutter.dev/get-started/install) for mobile development.
+* Install [XAMPP](https://www.apachefriends.org/download.html) for mySQL server.
+* Install [Laravel](https://laravel.com/docs/4.2) for the backend.
+* Get API token by creating an account at [AssemblyAi](https://www.assemblyai.com/).
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/petersaba/shapes-of-sound.git
    ```
-3. Install NPM packages
+2. Install Flutter dependencies
    ```sh
-   npm install
+   flutter pub get
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+3. Create .env file in './frontend/assets/'
+   ```sh
+   ASSEMBLYAI_TOKEN = 'your_assemblyai_token'
    ```
-
-
+4. Rename .env.example to .env in './backend/' and add mySQL information
+   ```
+   DB_DATABASE=desired_db_name
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
+5. Run database migrations
+   ```
+   php artisan migrate
+   ```
+6. Run mySQL server using XAMPP
+7. Run Laravel server
+   ```
+   php artisan serve
+   ```
+8. Run Flutter app
+   ```
+   flutter run
+   ```
