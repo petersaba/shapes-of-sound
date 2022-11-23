@@ -152,6 +152,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     const SwitchButton(
                       route: '/login',
+                      blackText: 'Aleady have an account?',
+                      coloredText: 'Login',
                     ),
                     const SizedBox(
                       height: 20,
@@ -219,7 +221,7 @@ class _SignUpPageState extends State<SignUpPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final responseBody = jsonDecode(response.body);
     sharedPreferences.setString('token', responseBody['access_token']);
-    String imagePath = responseBody['user']['image_path'];
+    String? imagePath = responseBody['user']['image_path'];
 
     if (mounted) {
       fillUserInfo(context, fullName!, imagePath);
