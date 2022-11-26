@@ -35,7 +35,7 @@ Note that i didn't use any styling library or theme, all from scratch and using 
 
 | Login  | Sign Up  |  Edit Profile  | Home  |
 | -----------------| -----| -----------------| -----|
-| ![Landing](readme/log_in_wireframe.svg) | ![Home](readme/sign_up_wireframe.svg) | ![Edit Profile](readme/profile_wireframe.svg) | ![Home](readme/homepage_wireframe.svg) |
+| ![Login](readme/log_in_wireframe.svg) | ![SignUp](readme/sign_up_wireframe.svg) | ![EditProfile](readme/profile_wireframe.svg) | ![Home](readme/homepage_wireframe.svg) |
 
 
 <br>
@@ -45,7 +45,7 @@ Note that i didn't use any styling library or theme, all from scratch and using 
 
 | Login  | Sign Up  | Edit Profile  | Home  |
 | -----------------| -----|-----------------| -----|
-| ![Landing](readme/log_in.svg) | ![Home](readme/sign_up.svg) | ![Edit Profile](readme/profile.svg) | ![Home](readme/homepage.svg) |
+| ![Login](readme/log_in.svg) | ![SignUp](readme/sign_up.svg) | ![EditProfile](readme/profile.svg) | ![Home](readme/homepage.svg) |
 
 
 <br><br>
@@ -68,7 +68,9 @@ Here's a brief high-level overview of the tech stack the Well app uses:
 
 | Login  | Sign Up  | Edit Profile  | Home  |
 | -----------------| -----|-----------------| -----|
-| ![Landing](readme/log_in_implementation.jpg) | ![Home](readme/sign_up_implementation.jpg) | ![Edit Profile](readme/edit_profile_implementation.jpg) | ![Home](readme/homepage_implementation.jpg) |
+| ![Login](readme/log_in_implementation.jpg) | ![SignUp](readme/sign_up_implementation.jpg) | ![EditProfile](readme/edit_profile_implementation.jpg) | ![Home](readme/homepage_implementation.jpg) |
+ --- 
+<div style="text-align:center"><img src='readme/implementation.gif' width='30%'></div>
 
 
 <br><br>
