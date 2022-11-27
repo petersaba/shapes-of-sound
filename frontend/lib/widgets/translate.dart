@@ -116,7 +116,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
         _disableRecording = true;
       });
 
-      String transcription = await getAudioTranscription(tempPath);
+      String transcription = await _getAudioTranscription(tempPath);
       _inputController.text = transcription;
       _enableTextInput = true;
       setState(() {
@@ -132,6 +132,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     return directory.path;
   }
 
+  // the transcribe api takes audio in base64 but it is currently not used
   // Future<String> _getBase64String(String tempPath) async {
   //   final file = File('$tempPath/$_filename');
   //   final fileContent = await file.readAsBytes();
@@ -182,7 +183,7 @@ class _HomepageMainSectionState extends State<HomepageMainSection> {
     }));
   }
 
-  Future<String> getAudioTranscription(String tempPath) async {
+  Future<String> _getAudioTranscription(String tempPath) async {
     final file = File('$tempPath/$_filename');
     final fileContent = await file.readAsBytes();
     Map response = await uploadToAssemblyAi(fileContent);

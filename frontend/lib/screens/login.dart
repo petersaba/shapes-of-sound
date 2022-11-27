@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:frontend/utilities.dart';
 import 'package:frontend/widgets/form_button.dart';
@@ -70,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                                   text: 'Email',
                                   regex: RegExp(r'.{3,}@.{3,}\..{2,}'),
                                   attribute: 'email',
-                                  onSave: saveInput,
+                                  onSave: _saveInput,
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -80,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                                   regex: RegExp(r'.{8,}'),
                                   isPassword: true,
                                   attribute: 'password',
-                                  onSave: saveInput,
+                                  onSave: _saveInput,
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -90,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                                 FormButton(
                                   width: 330,
                                   text: 'Login',
-                                  function: login,
+                                  function: _login,
                                   formKey: _formKey,
                                 ),
                               ] +
@@ -107,11 +106,11 @@ class _LoginPageState extends State<LoginPage> {
                         )))))));
   }
 
-  void saveInput(String attribute, String value) {
+  void _saveInput(String attribute, String value) {
     context.read<LoginInfo>().setAttribute(attribute, value);
   }
 
-  void login(GlobalKey<FormState> formKey) async {
+  void _login(GlobalKey<FormState> formKey) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
