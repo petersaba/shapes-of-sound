@@ -41,7 +41,7 @@ class _EditProfileState extends State<EditProfile> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: logout,
+                    onPressed: _logout,
                     style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFF0000),
                         shape: RoundedRectangleBorder(
@@ -91,7 +91,7 @@ class _EditProfileState extends State<EditProfile> {
             FormButton(
               width: 110,
               text: 'Edit image',
-              function: () => saveImage(context),
+              function: () => _saveImage(context),
             ),
             const SizedBox(
               height: 18,
@@ -198,7 +198,7 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
-  void saveImage(BuildContext context) async {
+  void _saveImage(BuildContext context) async {
     File image = await selectImage();
     setState(() {
       _chosenImage = image;
@@ -210,7 +210,7 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
-  void logout() async {
+  void _logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.remove('token');
     if (mounted) {

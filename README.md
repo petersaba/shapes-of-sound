@@ -37,6 +37,10 @@ Note that i didn't use any styling library or theme, all from scratch and using 
 | -----------------| -----| -----------------| -----|
 | ![Login](readme/log_in_wireframe.svg) | ![SignUp](readme/sign_up_wireframe.svg) | ![EditProfile](readme/profile_wireframe.svg) | ![Home](readme/homepage_wireframe.svg) |
 
+| Landing div Layout 1  | Landing div Layout 2  |
+| --- | --- |
+| ![LandingPage1](readme/landing_page_wireframe1.svg) | ![LandingPage2](readme/landing_page_wireframe2.svg) |
+
 
 <br>
 
@@ -46,6 +50,10 @@ Note that i didn't use any styling library or theme, all from scratch and using 
 | Login  | Sign Up  | Edit Profile  | Home  |
 | -----------------| -----|-----------------| -----|
 | ![Login](readme/log_in.svg) | ![SignUp](readme/sign_up.svg) | ![EditProfile](readme/profile.svg) | ![Home](readme/homepage.svg) |
+
+| Landing div 1 | Landing div 2 | Landing div 3 |
+| --- | --- | --- |
+| ![landing_page1](readme/landing_page1.svg) | ![landing_page2](readme/landing_page2.svg) | ![landing_page3](readme/landing_page3.svg) |
 
 
 <br><br>
@@ -70,7 +78,12 @@ Here's a brief high-level overview of the tech stack the Well app uses:
 | -----------------| -----|-----------------| -----|
 | ![Login](readme/log_in_implementation.jpg) | ![SignUp](readme/sign_up_implementation.jpg) | ![EditProfile](readme/edit_profile_implementation.jpg) | ![Home](readme/homepage_implementation.jpg) |
  --- 
-<div style="text-align:center"><img src='readme/implementation.gif' width='30%'></div>
+<img src='readme/implementation.gif' width='30%'/>
+
+| Landing div 1 | Landing div 2 | Landing div 3 |
+| --- | --- | --- |
+| ![landing_page1](readme/landing_page_implementation1.png) | ![landing_page2](readme/landing_page_implementation2.png) | ![landing_page3](readme/landing_page_implementation3.png) |
+
 
 
 <br><br>
@@ -107,16 +120,22 @@ To get a local copy up and running follow these simple example steps.
    DB_USERNAME=your_username
    DB_PASSWORD=your_password
    ```
-5. Run database migrations
+
+5. Install necessary dependencies
+   ```
+   composer install
+   ```
+
+6. Run database migrations
    ```
    php artisan migrate
    ```
-6. Run mySQL server using XAMPP
-7. Run Laravel server
+7. Run mySQL server using XAMPP
+8. Run Laravel server
    ```
    php artisan serve
    ```
-8. Run Flutter app
+9. Run Flutter app
    ```
    flutter run
    ```
