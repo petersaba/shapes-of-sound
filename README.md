@@ -77,11 +77,13 @@ Here's a brief high-level overview of the tech stack the Well app uses:
 | Login  | Sign Up  | Edit Profile  | Home  |
 | -----------------| -----|-----------------| -----|
 | ![Login](readme/log_in_implementation.jpg) | ![SignUp](readme/sign_up_implementation.jpg) | ![EditProfile](readme/edit_profile_implementation.jpg) | ![Home](readme/homepage_implementation.jpg) |
-
-
-
  --- 
 <img src='readme/implementation.gif' width='30%'/>
+
+| Landing div 1 | Landing div 2 | Landing div 3 |
+| --- | --- | --- |
+| ![landing_page1](readme/landing_page_implementation1.png) | ![landing_page2](readme/landing_page_implementation2.png) | ![landing_page3](readme/landing_page_implementation3.png) |
+
 
 
 <br><br>
